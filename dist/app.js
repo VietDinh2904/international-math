@@ -65,6 +65,7 @@ function key(q){return `${currentYear}-${q.n}`}
 function record(q){return saved[key(q)]||{answer:"",checked:false,correct:false}}
 function persist(q,patch){saved[key(q)]={...record(q),...patch};localStorage.setItem("smc-progress-v2",JSON.stringify(saved))}
 function normalize(v){return v.trim().toLowerCase().replace(/\s+/g,"").replace(",",".")}
+function formatQuestion(text){return text.replace(/\s*\(([A-D])\)\s*/g,"\n$1. ").trim()}
 function updateCount(){const list=papers[currentYear],done=list.filter(q=>record(q).checked).length;els.answeredCount.textContent=`${done} / ${list.length} done`}
 function renderMap(){
   els.questionMap.innerHTML="";
@@ -74,10 +75,10 @@ function renderMap(){
 function render(){
   const list=papers[currentYear],q=list[currentIndex],state=record(q);
   els.sourceLabel.textContent=`SMC ${currentYear} · Question ${q.n}`;els.skillLabel.textContent=q.skill;els.progressText.textContent=`${q.n} / ${list.length}`;els.progressBar.style.width=`${q.n/list.length*100}%`;
-  els.questionNumber.textContent=q.n;els.questionTitle.textContent=q.title;els.questionEnglish.textContent=q.en;els.questionVietnamese.textContent=q.vi||"";els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate";els.translateButton.disabled=!q.vi;
+  els.questionNumber.textContent=q.n;els.questionTitle.textContent=q.title;els.questionEnglish.textContent=formatQuestion(q.en);els.questionVietnamese.textContent=q.vi||"";els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate";els.translateButton.disabled=!q.vi;
   els.answerUnit.textContent=q.unit||"";els.answerInput.value=state.answer||"";els.answerInput.disabled=!q.ready;$("checkButton").disabled=!q.ready;$("hintButton").disabled=!q.ready;$("solutionButton").disabled=!q.ready;els.feedback.textContent=state.checked?(state.correct?"Correct!":"Not quite. Try again or use the hint."):"";els.feedback.className=`feedback${state.checked?(state.correct?" good":" bad"):""}`;
   els.hintBox.classList.add("hidden");els.solutionSheet.classList.add("hidden");$("solutionButton").textContent="Show solution";els.hintText.textContent=q.hint||"";els.studentWork.innerHTML=(q.steps||[]).map(s=>`<p>${s}</p>`).join("");els.finalAnswer.textContent=q.ready?`${q.answer}${q.unit?" "+q.unit:""}`:"";
-  if(q.image){els.questionImage.src=q.image;els.questionImage.alt=`Diagram for question ${q.n}`;els.sourceFigure.classList.remove("hidden")}else{els.sourceFigure.classList.add("hidden");els.questionImage.removeAttribute("src")}
+  if(q.image){els.questionImage.src=q.image;els.questionImage.alt=`Diagram for question ${q.n}`;els.sourceFigure.classList.remove("hidden");els.sourceFigure.tabIndex=0;els.sourceFigure.setAttribute("role","button");els.sourceFigure.setAttribute("aria-label",`Enlarge diagram for question ${q.n}`)}else{els.sourceFigure.classList.add("hidden");els.sourceFigure.removeAttribute("tabindex");els.sourceFigure.removeAttribute("role");els.sourceFigure.removeAttribute("aria-label");els.questionImage.removeAttribute("src")}
   els.prevButton.disabled=currentIndex===0;els.nextButton.textContent=currentIndex===list.length-1?"Back to Question 1 ↺":"Next →";renderMap();
 }
 function checkAnswer(){
@@ -87,6 +88,9 @@ function checkAnswer(){
 }
 document.querySelectorAll(".year-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".year-tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",t===tab?"true":"false")});currentYear=tab.dataset.year;currentIndex=papers[currentYear].findIndex(q=>q.ready);translationOpen=false;showRandomQuote();render()}));
 document.querySelector(".quote-card").title="Click for another quote or fun fact";document.querySelector(".quote-card").addEventListener("click",showRandomQuote);
+function openImage(){if(!els.questionImage.src)return;$("lightboxImage").src=els.questionImage.src;$("lightboxImage").alt=els.questionImage.alt;$("imageLightbox").hidden=false;document.body.classList.add("lightbox-open");$("lightboxClose").focus()}
+function closeImage(){$("imageLightbox").hidden=true;$("lightboxImage").removeAttribute("src");document.body.classList.remove("lightbox-open");els.sourceFigure.focus()}
+els.sourceFigure.addEventListener("click",openImage);els.sourceFigure.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openImage()}});$("lightboxClose").onclick=closeImage;$("imageLightbox").addEventListener("click",e=>{if(e.target===$("imageLightbox"))closeImage()});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("imageLightbox").hidden)closeImage()});
 els.translateButton.onclick=()=>{translationOpen=!translationOpen;els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate"};
 $("checkButton").onclick=checkAnswer;els.answerInput.addEventListener("input",()=>persist(papers[currentYear][currentIndex],{answer:els.answerInput.value,checked:false,correct:false}));els.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
 $("hintButton").onclick=()=>els.hintBox.classList.toggle("hidden");$("solutionButton").onclick=()=>{els.solutionSheet.classList.toggle("hidden");$("solutionButton").textContent=els.solutionSheet.classList.contains("hidden")?"Show solution":"Hide solution"};
