@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 190" role="img" aria-labelledby="title desc">
+  <title id="title">Triangle stick pattern from Figure 1 to Figure 9</title>
+  <desc id="desc">Figure 1 has 3 sticks, Figure 2 has 5, Figure 3 has 7, and Figure 4 has 9.</desc>
+  <rect width="820" height="190" rx="18" fill="#fffdf9"/>
+  <g fill="none" stroke="#292827" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35 88 L65 30 L95 88 Z"/>
+    <path d="M150 88 L180 30 L210 88 Z M180 30 L240 30 L210 88"/>
+    <path d="M295 88 L325 30 L355 88 Z M325 30 L385 30 L355 88 M385 30 L415 88 L355 88"/>
+    <path d="M470 88 L500 30 L530 88 Z M500 30 L560 30 L530 88 M560 30 L590 88 L530 88 M560 30 L620 30 L590 88"/>
+  </g>
+  <g fill="#292827" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">
+    <text x="65" y="119">Figure 1</text><text x="65" y="143">3 sticks</text>
+    <text x="195" y="119">Figure 2</text><text x="195" y="143">5 sticks</text>
+    <text x="355" y="119">Figure 3</text><text x="355" y="143">7 sticks</text>
+    <text x="545" y="119">Figure 4</text><text x="545" y="143">9 sticks</text>
+    <text x="690" y="76" font-size="25">. . . . . .</text><text x="760" y="63" font-size="34">?</text>
+    <text x="760" y="119">Figure 9</text>
+  </g>
+</svg>
