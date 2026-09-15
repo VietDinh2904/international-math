@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#96d4ce">
+  <meta name="description" content="Luyện đề SMC lớp 3 với đề bài tiếng Anh, đáp án và lời giải từng bước.">
+  <title>SMC Grade 3 Practice</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="math-wallpaper" aria-hidden="true"></div>
+  <header class="desktop-bar">
+    <a class="brand" href="#practice" aria-label="SMC Grade 3 Practice"><span class="brand-tile">S</span><span><strong>SMC Practice</strong><small>Grade 3</small></span></a>
+    <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
+    <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
+  </header>
+  <main>
+    <section class="practice-shell" id="practice">
+      <aside class="exam-panel">
+        <div class="quote-card"><span class="quote-mark">“</span><blockquote>The only way to learn mathematics is to do mathematics.</blockquote><cite>— Paul Halmos</cite></div>
+        <div class="year-tabs" role="tablist" aria-label="Chọn đề thi">
+          <button class="year-tab active coral" role="tab" aria-selected="true" data-year="2023">2023</button>
+          <button class="year-tab mint" role="tab" aria-selected="false" data-year="2024">2024</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="2026">2026</button>
+        </div>
+        <section class="question-board" aria-labelledby="questionBoardTitle">
+          <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
+          <div class="status-key"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
+          <div class="question-map" id="questionMap" aria-label="Danh sách câu hỏi"></div>
+        </section>
+      </aside>
+      <div class="work-area">
+        <div class="browser-window">
+          <div class="window-bar"><div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div><div class="window-title" id="sourceLabel">SMC 2023 · Question 20</div><div class="window-actions" aria-hidden="true">— □ ×</div></div>
+          <article class="question-card" aria-live="polite">
+            <div class="question-heading">
+              <span class="question-number" id="questionNumber">20</span>
+              <div><p class="micro" id="skillLabel">Pattern</p><h2 id="questionTitle">Triangles made with sticks</h2></div>
+              <div class="question-progress"><strong id="progressText">20 / 45</strong><span><i id="progressBar"></i></span></div>
+            </div>
+            <p class="question-en" id="questionEnglish"></p>
+            <button class="translate-button" id="translateButton" type="button">Translate</button>
+            <p class="question-vi hidden" id="questionVietnamese"></p>
+            <figure class="source-figure hidden" id="sourceFigure"><img id="questionImage" alt="Question diagram"></figure>
+            <div class="answer-zone">
+              <div class="answer-line"><label for="answerInput">Answer:</label><input id="answerInput" inputmode="decimal" autocomplete="off" aria-label="Answer"><span class="unit" id="answerUnit"></span><button class="check-button" id="checkButton" type="button">Check</button></div>
+              <p class="feedback" id="feedback" role="status"></p>
+            </div>
+            <div class="help-row"><button class="hint-button" id="hintButton" type="button">Hint</button><button class="solution-button" id="solutionButton" type="button">Show solution</button></div>
+            <div class="hint-box hidden" id="hintBox"><strong>Hint:</strong> <span id="hintText"></span></div>
+            <section class="solution-sheet hidden" id="solutionSheet" aria-labelledby="solutionTitle">
+              <div class="solution-topline"><div><p class="micro">MODEL WORKING</p><h3 id="solutionTitle">Write it like this</h3></div><span class="teacher-mark">Clear steps ✓</span></div>
+              <div class="student-work" id="studentWork"></div><div class="final-answer">Answer: <strong id="finalAnswer"></strong></div>
+            </section>
+          </article>
+        </div>
+        <div class="pager"><button id="prevButton" type="button">← Previous</button><button id="nextButton" type="button">Next →</button></div>
+      </div>
+    </section>
+    <section class="library" id="library" aria-labelledby="libraryTitle">
+      <div class="section-heading"><div><p class="eyebrow">PAPER LIBRARY</p><h2 id="libraryTitle">Original papers</h2></div><p>Open the complete paper to print or compare with the interactive version.</p></div>
+      <div class="paper-grid">
+        <article class="paper-card coral-card"><img src="assets/cover-2023.jpg" alt="SMC 2023 Grade 3 cover"><div><span class="paper-year">2023</span><h3>SMC Contest Paper</h3><p>Grade 3 · 28 pages</p><a href="assets/smc-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+        <article class="paper-card mint-card"><img src="assets/cover-2024.jpg" alt="SMC 2024 Grade 3 cover"><div><span class="paper-year">2024</span><h3>SMC Challenge</h3><p>Grade 3 · 24 pages</p><a href="assets/smc-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+        <article class="paper-card lavender-card"><img src="assets/cover-2026.jpg" alt="SMC 2026 Grade 3 revision cover"><div><span class="paper-year">2026</span><h3>Grade 3 Revision</h3><p>Revision · 28 pages</p><a href="assets/smc-2026-grade3.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+      </div>
+    </section>
+  </main>
+  <footer><strong>SMC Practice</strong><span>Grade 3</span><a href="#practice">Back to top ↑</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
