@@ -16,6 +16,7 @@ const openingQuestions = [
 ];
 
 const digitized = {
+  "TIMO-2020": window.questionsTimo2020,
   "2021": window.questions2021,
   "2023": [
     ...openingQuestions,
@@ -86,7 +87,8 @@ const digitized = {
   ]
 };
 
-const totals={"2021":45,"2023":45,"2024":31};
+const totals={"TIMO-2020":25,"2021":45,"2023":45,"2024":31};
+const paperNames={"TIMO-2020":"TIMO Preliminary 2020–2021","2021":"SMC 2021","2023":"SMC 2023","2024":"SMC 2024"};
 const papers=Object.fromEntries(Object.entries(totals).map(([year,total])=>{
   const ready=new Map(digitized[year].map(q=>[q.n,{...q,ready:true}]));
   return [year,Array.from({length:total},(_,i)=>ready.get(i+1)||{n:i+1,ready:false,skill:"In progress",title:`Question ${i+1}`,en:"This question is being digitised from the original paper. Its diagram, answer and child-friendly working will be added here.",vi:"Câu hỏi này đang được số hóa từ đề gốc."})];
@@ -122,7 +124,7 @@ function renderMap(){
 }
 function render(){
   const list=papers[currentYear],q=list[currentIndex],state=record(q);
-  els.sourceLabel.textContent=`SMC ${currentYear} · Question ${q.n}`;els.skillLabel.textContent=q.skill;els.progressText.textContent=`${q.n} / ${list.length}`;els.progressBar.style.width=`${q.n/list.length*100}%`;
+  els.sourceLabel.textContent=`${paperNames[currentYear]} · Question ${q.n}`;els.skillLabel.textContent=q.skill;els.progressText.textContent=`${q.n} / ${list.length}`;els.progressBar.style.width=`${q.n/list.length*100}%`;
   els.questionNumber.textContent=q.n;els.questionTitle.textContent=q.title;els.questionEnglish.textContent=formatQuestion(q.en);els.questionVietnamese.textContent=q.vi||"";els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate";els.translateButton.disabled=!q.vi;
   els.answerUnit.textContent=q.unit||"";els.answerInput.value=state.answer||"";els.answerInput.disabled=!q.ready;$("checkButton").disabled=!q.ready;$("hintButton").disabled=!q.ready;$("solutionButton").disabled=!q.ready;els.feedback.textContent=state.checked?(state.correct?"Correct!":"Not quite. Try again or use the hint."):"";els.feedback.className=`feedback${state.checked?(state.correct?" good":" bad"):""}`;
   els.hintBox.classList.add("hidden");els.solutionSheet.classList.add("hidden");$("solutionButton").textContent="Show solution";els.hintText.textContent=q.hint||"";els.studentWork.innerHTML=(q.steps||[]).map(s=>`<p>${s}</p>`).join("");els.finalAnswer.textContent=q.ready?`${q.answer}${q.unit?" "+q.unit:""}`:"";
@@ -135,6 +137,7 @@ function checkAnswer(){
   const correct=accepted.includes(value);persist(q,{answer:els.answerInput.value,checked:true,correct});els.feedback.textContent=correct?"Correct! Great work.":"Not quite. Try again or use the hint.";els.feedback.className=`feedback ${correct?"good":"bad"}`;renderMap();
 }
 document.querySelectorAll(".year-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".year-tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",t===tab?"true":"false")});currentYear=tab.dataset.year;currentIndex=papers[currentYear].findIndex(q=>q.ready);translationOpen=false;showRandomQuote();render()}));
+document.querySelectorAll(".contest-tab").forEach(tab=>tab.addEventListener("click",()=>{const isTimo=tab.dataset.contest==="TIMO";document.querySelectorAll(".contest-tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",t===tab?"true":"false")});$("smcPaperTabs").classList.toggle("hidden",isTimo);$("timoPaperTabs").classList.toggle("hidden",!isTimo);document.querySelector(`[data-year="${isTimo?"TIMO-2020":"2023"}"]`).click()}));
 document.querySelector(".quote-card").title="Click for another quote or fun fact";document.querySelector(".quote-card").addEventListener("click",showRandomQuote);
 function openImage(){if(!els.questionImage.src)return;$("lightboxImage").src=els.questionImage.src;$("lightboxImage").alt=els.questionImage.alt;$("imageLightbox").hidden=false;document.body.classList.add("lightbox-open");$("lightboxClose").focus()}
 function closeImage(){$("imageLightbox").hidden=true;$("lightboxImage").removeAttribute("src");document.body.classList.remove("lightbox-open");els.sourceFigure.focus()}

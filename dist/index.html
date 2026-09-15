@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#96d4ce">
-  <meta name="description" content="Luyện đề SMC lớp 3 với đề bài tiếng Anh, đáp án và lời giải từng bước.">
-  <title>SMC Grade 3 Practice</title>
+  <meta name="description" content="Luyện đề SMC và TIMO lớp 3 với đề bài tiếng Anh, đáp án và lời giải từng bước.">
+  <title>Math Olympiad Grade 3 Practice</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
-    <a class="brand" href="#practice" aria-label="SMC Grade 3 Practice"><span class="brand-tile">S</span><span><strong>SMC Practice</strong><small>Grade 3</small></span></a>
+    <a class="brand" href="#practice" aria-label="Math Olympiad Grade 3 Practice"><span class="brand-tile">M</span><span><strong>Math Practice</strong><small>Grade 3</small></span></a>
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
@@ -19,10 +19,17 @@
     <section class="practice-shell" id="practice">
       <aside class="exam-panel">
         <div class="quote-card"><span class="quote-mark">“</span><blockquote id="quoteText">The only way to learn mathematics is to do mathematics.</blockquote><cite id="quoteSource">— Paul Halmos</cite></div>
-        <div class="year-tabs" role="tablist" aria-label="Chọn đề thi">
+        <div class="contest-tabs" role="tablist" aria-label="Chọn kỳ thi">
+          <button class="contest-tab active" role="tab" aria-selected="true" data-contest="SMC">SMC</button>
+          <button class="contest-tab" role="tab" aria-selected="false" data-contest="TIMO">TIMO</button>
+        </div>
+        <div class="year-tabs" id="smcPaperTabs" role="tablist" aria-label="Chọn đề SMC">
           <button class="year-tab active coral" role="tab" aria-selected="true" data-year="2023">2023</button>
           <button class="year-tab mint" role="tab" aria-selected="false" data-year="2024">2024</button>
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="2021">2021</button>
+        </div>
+        <div class="year-tabs timo-paper-tabs hidden" id="timoPaperTabs" role="tablist" aria-label="Chọn đề TIMO">
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-2020">Prelim 2020–21</button>
         </div>
         <section class="question-board" aria-labelledby="questionBoardTitle">
           <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
@@ -61,6 +68,7 @@
     <section class="library" id="library" aria-labelledby="libraryTitle">
       <div class="section-heading"><div><p class="eyebrow">PAPER LIBRARY</p><h2 id="libraryTitle">Original papers</h2></div><p>Open the complete paper to print or compare with the interactive version.</p></div>
       <div class="paper-grid">
+        <article class="paper-card yellow-card"><img src="assets/cover-timo-2020.jpg" alt="TIMO Grade 3 paper collection"><div><span class="paper-year">TIMO</span><h3>Grade 3 Past Papers</h3><p>10 papers · 48 pages</p><a href="assets/timo-grade-3.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
         <article class="paper-card lavender-card"><img src="assets/cover-2021.jpg" alt="SMC 2021 Grade 3 practice cover"><div><span class="paper-year">2021</span><h3>SINGA Assessment Practice</h3><p>Primary 3 · 14 pages · 45 questions</p><a href="assets/smc-2021.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
         <article class="paper-card coral-card"><img src="assets/cover-2023.jpg" alt="SMC 2023 Grade 3 cover"><div><span class="paper-year">2023</span><h3>SMC Contest Paper</h3><p>Grade 3 · 28 pages</p><a href="assets/smc-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
         <article class="paper-card mint-card"><img src="assets/cover-2024.jpg" alt="SMC 2024 Grade 3 cover"><div><span class="paper-year">2024</span><h3>SMC Challenge</h3><p>Grade 3 · 24 pages</p><a href="assets/smc-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
@@ -71,7 +79,8 @@
     <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close enlarged image">×</button>
     <img id="lightboxImage" alt="Enlarged question diagram">
   </div>
-  <footer><strong>SMC Practice</strong><span>Grade 3</span><a href="#practice">Back to top ↑</a></footer>
+  <footer><strong>Math Olympiad Practice</strong><span>Grade 3</span><a href="#practice">Back to top ↑</a></footer>
+  <script src="timo-2020.js"></script>
   <script src="smc-2021.js"></script>
   <script src="app.js"></script>
 </body>
