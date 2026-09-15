@@ -16,6 +16,7 @@ const openingQuestions = [
 ];
 
 const digitized = {
+  "2021": window.questions2021,
   "2023": [
     ...openingQuestions,
     {n:15,skill:"Time",title:"Taxi driving time",en:"Mr Mok drove 6 hours on Sunday. He drove 2 hours 55 minutes less on Monday than on Sunday. What was the total time he drove on Sunday and Monday? Give your answer in minutes.",vi:"Tổng thời gian ông Mok lái taxi trong Chủ nhật và thứ Hai là bao nhiêu phút?",answer:"545",accepted:["545","545min"],unit:"min",hint:"Find Monday's driving time first, then change both times to minutes.",steps:["Monday's time:","6 h - 2 h 55 min = 3 h 5 min","Sunday = 360 min","Monday = 185 min","Total:","360 + 185 = 545 min"]},
@@ -85,7 +86,7 @@ const digitized = {
   ]
 };
 
-const totals={"2023":45,"2024":31};
+const totals={"2021":45,"2023":45,"2024":31};
 const papers=Object.fromEntries(Object.entries(totals).map(([year,total])=>{
   const ready=new Map(digitized[year].map(q=>[q.n,{...q,ready:true}]));
   return [year,Array.from({length:total},(_,i)=>ready.get(i+1)||{n:i+1,ready:false,skill:"In progress",title:`Question ${i+1}`,en:"This question is being digitised from the original paper. Its diagram, answer and child-friendly working will be added here.",vi:"Câu hỏi này đang được số hóa từ đề gốc."})];
