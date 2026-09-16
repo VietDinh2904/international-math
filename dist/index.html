@@ -4,15 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#96d4ce">
-  <meta name="description" content="Internamtion Math: luyện đề SMC, TIMO và Kangaroo Écolier với đề bài tiếng Anh, hình minh họa, đáp án và lời giải từng bước.">
-  <title>Internamtion Math</title>
+  <meta name="description" content="International Math: luyện đề SMC, TIMO và Kangaroo Écolier với bản dịch tiếng Việt, công cụ viết trực tiếp lên đề, đáp án và lời giải từng bước.">
+  <title>International Math</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="zoom.css">
+  <link rel="stylesheet" href="tools.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
-    <a class="brand" href="#practice" aria-label="Internamtion Math"><span class="brand-tile">M</span><span><strong>Internamtion Math</strong><small>Grade 3–4</small></span></a>
+    <a class="brand" href="#practice" aria-label="International Math"><span class="brand-tile">M</span><span><strong>International Math</strong><small>Grade 3–4</small></span></a>
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
@@ -94,6 +95,36 @@
       </div>
     </section>
   </main>
+  <canvas class="drawing-canvas" id="drawingCanvas" aria-label="Lớp viết hướng dẫn trực tiếp lên đề"></canvas>
+  <aside class="study-tools" id="studyTools" aria-label="Công cụ học tập">
+    <div class="tool-launchers">
+      <button class="tool-launcher" id="drawToggle" type="button" aria-expanded="false" aria-controls="brushPanel"><span aria-hidden="true">✏️</span><span>Viết lên đề</span></button>
+      <button class="tool-launcher" id="calculatorToggle" type="button" aria-expanded="false" aria-controls="calculatorPanel"><span aria-hidden="true">🧮</span><span>Máy tính</span></button>
+    </div>
+    <section class="tool-panel brush-panel" id="brushPanel" hidden>
+      <div class="tool-panel-heading"><strong>Bút hướng dẫn</strong><button class="panel-close" type="button" data-close-panel="brushPanel" aria-label="Đóng bộ bút">×</button></div>
+      <div class="brush-modes" role="group" aria-label="Chọn công cụ vẽ">
+        <button class="brush-mode active" type="button" data-brush="pencil">✏ Bút chì</button>
+        <button class="brush-mode" type="button" data-brush="highlighter">▰ Highlight</button>
+        <button class="brush-mode" type="button" data-brush="eraser">⌫ Tẩy</button>
+      </div>
+      <label class="tool-field">Màu <input id="brushColor" type="color" value="#ef5b66"></label>
+      <label class="tool-field">Độ dày <input id="brushSize" type="range" min="2" max="40" value="5"><output id="brushSizeValue">5 px</output></label>
+      <button class="trash-button" id="clearDrawing" type="button">🗑 Xóa toàn bộ</button>
+      <p class="tool-note" id="drawingStatus">Chọn bút rồi viết, khoanh hoặc highlight trực tiếp trên đề.</p>
+    </section>
+    <section class="tool-panel calculator-panel" id="calculatorPanel" hidden>
+      <div class="tool-panel-heading"><strong>Máy tính</strong><button class="panel-close" type="button" data-close-panel="calculatorPanel" aria-label="Đóng máy tính">×</button></div>
+      <output class="calculator-display" id="calculatorDisplay" aria-live="polite">0</output>
+      <div class="calculator-keys" id="calculatorKeys">
+        <button type="button" data-calc="clear">C</button><button type="button" data-calc="backspace">⌫</button><button type="button" data-value="(">(</button><button type="button" data-value=")">)</button>
+        <button type="button" data-value="7">7</button><button type="button" data-value="8">8</button><button type="button" data-value="9">9</button><button class="operator" type="button" data-value="÷">÷</button>
+        <button type="button" data-value="4">4</button><button type="button" data-value="5">5</button><button type="button" data-value="6">6</button><button class="operator" type="button" data-value="×">×</button>
+        <button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button class="operator" type="button" data-value="−">−</button>
+        <button type="button" data-value="0">0</button><button type="button" data-value=".">.</button><button class="equals" type="button" data-calc="equals">=</button><button class="operator" type="button" data-value="+">+</button>
+      </div>
+    </section>
+  </aside>
   <div class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="Enlarged question image" hidden>
     <div class="lightbox-toolbar" aria-label="Image zoom controls">
       <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
@@ -104,12 +135,13 @@
     </div>
     <div class="lightbox-stage" id="lightboxStage"><img id="lightboxImage" alt="Enlarged question diagram"></div>
   </div>
-  <footer><strong>Internamtion Math</strong><span>SMC · TIMO · Kangaroo</span><a href="#practice">Back to top ↑</a></footer>
+  <footer><strong>International Math</strong><span>SMC · TIMO · Kangaroo</span><a href="#practice">Back to top ↑</a></footer>
   <script src="timo-2020.js"></script>
   <script src="timo-2020-exact.js"></script>
   <script src="timo-remaining.js"></script>
   <script src="smc-2021.js"></script>
   <script src="kangaroo.js"></script>
   <script src="app.js"></script>
+  <script src="tools.js"></script>
 </body>
 </html>
