@@ -1,0 +1,16 @@
+.flag-question-button{padding:10px 16px;border:var(--line);border-radius:10px;background:#fffdf8;color:var(--ink);font-weight:900;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+.flag-question-button.flagged{background:var(--coral);color:#301919}
+.flag-question-button:active{transform:translate(2px,2px);box-shadow:none}
+.q-dot{position:relative}
+.q-dot.flagged:after{content:"⚑";position:absolute;right:-6px;top:-8px;display:grid;place-items:center;width:16px;height:16px;border:1.5px solid var(--ink);border-radius:50%;background:var(--coral);font-size:9px;line-height:1}
+.flagged-review{margin-top:16px;padding-top:13px;border-top:2px dashed #8b8580}
+.flagged-review-title{display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.flagged-review-title span{min-width:24px;padding:3px 7px;border:2px solid var(--ink);border-radius:999px;background:var(--coral);text-align:center;font-weight:900}
+.flagged-questions{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.flagged-questions button{min-width:31px;padding:5px 7px;border:2px solid var(--ink);border-radius:7px;background:#fff;color:var(--ink);font-weight:900;cursor:pointer}
+.flagged-review p{margin:8px 0 0;color:#6a6460;font-size:12px}
+.test-flag-button{margin-left:auto;padding:7px 11px;border:2px solid var(--ink);border-radius:9px;background:#fff;color:var(--ink);font-weight:900;cursor:pointer}
+.test-flag-button.flagged{background:var(--coral)}
+.test-map-dot{position:relative}
+.test-map-dot.flagged:after{content:"⚑";position:absolute;right:-5px;top:-7px;font-size:10px;color:#8a2028}
+@media(max-width:650px){.help-row{flex-wrap:wrap}.flag-question-button{order:3;width:100%}}

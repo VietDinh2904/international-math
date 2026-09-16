@@ -109,6 +109,7 @@ const quotePool=[
 let currentYear="2023",currentIndex=papers["2023"].findIndex(q=>q.ready),translationOpen=false,lastQuote=-1;
 const saved=JSON.parse(localStorage.getItem("smc-progress-v2")||"{}");
 const translationCache=JSON.parse(localStorage.getItem("international-math-translations-v1")||"{}");
+const reviewFlags=JSON.parse(localStorage.getItem("international-math-review-flags-v1")||"{}");
 const $=id=>document.getElementById(id);
 const els={sourceLabel:$("sourceLabel"),skillLabel:$("skillLabel"),progressText:$("progressText"),progressBar:$("progressBar"),questionNumber:$("questionNumber"),questionTitle:$("questionTitle"),questionEnglish:$("questionEnglish"),questionVietnamese:$("questionVietnamese"),translateButton:$("translateButton"),sourceFigure:$("sourceFigure"),questionImage:$("questionImage"),answerInput:$("answerInput"),answerUnit:$("answerUnit"),feedback:$("feedback"),hintBox:$("hintBox"),hintText:$("hintText"),solutionSheet:$("solutionSheet"),studentWork:$("studentWork"),finalAnswer:$("finalAnswer"),questionMap:$("questionMap"),answeredCount:$("answeredCount"),prevButton:$("prevButton"),nextButton:$("nextButton")};
 
@@ -117,19 +118,26 @@ function showRandomQuote(){let next;do{next=Math.floor(Math.random()*quotePool.l
 function key(q){return `${currentYear}-${q.n}`}
 function record(q){return saved[key(q)]||{answer:"",checked:false,correct:false}}
 function persist(q,patch){saved[key(q)]={...record(q),...patch};localStorage.setItem("smc-progress-v2",JSON.stringify(saved))}
+function isFlagged(q){return Boolean(reviewFlags[key(q)])}
+function setFlag(q,flagged){if(flagged)reviewFlags[key(q)]=true;else delete reviewFlags[key(q)];localStorage.setItem("international-math-review-flags-v1",JSON.stringify(reviewFlags))}
 function normalize(v){return v.trim().toLowerCase().replace(/\s+/g,"").replace(",",".")}
 function formatQuestion(text){return text.replace(/\s*\(([A-E])\)\s*/g,"\n$1. ").trim()}
 function updateCount(){const list=papers[currentYear],done=list.filter(q=>record(q).checked).length;els.answeredCount.textContent=`${done} / ${list.length} done`}
+function renderFlaggedList(){
+  const flagged=papers[currentYear].map((q,index)=>({q,index})).filter(item=>isFlagged(item.q)),box=$("flaggedQuestions");box.innerHTML="";$("flaggedCount").textContent=flagged.length;$("flaggedEmpty").classList.toggle("hidden",flagged.length>0);
+  flagged.forEach(({q,index})=>{const button=document.createElement("button");button.type="button";button.textContent=q.n;button.title=`Open flagged question ${q.n}`;button.onclick=()=>{currentIndex=index;translationOpen=false;render()};box.appendChild(button)});
+}
 function renderMap(){
   els.questionMap.innerHTML="";
-  papers[currentYear].forEach((q,i)=>{const state=record(q),b=document.createElement("button");b.className=`q-dot${i===currentIndex?" active":""}${state.checked?" done":""}${!q.ready?" pending":""}`;b.textContent=q.n;b.type="button";b.setAttribute("aria-label",`Open question ${q.n}${state.checked?", done":""}`);b.onclick=()=>{currentIndex=i;translationOpen=false;render()};els.questionMap.appendChild(b)});
-  updateCount();
+  papers[currentYear].forEach((q,i)=>{const state=record(q),b=document.createElement("button");b.className=`q-dot${i===currentIndex?" active":""}${state.checked?" done":""}${!q.ready?" pending":""}${isFlagged(q)?" flagged":""}`;b.textContent=q.n;b.type="button";b.setAttribute("aria-label",`Open question ${q.n}${state.checked?", done":""}${isFlagged(q)?", flagged for review":""}`);b.onclick=()=>{currentIndex=i;translationOpen=false;render()};els.questionMap.appendChild(b)});
+  updateCount();renderFlaggedList();
 }
 function render(){
   const list=papers[currentYear],q=list[currentIndex],state=record(q);
   els.sourceLabel.textContent=`${paperNames[currentYear]} · Question ${q.n}`;els.skillLabel.textContent=q.skill;els.progressText.textContent=`${q.n} / ${list.length}`;els.progressBar.style.width=`${q.n/list.length*100}%`;
   const translated=q.vi||translationCache[key(q)]||"";els.questionNumber.textContent=q.n;els.questionTitle.textContent=q.title;els.questionEnglish.textContent=formatQuestion(q.en);els.questionVietnamese.textContent=translated;els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate";els.translateButton.disabled=false;
   els.answerUnit.textContent=q.unit||"";els.answerInput.value=state.answer||"";els.answerInput.inputMode=/^[A-E]$/.test(q.answer)?"text":"decimal";els.answerInput.placeholder=/^[A-E]$/.test(q.answer)?"A, B, C, D or E":"";els.answerInput.disabled=!q.ready;$("checkButton").disabled=!q.ready;$("hintButton").disabled=!q.ready;$("solutionButton").disabled=!q.ready;els.feedback.textContent=state.checked?(state.correct?"Correct!":"Not quite. Try again or use the hint."):"";els.feedback.className=`feedback${state.checked?(state.correct?" good":" bad"):""}`;
+  $("flagQuestionButton").classList.toggle("flagged",isFlagged(q));$("flagQuestionButton").setAttribute("aria-pressed",isFlagged(q)?"true":"false");$("flagQuestionButton").textContent=isFlagged(q)?"⚑ Flagged for review":"⚑ Flag question";
   els.hintBox.classList.add("hidden");els.solutionSheet.classList.add("hidden");$("solutionButton").textContent="Show solution";els.hintText.textContent=q.hint||"";els.studentWork.innerHTML=(q.steps||[]).map(s=>`<p>${s}</p>`).join("");els.finalAnswer.textContent=q.ready?`${q.answer}${q.unit?" "+q.unit:""}`:"";
   if(q.image){els.questionImage.src=q.image;els.questionImage.alt=`Diagram for question ${q.n}`;els.sourceFigure.classList.remove("hidden");els.sourceFigure.tabIndex=0;els.sourceFigure.setAttribute("role","button");els.sourceFigure.setAttribute("aria-label",`Enlarge diagram for question ${q.n}`)}else{els.sourceFigure.classList.add("hidden");els.sourceFigure.removeAttribute("tabindex");els.sourceFigure.removeAttribute("role");els.sourceFigure.removeAttribute("aria-label");els.questionImage.removeAttribute("src")}
   els.prevButton.disabled=currentIndex===0;els.nextButton.textContent=currentIndex===list.length-1?"Back to Question 1 ↺":"Next →";renderMap();
@@ -159,6 +167,7 @@ async function toggleTranslation(){const q=papers[currentYear][currentIndex];if(
 els.translateButton.onclick=toggleTranslation;
 $("checkButton").onclick=checkAnswer;els.answerInput.addEventListener("input",()=>persist(papers[currentYear][currentIndex],{answer:els.answerInput.value,checked:false,correct:false}));els.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
 $("hintButton").onclick=()=>els.hintBox.classList.toggle("hidden");$("solutionButton").onclick=()=>{els.solutionSheet.classList.toggle("hidden");$("solutionButton").textContent=els.solutionSheet.classList.contains("hidden")?"Show solution":"Hide solution"};
+$("flagQuestionButton").onclick=()=>{const q=papers[currentYear][currentIndex];setFlag(q,!isFlagged(q));render()};
 els.prevButton.onclick=()=>{if(currentIndex>0){currentIndex--;translationOpen=false;render()}};els.nextButton.onclick=()=>{currentIndex=(currentIndex+1)%papers[currentYear].length;translationOpen=false;render()};
 
 let testActive=false,testSubmitted=false;
@@ -169,14 +178,14 @@ function testOptionLetters(q){
 }
 function renderTestMap(){
   const list=papers[currentYear],map=$("testQuestionMap");map.innerHTML="";
-  list.forEach(q=>{const state=record(q),button=document.createElement("button");button.type="button";button.textContent=q.n;button.className=`test-map-dot${state.answer?.trim()?" answered":""}${testSubmitted&&state.checked?(state.correct?" correct":" wrong"):""}`;button.setAttribute("aria-label",`Go to question ${q.n}`);button.onclick=()=>document.getElementById(`test-question-${q.n}`)?.scrollIntoView({behavior:"smooth",block:"start"});map.appendChild(button)});
+  list.forEach(q=>{const state=record(q),button=document.createElement("button");button.type="button";button.textContent=q.n;button.className=`test-map-dot${state.answer?.trim()?" answered":""}${testSubmitted&&state.checked?(state.correct?" correct":" wrong"):""}${isFlagged(q)?" flagged":""}`;button.setAttribute("aria-label",`Go to question ${q.n}${isFlagged(q)?", flagged for review":""}`);button.onclick=()=>document.getElementById(`test-question-${q.n}`)?.scrollIntoView({behavior:"smooth",block:"start"});map.appendChild(button)});
   const answered=list.filter(q=>record(q).answer?.trim()).length;$("testAnsweredCount").textContent=`${answered} / ${list.length}`;
 }
 function renderTestPaper(){
   const list=papers[currentYear],paper=$("testPaper");$("testPaperName").textContent=paperNames[currentYear];paper.innerHTML="";$("testScore").textContent="";
   list.forEach(q=>{
     const state=record(q),card=document.createElement("article");card.className="test-question";card.id=`test-question-${q.n}`;
-    const heading=document.createElement("div"),number=document.createElement("span"),title=document.createElement("h2");heading.className="test-question-heading";number.className="test-question-number";number.textContent=q.n;title.textContent=`Question ${q.n}`;heading.append(number,title);card.appendChild(heading);
+    const heading=document.createElement("div"),number=document.createElement("span"),title=document.createElement("h2"),flag=document.createElement("button");heading.className="test-question-heading";number.className="test-question-number";number.textContent=q.n;title.textContent=`Question ${q.n}`;flag.type="button";flag.className=`test-flag-button${isFlagged(q)?" flagged":""}`;flag.textContent=isFlagged(q)?"⚑ Flagged":"⚑ Flag";flag.setAttribute("aria-pressed",isFlagged(q)?"true":"false");flag.onclick=()=>{setFlag(q,!isFlagged(q));flag.classList.toggle("flagged",isFlagged(q));flag.textContent=isFlagged(q)?"⚑ Flagged":"⚑ Flag";flag.setAttribute("aria-pressed",isFlagged(q)?"true":"false");renderTestMap()};heading.append(number,title,flag);card.appendChild(heading);
     const question=document.createElement("p");question.className="test-question-text";question.textContent=formatQuestion(q.en);card.appendChild(question);
     if(q.image){const image=document.createElement("img");image.className="test-question-image";image.src=q.image;image.alt=`Diagram for question ${q.n}`;card.appendChild(image)}
     const answer=document.createElement("div");answer.className="test-answer";const label=document.createElement("strong");label.textContent="Answer:";answer.appendChild(label);const letters=testOptionLetters(q);

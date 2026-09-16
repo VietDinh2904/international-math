@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="zoom.css">
   <link rel="stylesheet" href="tools.css">
   <link rel="stylesheet" href="test.css">
+  <link rel="stylesheet" href="review.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
@@ -54,6 +55,7 @@
           <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
           <div class="status-key"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
           <div class="question-map" id="questionMap" aria-label="Danh sách câu hỏi"></div>
+          <div class="flagged-review"><div class="flagged-review-title"><strong>⚑ Needs review</strong><span id="flaggedCount">0</span></div><div class="flagged-questions" id="flaggedQuestions"></div><p id="flaggedEmpty">No flagged questions.</p></div>
         </section>
       </aside>
       <div class="work-area">
@@ -73,7 +75,7 @@
               <div class="answer-line"><label for="answerInput">Answer:</label><input id="answerInput" inputmode="decimal" autocomplete="off" aria-label="Answer"><span class="unit" id="answerUnit"></span><button class="check-button" id="checkButton" type="button">Check</button></div>
               <p class="feedback" id="feedback" role="status"></p>
             </div>
-            <div class="help-row"><button class="hint-button" id="hintButton" type="button">Hint</button><button class="solution-button" id="solutionButton" type="button">Show solution</button></div>
+            <div class="help-row"><button class="hint-button" id="hintButton" type="button">Hint</button><button class="flag-question-button" id="flagQuestionButton" type="button" aria-pressed="false">⚑ Flag question</button><button class="solution-button" id="solutionButton" type="button">Show solution</button></div>
             <div class="hint-box hidden" id="hintBox"><strong>Hint:</strong> <span id="hintText"></span></div>
             <section class="solution-sheet hidden" id="solutionSheet" aria-labelledby="solutionTitle">
               <div class="solution-topline"><div><p class="micro">MODEL WORKING</p><h3 id="solutionTitle">Write it like this</h3></div><span class="teacher-mark">Clear steps ✓</span></div>

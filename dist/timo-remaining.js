@@ -2072,17 +2072,18 @@ window.questionsTimoRemaining = {
       "n": 7,
       "skill": "Arithmetic",
       "title": "Question 7",
-      "en": "Find the value of the following operation:",
+      "en": "Find the value of the following operation:\n128 ÷ 2 + 128 ÷ 4 + 128 ÷ 8 + 128 ÷ 16 - 128 ÷ 32 - 128 ÷ 64 - 128 ÷ 128.",
       "vi": "",
       "answer": "113",
       "accepted": [
         "113"
       ],
       "unit": "",
-      "hint": "Calculate multiplication and division before addition and subtraction.",
+      "hint": "Evaluate each division first, then combine the positive and negative results.",
       "steps": [
-        "Copy the expression carefully.",
-        "Work from the simplest multiplication or division to the final total.",
+        "128 ÷ 2 + 128 ÷ 4 + 128 ÷ 8 + 128 ÷ 16 = 64 + 32 + 16 + 8 = 120",
+        "128 ÷ 32 + 128 ÷ 64 + 128 ÷ 128 = 4 + 2 + 1 = 7",
+        "120 - 7 = 113",
         "Answer: 113"
       ]
     },
@@ -2144,17 +2145,18 @@ window.questionsTimoRemaining = {
       "n": 11,
       "skill": "Number Theory",
       "title": "Question 11",
-      "en": "Define . Find the value of .",
+      "en": "Define a ⊕ b = (a - 3) × (a + b) × (b - 3). Find the value of (8 ⊕ 6).",
       "vi": "",
       "answer": "210",
       "accepted": [
         "210"
       ],
       "unit": "",
-      "hint": "Turn the number relationship into equal parts or a short number sentence.",
+      "hint": "Replace a with 8 and b with 6 in the definition.",
       "steps": [
-        "Write the relationship using equal parts or a number sentence.",
-        "Solve the small number sentence, then check it in the question.",
+        "8 ⊕ 6 = (8 - 3) × (8 + 6) × (6 - 3)",
+        "= 5 × 14 × 3",
+        "= 210",
         "Answer: 210"
       ]
     },
@@ -2180,17 +2182,20 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "Determine the result below is an odd or an even number.",
+      "en": "Determine whether the result below is an odd or an even number:\n111 × (213 + 151) + 222 × (132 + 157) - 333 × (12 + 1) + 444 × (112 + 334).",
       "vi": "",
       "answer": "Odd",
       "accepted": [
         "Odd"
       ],
       "unit": "",
-      "hint": "Turn the number relationship into equal parts or a short number sentence.",
+      "hint": "You only need the parity of each term; the exact large result is unnecessary.",
       "steps": [
-        "Write the relationship using equal parts or a number sentence.",
-        "Solve the small number sentence, then check it in the question.",
+        "213 + 151 = 364, so 111 × 364 is even.",
+        "222 × (132 + 157) is even because 222 is even.",
+        "12 + 1 = 13, so 333 × 13 is odd.",
+        "444 × (112 + 334) is even because 444 is even.",
+        "Even + even - odd + even = odd.",
         "Answer: Odd"
       ]
     },

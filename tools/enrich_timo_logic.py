@@ -7,6 +7,24 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "dist" / "timo-remaining.js"
 PREFIX = "window.questionsTimoRemaining = "
 
+QUESTION_FIXES = {
+    ("TIMO-H1", 7): {
+        "en": "Find the value of the following operation:\n128 ÷ 2 + 128 ÷ 4 + 128 ÷ 8 + 128 ÷ 16 - 128 ÷ 32 - 128 ÷ 64 - 128 ÷ 128.",
+        "hint": "Evaluate each division first, then combine the positive and negative results.",
+        "steps": ["128 ÷ 2 + 128 ÷ 4 + 128 ÷ 8 + 128 ÷ 16 = 64 + 32 + 16 + 8 = 120", "128 ÷ 32 + 128 ÷ 64 + 128 ÷ 128 = 4 + 2 + 1 = 7", "120 - 7 = 113", "Answer: 113"],
+    },
+    ("TIMO-H1", 11): {
+        "en": "Define a ⊕ b = (a - 3) × (a + b) × (b - 3). Find the value of (8 ⊕ 6).",
+        "hint": "Replace a with 8 and b with 6 in the definition.",
+        "steps": ["8 ⊕ 6 = (8 - 3) × (8 + 6) × (6 - 3)", "= 5 × 14 × 3", "= 210", "Answer: 210"],
+    },
+    ("TIMO-H1", 13): {
+        "en": "Determine whether the result below is an odd or an even number:\n111 × (213 + 151) + 222 × (132 + 157) - 333 × (12 + 1) + 444 × (112 + 334).",
+        "hint": "You only need the parity of each term; the exact large result is unnecessary.",
+        "steps": ["213 + 151 = 364, so 111 × 364 is even.", "222 × (132 + 157) is even because 222 is even.", "12 + 1 = 13, so 333 × 13 is odd.", "444 × (112 + 334) is even because 444 is even.", "Even + even - odd + even = odd.", "Answer: Odd"],
+    },
+}
+
 
 SOLUTIONS = {
     ("TIMO-P2", 1): ["Tomorrow is Monday, so today is Sunday.", "123 ÷ 7 leaves remainder 4, so move back 4 days from Sunday.", "Sunday → Saturday → Friday → Thursday → Wednesday."],
@@ -78,6 +96,9 @@ def main():
                 question["en"] = normalized
                 changed += 1
             key = (paper, question["n"])
+            if key in QUESTION_FIXES:
+                question.update(QUESTION_FIXES[key])
+                changed += 1
             if key not in SOLUTIONS:
                 continue
             summary = option_summary(question)
