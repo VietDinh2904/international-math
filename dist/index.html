@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#96d4ce">
-  <meta name="description" content="Luyện đề SMC và TIMO lớp 3 với đề bài tiếng Anh, đáp án và lời giải từng bước.">
-  <title>Math Olympiad Grade 3 Practice</title>
+  <meta name="description" content="Internamtion Math: luyện đề SMC, TIMO và Kangaroo Écolier với đề bài tiếng Anh, hình minh họa, đáp án và lời giải từng bước.">
+  <title>Internamtion Math</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="zoom.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
-    <a class="brand" href="#practice" aria-label="Math Olympiad Grade 3 Practice"><span class="brand-tile">M</span><span><strong>Math Practice</strong><small>Grade 3</small></span></a>
+    <a class="brand" href="#practice" aria-label="Internamtion Math"><span class="brand-tile">M</span><span><strong>Internamtion Math</strong><small>Grade 3–4</small></span></a>
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
@@ -23,6 +23,7 @@
         <div class="contest-tabs" role="tablist" aria-label="Chọn kỳ thi">
           <button class="contest-tab active" role="tab" aria-selected="true" data-contest="SMC">SMC</button>
           <button class="contest-tab" role="tab" aria-selected="false" data-contest="TIMO">TIMO</button>
+          <button class="contest-tab" role="tab" aria-selected="false" data-contest="KANGAROO">Kangaroo</button>
         </div>
         <div class="year-tabs" id="smcPaperTabs" role="tablist" aria-label="Chọn đề SMC">
           <button class="year-tab active coral" role="tab" aria-selected="true" data-year="2023">2023</button>
@@ -40,6 +41,11 @@
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H3">Heat · 18–19</button>
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H4">Heat · 17–18</button>
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H5">Heat · 16–17</button>
+        </div>
+        <div class="year-tabs hidden" id="kangarooPaperTabs" role="tablist" aria-label="Chọn đề Kangaroo Écolier">
+          <button class="year-tab coral" role="tab" aria-selected="false" data-year="KANGAROO-2025">2025</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="KANGAROO-2024">2024</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="KANGAROO-2023">2023</button>
         </div>
         <section class="question-board" aria-labelledby="questionBoardTitle">
           <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
@@ -82,6 +88,9 @@
         <article class="paper-card lavender-card"><img src="assets/cover-2021.jpg" alt="SMC 2021 Grade 3 practice cover"><div><span class="paper-year">2021</span><h3>SINGA Assessment Practice</h3><p>Primary 3 · 14 pages · 45 questions</p><a href="assets/smc-2021.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
         <article class="paper-card coral-card"><img src="assets/cover-2023.jpg" alt="SMC 2023 Grade 3 cover"><div><span class="paper-year">2023</span><h3>SMC Contest Paper</h3><p>Grade 3 · 28 pages</p><a href="assets/smc-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
         <article class="paper-card mint-card"><img src="assets/cover-2024.jpg" alt="SMC 2024 Grade 3 cover"><div><span class="paper-year">2024</span><h3>SMC Challenge</h3><p>Grade 3 · 24 pages</p><a href="assets/smc-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+        <article class="paper-card coral-card"><img src="assets/kangaroo/cover-2025.jpg" alt="Kangaroo Écolier 2025 cover"><div><span class="paper-year">Kangaroo 2025</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2025.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+        <article class="paper-card yellow-card"><img src="assets/kangaroo/cover-2024.jpg" alt="Kangaroo Écolier 2024 cover"><div><span class="paper-year">Kangaroo 2024</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
+        <article class="paper-card lavender-card"><img src="assets/kangaroo/cover-2023.jpg" alt="Kangaroo Écolier 2023 cover"><div><span class="paper-year">Kangaroo 2023</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
       </div>
     </section>
   </main>
@@ -95,11 +104,12 @@
     </div>
     <div class="lightbox-stage" id="lightboxStage"><img id="lightboxImage" alt="Enlarged question diagram"></div>
   </div>
-  <footer><strong>Math Olympiad Practice</strong><span>Grade 3</span><a href="#practice">Back to top ↑</a></footer>
+  <footer><strong>Internamtion Math</strong><span>SMC · TIMO · Kangaroo</span><a href="#practice">Back to top ↑</a></footer>
   <script src="timo-2020.js"></script>
   <script src="timo-2020-exact.js"></script>
   <script src="timo-remaining.js"></script>
   <script src="smc-2021.js"></script>
+  <script src="kangaroo.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
