@@ -17,6 +17,7 @@ const openingQuestions = [
 
 const digitized = {
   "TIMO-2020": window.questionsTimo2020,
+  ...(window.questionsTimoRemaining || {}),
   "2021": window.questions2021,
   "2023": [
     ...openingQuestions,
@@ -87,8 +88,8 @@ const digitized = {
   ]
 };
 
-const totals={"TIMO-2020":25,"2021":45,"2023":45,"2024":31};
-const paperNames={"TIMO-2020":"TIMO Preliminary 2020–2021","2021":"SMC 2021","2023":"SMC 2023","2024":"SMC 2024"};
+const totals={"TIMO-2020":25,"TIMO-P2":25,"TIMO-P3":25,"TIMO-P4":25,"TIMO-P5":25,"TIMO-H1":25,"TIMO-H2":25,"TIMO-H3":25,"TIMO-H4":25,"TIMO-H5":25,"2021":45,"2023":45,"2024":31};
+const paperNames={"TIMO-2020":"TIMO Preliminary 2020–2021","TIMO-P2":"TIMO Preliminary Paper 2","TIMO-P3":"TIMO Preliminary Paper 3","TIMO-P4":"TIMO Preliminary Paper 4","TIMO-P5":"TIMO Preliminary Paper 5","TIMO-H1":"TIMO Heat 2020–2021","TIMO-H2":"TIMO Heat 2019–2020","TIMO-H3":"TIMO Heat 2018–2019","TIMO-H4":"TIMO Heat 2017–2018","TIMO-H5":"TIMO Heat 2016–2017","2021":"SMC 2021","2023":"SMC 2023","2024":"SMC 2024"};
 const papers=Object.fromEntries(Object.entries(totals).map(([year,total])=>{
   const ready=new Map(digitized[year].map(q=>[q.n,{...q,ready:true}]));
   return [year,Array.from({length:total},(_,i)=>ready.get(i+1)||{n:i+1,ready:false,skill:"In progress",title:`Question ${i+1}`,en:"This question is being digitised from the original paper. Its diagram, answer and child-friendly working will be added here.",vi:"Câu hỏi này đang được số hóa từ đề gốc."})];
@@ -139,9 +140,16 @@ function checkAnswer(){
 document.querySelectorAll(".year-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".year-tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",t===tab?"true":"false")});currentYear=tab.dataset.year;currentIndex=papers[currentYear].findIndex(q=>q.ready);translationOpen=false;showRandomQuote();render()}));
 document.querySelectorAll(".contest-tab").forEach(tab=>tab.addEventListener("click",()=>{const isTimo=tab.dataset.contest==="TIMO";document.querySelectorAll(".contest-tab").forEach(t=>{t.classList.toggle("active",t===tab);t.setAttribute("aria-selected",t===tab?"true":"false")});$("smcPaperTabs").classList.toggle("hidden",isTimo);$("timoPaperTabs").classList.toggle("hidden",!isTimo);document.querySelector(`[data-year="${isTimo?"TIMO-2020":"2023"}"]`).click()}));
 document.querySelector(".quote-card").title="Click for another quote or fun fact";document.querySelector(".quote-card").addEventListener("click",showRandomQuote);
-function openImage(){if(!els.questionImage.src)return;$("lightboxImage").src=els.questionImage.src;$("lightboxImage").alt=els.questionImage.alt;$("imageLightbox").hidden=false;document.body.classList.add("lightbox-open");$("lightboxClose").focus()}
-function closeImage(){$("imageLightbox").hidden=true;$("lightboxImage").removeAttribute("src");document.body.classList.remove("lightbox-open");els.sourceFigure.focus()}
-els.sourceFigure.addEventListener("click",openImage);els.sourceFigure.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openImage()}});$("lightboxClose").onclick=closeImage;$("imageLightbox").addEventListener("click",e=>{if(e.target===$("imageLightbox"))closeImage()});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("imageLightbox").hidden)closeImage()});
+let imageZoom=1,imageBaseWidth=0,imageDrag=null;
+function applyImageZoom(){const image=$("lightboxImage");if(!imageBaseWidth)return;image.style.width=`${Math.round(imageBaseWidth*imageZoom)}px`;$("zoomLevel").value=`${Math.round(imageZoom*100)}%`;$("zoomOut").disabled=imageZoom<=.5;$("zoomIn").disabled=imageZoom>=4}
+function fitImage(){const image=$("lightboxImage"),stage=$("lightboxStage");if(!image.naturalWidth||!image.naturalHeight)return;const availableWidth=Math.max(120,stage.clientWidth-36),availableHeight=Math.max(120,stage.clientHeight-36);imageBaseWidth=Math.min(image.naturalWidth,availableWidth,availableHeight*image.naturalWidth/image.naturalHeight);imageZoom=1;applyImageZoom();stage.scrollTo({left:0,top:0})}
+function setImageZoom(next){imageZoom=Math.max(.5,Math.min(4,next));applyImageZoom()}
+function openImage(){if(!els.questionImage.src)return;const image=$("lightboxImage");image.onload=fitImage;image.src=els.questionImage.src;image.alt=els.questionImage.alt;$("imageLightbox").hidden=false;document.body.classList.add("lightbox-open");if(image.complete)requestAnimationFrame(fitImage);$("lightboxClose").focus()}
+function closeImage(){$("imageLightbox").hidden=true;$("lightboxImage").removeAttribute("src");$("lightboxImage").removeAttribute("style");document.body.classList.remove("lightbox-open");imageBaseWidth=0;els.sourceFigure.focus()}
+els.sourceFigure.addEventListener("click",openImage);els.sourceFigure.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openImage()}});$("lightboxClose").onclick=closeImage;$("zoomIn").onclick=()=>setImageZoom(imageZoom+.25);$("zoomOut").onclick=()=>setImageZoom(imageZoom-.25);$("zoomFit").onclick=fitImage;$("imageLightbox").addEventListener("click",e=>{if(e.target===$("imageLightbox"))closeImage()});document.addEventListener("keydown",e=>{if($("imageLightbox").hidden)return;if(e.key==="Escape")closeImage();else if(e.key==="+"||e.key==="=")setImageZoom(imageZoom+.25);else if(e.key==="-")setImageZoom(imageZoom-.25);else if(e.key==="0")fitImage()});
+$("lightboxStage").addEventListener("wheel",e=>{if(!e.ctrlKey)return;e.preventDefault();setImageZoom(imageZoom+(e.deltaY<0?.25:-.25))},{passive:false});
+$("lightboxStage").addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse"||imageZoom<=1)return;imageDrag={x:e.clientX,y:e.clientY,left:e.currentTarget.scrollLeft,top:e.currentTarget.scrollTop};e.currentTarget.setPointerCapture(e.pointerId);e.currentTarget.classList.add("dragging")});
+$("lightboxStage").addEventListener("pointermove",e=>{if(!imageDrag)return;e.currentTarget.scrollLeft=imageDrag.left-(e.clientX-imageDrag.x);e.currentTarget.scrollTop=imageDrag.top-(e.clientY-imageDrag.y)});$("lightboxStage").addEventListener("pointerup",e=>{imageDrag=null;e.currentTarget.classList.remove("dragging")});
 els.translateButton.onclick=()=>{translationOpen=!translationOpen;els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate"};
 $("checkButton").onclick=checkAnswer;els.answerInput.addEventListener("input",()=>persist(papers[currentYear][currentIndex],{answer:els.answerInput.value,checked:false,correct:false}));els.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
 $("hintButton").onclick=()=>els.hintBox.classList.toggle("hidden");$("solutionButton").onclick=()=>{els.solutionSheet.classList.toggle("hidden");$("solutionButton").textContent=els.solutionSheet.classList.contains("hidden")?"Show solution":"Hide solution"};

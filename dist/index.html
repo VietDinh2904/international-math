@@ -7,6 +7,7 @@
   <meta name="description" content="Luyện đề SMC và TIMO lớp 3 với đề bài tiếng Anh, đáp án và lời giải từng bước.">
   <title>Math Olympiad Grade 3 Practice</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="zoom.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
@@ -29,7 +30,16 @@
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="2021">2021</button>
         </div>
         <div class="year-tabs timo-paper-tabs hidden" id="timoPaperTabs" role="tablist" aria-label="Chọn đề TIMO">
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-2020">Prelim 2020–21</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-2020">Prelim 1 · 20–21</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P2">Prelim 2</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P3">Prelim 3</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P4">Prelim 4</button>
+          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P5">Prelim 5</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H1">Heat · 20–21</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H2">Heat · 19–20</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H3">Heat · 18–19</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H4">Heat · 17–18</button>
+          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H5">Heat · 16–17</button>
         </div>
         <section class="question-board" aria-labelledby="questionBoardTitle">
           <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
@@ -76,12 +86,19 @@
     </section>
   </main>
   <div class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="Enlarged question image" hidden>
-    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close enlarged image">×</button>
-    <img id="lightboxImage" alt="Enlarged question diagram">
+    <div class="lightbox-toolbar" aria-label="Image zoom controls">
+      <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+      <output id="zoomLevel" aria-live="polite">100%</output>
+      <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+      <button id="zoomFit" type="button">Fit</button>
+      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close enlarged image">×</button>
+    </div>
+    <div class="lightbox-stage" id="lightboxStage"><img id="lightboxImage" alt="Enlarged question diagram"></div>
   </div>
   <footer><strong>Math Olympiad Practice</strong><span>Grade 3</span><a href="#practice">Back to top ↑</a></footer>
   <script src="timo-2020.js"></script>
   <script src="timo-2020-exact.js"></script>
+  <script src="timo-remaining.js"></script>
   <script src="smc-2021.js"></script>
   <script src="app.js"></script>
 </body>
