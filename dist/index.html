@@ -9,12 +9,14 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="zoom.css">
   <link rel="stylesheet" href="tools.css">
+  <link rel="stylesheet" href="test.css">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
     <a class="brand" href="#practice" aria-label="International Math"><span class="brand-tile">M</span><span><strong>International Math</strong><small>Grade 3–4</small></span></a>
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
+    <button class="test-mode-button" id="testModeButton" type="button"><span aria-hidden="true">◎</span> Test mode</button>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
   <main>
@@ -95,6 +97,17 @@
       </div>
     </section>
   </main>
+  <section class="test-mode" id="testMode" aria-label="Focused test mode" hidden>
+    <header class="test-header">
+      <div class="test-brand"><span class="brand-tile">M</span><div><strong id="testPaperName">Test paper</strong><small>Focus mode</small></div></div>
+      <div class="test-summary"><span><strong id="testAnsweredCount">0</strong> answered</span><span class="test-clock" id="testClock">90:00</span></div>
+      <div class="test-header-actions"><button id="submitTestButton" type="button">Submit test</button><button id="exitTestButton" type="button">Exit</button></div>
+    </header>
+    <div class="test-layout">
+      <aside class="test-map-panel"><p class="eyebrow">QUESTIONS</p><div class="test-question-map" id="testQuestionMap"></div><p class="test-score" id="testScore" aria-live="polite"></p></aside>
+      <main class="test-paper" id="testPaper"></main>
+    </div>
+  </section>
   <canvas class="drawing-canvas" id="drawingCanvas" aria-label="Lớp viết hướng dẫn trực tiếp lên đề"></canvas>
   <aside class="study-tools" id="studyTools" aria-label="Công cụ học tập">
     <div class="tool-launchers">

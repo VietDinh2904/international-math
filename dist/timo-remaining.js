@@ -12,10 +12,12 @@ window.questionsTimoRemaining = {
         "Wednesday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Tomorrow is Monday, so today is Sunday.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Tomorrow is Monday, so today is Sunday.",
+        "123 ÷ 7 leaves remainder 4, so move back 4 days from Sunday.",
+        "Sunday → Saturday → Friday → Thursday → Wednesday.",
+        "Possible answers: A. Sunday; B. Wednesday; C. Thursday; D. Tuesday",
         "Answer: B. Wednesday"
       ]
     },
@@ -31,10 +33,11 @@ window.questionsTimoRemaining = {
         "q"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Read the two alternating letter patterns separately.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Read the two alternating letter patterns separately.",
+        "Capital letters: C, D, E, F, G. Lower-case letters: m, n, o, p, so the next lower-case letter is q.",
+        "Possible answers: A. Q; B. H; C. h; D. q",
         "Answer: D. q"
       ]
     },
@@ -50,10 +53,12 @@ window.questionsTimoRemaining = {
         "72"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Write each term as two consecutive numbers multiplied together.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Write each term as two consecutive numbers multiplied together.",
+        "12 = 3 × 4, 20 = 4 × 5, 30 = 5 × 6, 42 = 6 × 7, 56 = 7 × 8.",
+        "The next term is 8 × 9 = 72.",
+        "Possible answers: A. 72; B. 58; C. 66; D. 70",
         "Answer: A. 72"
       ]
     },
@@ -69,10 +74,11 @@ window.questionsTimoRemaining = {
         "12"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the marked symbols in Groups 1–4 and write the totals in order.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the marked symbols in Groups 1–4 and write the totals in order.",
+        "Continue the same increase to Group 5. The total is 12.",
+        "Possible answers: A. 15; B. 20; C. 12; D. 16",
         "Answer: C. 12"
       ],
       "image": "assets/timo/timo-p2-q04.png"
@@ -89,10 +95,11 @@ window.questionsTimoRemaining = {
         "4"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Compare the completed rows and columns in the table.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Compare the completed rows and columns in the table.",
+        "Apply the same operation to the row containing the blank. The missing number is 4.",
+        "Possible answers: A. 2; B. 3; C. 5; D. 4",
         "Answer: D. 4"
       ],
       "image": "assets/timo/timo-p2-q05.png"
@@ -234,7 +241,7 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "Observe the pattern and find the difference between the 54th number and the 55th number in the following sequence. 1、3、7、13、21 …\n(A) 114\n(B) 112\n(C) 110\n(D) 108",
+      "en": "Observe the pattern and find the difference between the 54th number and the 55th number in the following sequence. 1, 3, 7, 13, 21 …\n(A) 114\n(B) 112\n(C) 110\n(D) 108",
       "vi": "",
       "answer": "D",
       "accepted": [
@@ -489,7 +496,7 @@ window.questionsTimoRemaining = {
       "n": 1,
       "skill": "Logical Thinking",
       "title": "Question 1",
-      "en": "According to the pattern shown below, what is the number in the blank? 1 、 2 、 3 、 6 、 11 、 20 、 __\n(A) 29\n(B) 31\n(C) 37\n(D) 40",
+      "en": "According to the pattern shown below, what is the number in the blank? 1, 2, 3, 6, 11, 20, __\n(A) 29\n(B) 31\n(C) 37\n(D) 40",
       "vi": "",
       "answer": "C",
       "accepted": [
@@ -497,13 +504,14 @@ window.questionsTimoRemaining = {
         "37"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "From the 4th term onward, each number is the sum of the previous three numbers.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "From the 4th term onward, each number is the sum of the previous three numbers.",
+        "1 + 2 + 3 = 6; 2 + 3 + 6 = 11; 3 + 6 + 11 = 20.",
+        "Next: 6 + 11 + 20 = 37.",
+        "Possible answers: A. 29; B. 31; C. 37; D. 40",
         "Answer: C. 37"
-      ],
-      "image": "assets/timo/timo-p3-q01.png"
+      ]
     },
     {
       "n": 2,
@@ -517,10 +525,12 @@ window.questionsTimoRemaining = {
         "Monday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Yesterday was Tuesday, so today is Wednesday.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Yesterday was Tuesday, so today is Wednesday.",
+        "124 ÷ 7 leaves remainder 5, so move forward 5 days.",
+        "Wednesday → Thursday → Friday → Saturday → Sunday → Monday.",
+        "Possible answers: A. Monday; B. Tuesday; C. Saturday; D. Sunday",
         "Answer: A. Monday"
       ]
     },
@@ -536,10 +546,12 @@ window.questionsTimoRemaining = {
         "9"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Sammy's age in 3 years equals Joseph's age 6 years ago.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Sammy's age in 3 years equals Joseph's age 6 years ago.",
+        "Sammy + 3 = Joseph - 6, so Joseph is 9 years older.",
+        "When Joseph is 18, Sammy is 18 - 9 = 9.",
+        "Possible answers: A. 6; B. 9; C. 15; D. 21",
         "Answer: B. 9"
       ]
     },
@@ -555,10 +567,11 @@ window.questionsTimoRemaining = {
         "350"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "15 trees make 14 equal gaps, not 15 gaps.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "15 trees make 14 equal gaps, not 15 gaps.",
+        "14 × 25 m = 350 m.",
+        "Possible answers: A. 325; B. 350; C. 375; D. 400",
         "Answer: B. 350"
       ]
     },
@@ -574,10 +587,11 @@ window.questionsTimoRemaining = {
         "65"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the symbols in the first groups and record how many new symbols are added each time.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the symbols in the first groups and record how many new symbols are added each time.",
+        "Extend that increase to Group 9. The count is 65.",
+        "Possible answers: A. 62; B. 64; C. 65; D. 72",
         "Answer: C. 65"
       ],
       "image": "assets/timo/timo-p3-q05.png"
@@ -719,7 +733,7 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "The numbers below follow the arithmetic sequence, what is the sum of the 10th term and the 13th term? 14、19、24、29、34、…\n(A) 128\n(B) 143\n(C) 133\n(D) 138",
+      "en": "The numbers below follow the arithmetic sequence, what is the sum of the 10th term and the 13th term? 14, 19, 24, 29, 34, …\n(A) 128\n(B) 143\n(C) 133\n(D) 138",
       "vi": "",
       "answer": "C",
       "accepted": [
@@ -970,7 +984,7 @@ window.questionsTimoRemaining = {
       "n": 1,
       "skill": "Logical Thinking",
       "title": "Question 1",
-      "en": "According to the pattern shown below, what is the number in the blank? 1 、 1 、 3 、 5 、 9 、 15 、 __\n(A) 24\n(B) 25\n(C) 29\n(D) 32",
+      "en": "According to the pattern shown below, what is the number in the blank? 1, 1, 3, 5, 9, 15, __\n(A) 24\n(B) 25\n(C) 29\n(D) 32",
       "vi": "",
       "answer": "B",
       "accepted": [
@@ -978,13 +992,14 @@ window.questionsTimoRemaining = {
         "25"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Each new term equals the previous two terms plus 1.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Each new term equals the previous two terms plus 1.",
+        "1 + 1 + 1 = 3; 1 + 3 + 1 = 5; 3 + 5 + 1 = 9; 5 + 9 + 1 = 15.",
+        "Next: 9 + 15 + 1 = 25.",
+        "Possible answers: A. 24; B. 25; C. 29; D. 32",
         "Answer: B. 25"
-      ],
-      "image": "assets/timo/timo-p4-q01.png"
+      ]
     },
     {
       "n": 2,
@@ -998,10 +1013,12 @@ window.questionsTimoRemaining = {
         "Monday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Yesterday was Thursday, so today is Friday.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Yesterday was Thursday, so today is Friday.",
+        "87 ÷ 7 leaves remainder 3, so move forward 3 days.",
+        "Friday → Saturday → Sunday → Monday.",
+        "Possible answers: A. Sunday; B. Monday; C. Tuesday; D. Wednesday",
         "Answer: B. Monday"
       ]
     },
@@ -1017,10 +1034,12 @@ window.questionsTimoRemaining = {
         "24"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Alice in 11 years equals Peter in 5 years.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Alice in 11 years equals Peter in 5 years.",
+        "Alice + 11 = Peter + 5, so Peter is 6 years older.",
+        "When Alice is 18, Peter is 18 + 6 = 24.",
+        "Possible answers: A. 10; B. 12; C. 24; D. 35",
         "Answer: C. 24"
       ]
     },
@@ -1036,10 +1055,11 @@ window.questionsTimoRemaining = {
         "19"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Alice is 18th from the front in a line of 37.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Alice is 18th from the front in a line of 37.",
+        "Students behind Alice = 37 - 18 = 19.",
+        "Possible answers: A. 19; B. 18; C. 17; D. 20",
         "Answer: A. 19"
       ]
     },
@@ -1055,10 +1075,11 @@ window.questionsTimoRemaining = {
         "72"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the first groups and compare how many new objects are added each time.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the first groups and compare how many new objects are added each time.",
+        "Continue the same growth to Group 6. The total is 72.",
+        "Possible answers: A. 60; B. 64; C. 69; D. 72",
         "Answer: D. 72"
       ],
       "image": "assets/timo/timo-p4-q05.png"
@@ -1200,7 +1221,7 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "The numbers below follow the arithmetic sequence, what is the sum of the 7th term and the 9th term? 8、14、20、26、32、…\n(A) 94\n(B) 100\n(C) 106\n(D) 112",
+      "en": "The numbers below follow the arithmetic sequence, what is the sum of the 7th term and the 9th term? 8, 14, 20, 26, 32, …\n(A) 94\n(B) 100\n(C) 106\n(D) 112",
       "vi": "",
       "answer": "B",
       "accepted": [
@@ -1335,7 +1356,7 @@ window.questionsTimoRemaining = {
       "n": 20,
       "skill": "Geometry",
       "title": "Question 20",
-      "en": "By observing the pattern, what is the missing figure? ■、▲、 、■、▲、▲、 、■、▲、▲、？、 、■、▲、▲、▲、…\n(A) See figure\n(B) See figure\n(C) See figure\n(D) See figure",
+      "en": "By observing the pattern, what is the missing figure? ■, ▲, , ■, ▲, ▲, , ■, ▲, ▲, ？, , ■, ▲, ▲, ▲, …\n(A) See figure\n(B) See figure\n(C) See figure\n(D) See figure",
       "vi": "",
       "answer": "B",
       "accepted": [
@@ -1451,7 +1472,7 @@ window.questionsTimoRemaining = {
       "n": 1,
       "skill": "Logical Thinking",
       "title": "Question 1",
-      "en": "According to the pattern shown below, what is the number in the blank? 1 、 7 、 13 、 19 、 25 、 31 、\n(A) 35\n(B) 36\n(C) 37\n(D) 38",
+      "en": "According to the pattern shown below, what is the number in the blank? 1, 7, 13, 19, 25, 31, (A) 35\n(B) 36\n(C) 37\n(D) 38",
       "vi": "",
       "answer": "C",
       "accepted": [
@@ -1459,13 +1480,13 @@ window.questionsTimoRemaining = {
         "37"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "The difference is always 6.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "The difference is always 6.",
+        "1, 7, 13, 19, 25, 31, so the next number is 31 + 6 = 37.",
+        "Possible answers: A. 35; B. 36; C. 37; D. 38",
         "Answer: C. 37"
-      ],
-      "image": "assets/timo/timo-p5-q01.png"
+      ]
     },
     {
       "n": 2,
@@ -1479,10 +1500,12 @@ window.questionsTimoRemaining = {
         "Wednesday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Tomorrow is Friday, so today is Thursday.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Tomorrow is Friday, so today is Thursday.",
+        "20 ÷ 7 leaves remainder 6, so move forward 6 days from Thursday.",
+        "Thursday → Friday → Saturday → Sunday → Monday → Tuesday → Wednesday.",
+        "Possible answers: A. Tuesday; B. Wednesday; C. Thursday; D. Friday",
         "Answer: B. Wednesday"
       ]
     },
@@ -1498,10 +1521,12 @@ window.questionsTimoRemaining = {
         "19"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Sammy 5 years ago equals Joseph 9 years ago.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Sammy 5 years ago equals Joseph 9 years ago.",
+        "Sammy - 5 = Joseph - 9, so Sammy is 4 years younger.",
+        "When Joseph is 23, Sammy is 23 - 4 = 19.",
+        "Possible answers: A. 19; B. 27; C. 37; D. 9",
         "Answer: A. 19"
       ]
     },
@@ -1517,10 +1542,11 @@ window.questionsTimoRemaining = {
         "108"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "10 trees make 9 equal gaps.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "10 trees make 9 equal gaps.",
+        "9 × 12 m = 108 m.",
+        "Possible answers: A. 108; B. 120; C. 96; D. 132",
         "Answer: A. 108"
       ]
     },
@@ -1536,10 +1562,11 @@ window.questionsTimoRemaining = {
         "1"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Find the repeating cycle of the group labels, then divide 115 by the cycle length.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Find the repeating cycle of the group labels, then divide 115 by the cycle length.",
+        "Use the remainder to locate Group 115 in the cycle. It matches 1.",
+        "Possible answers: A. 5; B. 4; C. 2; D. 1",
         "Answer: D. 1"
       ]
     },
@@ -1932,20 +1959,20 @@ window.questionsTimoRemaining = {
       "n": 1,
       "skill": "Logical Thinking",
       "title": "Question 1",
-      "en": "According to the pattern shown below, what is the number in the blank? 38 、 35 、 30 、 23 、 14 、 __",
+      "en": "According to the pattern shown below, what is the number in the blank? 38, 35, 30, 23, 14, __",
       "vi": "",
       "answer": "3",
       "accepted": [
         "3"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Look at the differences: -3, -5, -7, -9.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Look at the differences: -3, -5, -7, -9.",
+        "The subtracted odd numbers increase by 2, so subtract 11 next.",
+        "14 - 11 = 3.",
         "Answer: 3"
-      ],
-      "image": "assets/timo/timo-h1-q01.png"
+      ]
     },
     {
       "n": 2,
@@ -1958,10 +1985,11 @@ window.questionsTimoRemaining = {
         "7"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Match the front, side and top views one layer at a time.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Match the front, side and top views one layer at a time.",
+        "Place the minimum marbles needed for every visible black square, without counting the same marble twice.",
+        "The three views are satisfied by 7 marbles.",
         "Answer: 7"
       ],
       "image": "assets/timo/timo-h1-q02.png"
@@ -1977,10 +2005,10 @@ window.questionsTimoRemaining = {
         "Saturday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "25 ÷ 7 leaves remainder 4.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "25 ÷ 7 leaves remainder 4.",
+        "Move back 4 days from Wednesday: Tuesday, Monday, Sunday, Saturday.",
         "Answer: Saturday"
       ]
     },
@@ -1995,10 +2023,10 @@ window.questionsTimoRemaining = {
         "110"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Compare the completed parts of the table and identify the repeated row rule.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Compare the completed parts of the table and identify the repeated row rule.",
+        "Apply that same rule to the row with the question mark. The missing value is 110.",
         "Answer: 110"
       ],
       "image": "assets/timo/timo-h1-q04.png"
@@ -2014,10 +2042,10 @@ window.questionsTimoRemaining = {
         "40"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the # symbols in the shown groups and record the increase between groups.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the # symbols in the shown groups and record the increase between groups.",
+        "Continue the same increase to Group 7. The total is 40.",
         "Answer: 40"
       ],
       "image": "assets/timo/timo-h1-q05.png"
@@ -2398,10 +2426,10 @@ window.questionsTimoRemaining = {
         "25"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Alice is 37th from the front among 62 students.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Alice is 37th from the front among 62 students.",
+        "Students behind her = 62 - 37 = 25.",
         "Answer: 25"
       ]
     },
@@ -2409,20 +2437,19 @@ window.questionsTimoRemaining = {
       "n": 2,
       "skill": "Logical Thinking",
       "title": "Question 2",
-      "en": "According to the pattern shown below, what is the number in the blank? 7 、 21 、 36 、 52 、 __",
+      "en": "According to the pattern shown below, what is the number in the blank? 7, 21, 36, 52, __",
       "vi": "",
       "answer": "69",
       "accepted": [
         "69"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "The increases are +14, +15 and +16.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "The increases are +14, +15 and +16.",
+        "Increase by 17 next: 52 + 17 = 69.",
         "Answer: 69"
-      ],
-      "image": "assets/timo/timo-h2-q02.png"
+      ]
     },
     {
       "n": 3,
@@ -2435,10 +2462,10 @@ window.questionsTimoRemaining = {
         "Thursday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "15 ÷ 7 leaves remainder 1.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "15 ÷ 7 leaves remainder 1.",
+        "Move back 1 day from Friday to Thursday.",
         "Answer: Thursday"
       ]
     },
@@ -2453,10 +2480,11 @@ window.questionsTimoRemaining = {
         "6"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Bruce 9 years ago equals Peter 3 years later.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Bruce 9 years ago equals Peter 3 years later.",
+        "Bruce - 9 = Peter + 3, so Peter = Bruce - 12.",
+        "Peter = 18 - 12 = 6.",
         "Answer: 6"
       ]
     },
@@ -2471,10 +2499,10 @@ window.questionsTimoRemaining = {
         "113"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the symbols in Groups 1–4 and write the total for each group.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the symbols in Groups 1–4 and write the total for each group.",
+        "Continue the same growth rule to Group 8. The total is 113.",
         "Answer: 113"
       ],
       "image": "assets/timo/timo-h2-q05.png"
@@ -2855,10 +2883,10 @@ window.questionsTimoRemaining = {
         "12"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Every month has a 28th day.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Every month has a 28th day.",
+        "There are 12 months, so the answer is 12.",
         "Answer: 12"
       ]
     },
@@ -2873,10 +2901,11 @@ window.questionsTimoRemaining = {
         "79"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Separate the symbols into the repeating groups shown in the diagram.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Separate the symbols into the repeating groups shown in the diagram.",
+        "Count the circles in complete groups first, then count the circles in the remaining symbols.",
+        "The total number of circles is 79.",
         "Answer: 79"
       ],
       "image": "assets/timo/timo-h3-q02.png"
@@ -2892,10 +2921,11 @@ window.questionsTimoRemaining = {
         "24"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Samuel 4 years ago equals Joseph 5 years ago.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Samuel 4 years ago equals Joseph 5 years ago.",
+        "Samuel - 4 = Joseph - 5, so Joseph is 1 year older.",
+        "Joseph is 23 + 1 = 24.",
         "Answer: 24"
       ]
     },
@@ -2910,10 +2940,11 @@ window.questionsTimoRemaining = {
         "Saturday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the days from 14 October to 29 December: 17 + 30 + 29 = 76 days.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the days from 14 October to 29 December: 17 + 30 + 29 = 76 days.",
+        "76 ÷ 7 leaves remainder 6.",
+        "Six days after Sunday is Saturday.",
         "Answer: Saturday"
       ]
     },
@@ -2928,10 +2959,10 @@ window.questionsTimoRemaining = {
         "Wednesday"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "101 ÷ 7 leaves remainder 3.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "101 ÷ 7 leaves remainder 3.",
+        "Move back 3 days from Saturday: Friday, Thursday, Wednesday.",
         "Answer: Wednesday"
       ]
     },
@@ -3065,7 +3096,7 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "The numbers below follow the arithmetic sequence, what is the 99th number? 12、20、28、36、44、…",
+      "en": "The numbers below follow the arithmetic sequence, what is the 99th number? 12, 20, 28, 36, 44, …",
       "vi": "",
       "answer": "796",
       "accepted": [
@@ -3310,10 +3341,10 @@ window.questionsTimoRemaining = {
         "125"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Compare the completed rows of the table to find the operation used each time.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Compare the completed rows of the table to find the operation used each time.",
+        "Use the same operation on the row containing the question mark. The value is 125.",
         "Answer: 125"
       ],
       "image": "assets/timo/timo-h4-q01.png"
@@ -3329,10 +3360,11 @@ window.questionsTimoRemaining = {
         "55"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Break the symbol string into the growing groups shown in the question.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Break the symbol string into the growing groups shown in the question.",
+        "Count circles in the complete groups, then add the circles in the final partial group.",
+        "The total is 55.",
         "Answer: 55"
       ],
       "image": "assets/timo/timo-h4-q02.png"
@@ -3348,10 +3380,10 @@ window.questionsTimoRemaining = {
         "22"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Write the age clue as an equation and keep the same age difference over time.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Write the age clue as an equation and keep the same age difference over time.",
+        "Substitute Samuel's current age of 12. Joseph is 22.",
         "Answer: 22"
       ]
     },
@@ -3366,10 +3398,11 @@ window.questionsTimoRemaining = {
         "285"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Use 189: one digit is correct and in the correct place.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Use 189: one digit is correct and in the correct place.",
+        "Use 172: one digit is correct but in the wrong place. Use 975 to fix one more correct position.",
+        "Test the remaining arrangement with three different digits: 285 satisfies all clues.",
         "Answer: 285"
       ]
     },
@@ -3384,10 +3417,10 @@ window.questionsTimoRemaining = {
         "105"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Count the symbols in the first shown groups and find how the increase changes.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Count the symbols in the first shown groups and find how the increase changes.",
+        "Continue the rule to Group 10. The total is 105.",
         "Answer: 105"
       ],
       "image": "assets/timo/timo-h4-q05.png"
@@ -3522,7 +3555,7 @@ window.questionsTimoRemaining = {
       "n": 13,
       "skill": "Number Theory",
       "title": "Question 13",
-      "en": "Find the sum of the 15th term and the 16th term in the arithmetic sequence below. 21、33、45、57、69、…",
+      "en": "Find the sum of the 15th term and the 16th term in the arithmetic sequence below. 21, 33, 45, 57, 69, …",
       "vi": "",
       "answer": "390",
       "accepted": [
@@ -3767,10 +3800,11 @@ window.questionsTimoRemaining = {
         "Amy"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "The soldier is younger than both Amy and Peter.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "The soldier is younger than both Amy and Peter.",
+        "The student is also younger than Amy. Match the three people to the three different jobs without repeating a job.",
+        "The only consistent person left for merchant is Amy.",
         "Answer: Amy"
       ]
     },
@@ -3785,10 +3819,11 @@ window.questionsTimoRemaining = {
         "69"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Separate the symbols into the repeating or growing blocks shown.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Separate the symbols into the repeating or growing blocks shown.",
+        "Count the circles in complete blocks, then include the partial last block up to symbol 103.",
+        "There are 69 circles.",
         "Answer: 69"
       ],
       "image": "assets/timo/timo-h5-q02.png"
@@ -3804,10 +3839,11 @@ window.questionsTimoRemaining = {
         "Blue"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "Test each possible colour against the three statements.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "Test each possible colour against the three statements.",
+        "If the shoes are blue: Peter is true, John is true and Andy is false.",
+        "Exactly one person is wrong, so the shoes are blue.",
         "Answer: Blue"
       ]
     },
@@ -3822,10 +3858,11 @@ window.questionsTimoRemaining = {
         "827"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "From 782, the digits are 7, 8 and 2, but all are in the wrong positions.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "From 782, the digits are 7, 8 and 2, but all are in the wrong positions.",
+        "Use 178 to place two of those digits in new positions, then use 123 to check the one correct position.",
+        "827 satisfies all three clues.",
         "Answer: 827"
       ]
     },
@@ -3840,10 +3877,10 @@ window.questionsTimoRemaining = {
         "210"
       ],
       "unit": "",
-      "hint": "Look for the rule or test each clue one at a time.",
+      "hint": "The groups form triangular totals: 1, 1 + 2, 1 + 2 + 3, and so on.",
       "steps": [
-        "Write the clues or the repeating rule in a short list.",
-        "Check each possible answer against every clue.",
+        "The groups form triangular totals: 1, 1 + 2, 1 + 2 + 3, and so on.",
+        "Group 20 has 1 + 2 + … + 20 = 20 × 21 ÷ 2 = 210 circles.",
         "Answer: 210"
       ]
     },
@@ -3941,7 +3978,7 @@ window.questionsTimoRemaining = {
       "n": 11,
       "skill": "Number Theory",
       "title": "Question 11",
-      "en": "The numbers below follow the arithmetic sequence, what is the 19th number? 26、33、40、47、54、…",
+      "en": "The numbers below follow the arithmetic sequence, what is the 19th number? 26, 33, 40, 47, 54, …",
       "vi": "",
       "answer": "152",
       "accepted": [
