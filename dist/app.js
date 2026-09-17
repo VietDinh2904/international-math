@@ -121,7 +121,17 @@ function persist(q,patch){saved[key(q)]={...record(q),...patch};localStorage.set
 function isFlagged(q){return Boolean(reviewFlags[key(q)])}
 function setFlag(q,flagged){if(flagged)reviewFlags[key(q)]=true;else delete reviewFlags[key(q)];localStorage.setItem("international-math-review-flags-v1",JSON.stringify(reviewFlags))}
 function normalize(v){return v.trim().toLowerCase().replace(/\s+/g,"").replace(",",".")}
-function formatQuestion(text){return text.replace(/\s*\(([A-E])\)\s*/g,"\n$1. ").trim()}
+function formatQuestion(text){
+  const visualChoicePattern=/\s*\(([A-E])\)\s*See\s+(?:the\s+)?(?:figure|figures|picture|pictures|diagram|diagrams)\s*/gi;
+  const visualChoices=[...text.matchAll(new RegExp(visualChoicePattern.source,"gi"))];
+  if(visualChoices.length>1){
+    const stem=text.slice(0,visualChoices[0].index),lastChoice=visualChoices.at(-1)[1].toUpperCase();
+    const cleaned=text.replace(visualChoicePattern," ").replace(/\s+/g," ").trim();
+    const alreadySaysSeeFigure=/see\s+(?:the\s+)?(?:figure|figures|picture|pictures|diagram|diagrams)/i.test(stem);
+    return alreadySaysSeeFigure?cleaned:`${cleaned}\nSee figure for answer choices A-${lastChoice}.`;
+  }
+  return text.replace(/\s*\(([A-E])\)\s*/g,"\n$1. ").trim();
+}
 function updateCount(){const list=papers[currentYear],done=list.filter(q=>record(q).checked).length;els.answeredCount.textContent=`${done} / ${list.length} done`}
 function renderFlaggedList(){
   const flagged=papers[currentYear].map((q,index)=>({q,index})).filter(item=>isFlagged(item.q)),box=$("flaggedQuestions");box.innerHTML="";$("flaggedCount").textContent=flagged.length;$("flaggedEmpty").classList.toggle("hidden",flagged.length>0);
@@ -138,7 +148,7 @@ function exportFlaggedQuestions(){
   const sections=items.map(({paperId,q},index)=>{
     const details=[`- Flag key: \`${paperId}-${q.n}\``,`- Skill: ${q.skill||""}`,`- Title: ${q.title||`Question ${q.n}`}`,`- Current answer: ${q.answer??""}${q.unit?` ${q.unit}`:""}`];
     if(q.image)details.push(`- Figure file: ${q.image}`);
-    return [`## ${index+1}. ${paperNames[paperId]} - Question ${q.n}`,"",...details,"","### Original question","",cleanReviewText(q.en),"","### Current Vietnamese translation","",cleanReviewText(q.vi)||"Not added.","","### What is wrong?","","Write your note here.","","### Correct text, answer, figure note or solution","","Write the correction here.","","### Status","","Open"].join("\n");
+    return [`## ${index+1}. ${paperNames[paperId]} - Question ${q.n}`,"",...details,"","### Original question","",cleanReviewText(formatQuestion(q.en)),"","### Current Vietnamese translation","",cleanReviewText(q.vi)||"Not added.","","### What is wrong?","","Write your note here.","","### Correct text, answer, figure note or solution","","Write the correction here.","","### Status","","Open"].join("\n");
   }).join("\n\n---\n\n");
   const now=new Date(),date=now.toISOString().slice(0,10),content=["# International Math - Flagged Questions","",`Exported: ${now.toLocaleString()}`,`Total flagged: ${items.length}`,"","Edit the notes and corrections below, then attach this file in Codex so the website questions can be corrected.","",sections,""].join("\n");
   const blob=new Blob(["\ufeff",content],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
