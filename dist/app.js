@@ -126,6 +126,24 @@ function updateCount(){const list=papers[currentYear],done=list.filter(q=>record
 function renderFlaggedList(){
   const flagged=papers[currentYear].map((q,index)=>({q,index})).filter(item=>isFlagged(item.q)),box=$("flaggedQuestions");box.innerHTML="";$("flaggedCount").textContent=flagged.length;$("flaggedEmpty").classList.toggle("hidden",flagged.length>0);
   flagged.forEach(({q,index})=>{const button=document.createElement("button");button.type="button";button.textContent=q.n;button.title=`Open flagged question ${q.n}`;button.onclick=()=>{currentIndex=index;translationOpen=false;render()};box.appendChild(button)});
+  $("exportFlagsButton").disabled=!Object.keys(reviewFlags).length;
+}
+function allFlaggedQuestions(){
+  return Object.entries(papers).flatMap(([paperId,questions])=>questions.filter(q=>reviewFlags[`${paperId}-${q.n}`]).map(q=>({paperId,q})));
+}
+function cleanReviewText(value){return String(value??"").replace(/\r?\n/g,"\n").trim()}
+function exportFlaggedQuestions(){
+  const items=allFlaggedQuestions(),status=$("exportFlagsStatus");
+  if(!items.length){status.textContent="No flagged questions to export.";return}
+  const sections=items.map(({paperId,q},index)=>{
+    const details=[`- Flag key: \`${paperId}-${q.n}\``,`- Skill: ${q.skill||""}`,`- Title: ${q.title||`Question ${q.n}`}`,`- Current answer: ${q.answer??""}${q.unit?` ${q.unit}`:""}`];
+    if(q.image)details.push(`- Figure file: ${q.image}`);
+    return [`## ${index+1}. ${paperNames[paperId]} - Question ${q.n}`,"",...details,"","### Original question","",cleanReviewText(q.en),"","### Current Vietnamese translation","",cleanReviewText(q.vi)||"Not added.","","### What is wrong?","","Write your note here.","","### Correct text, answer, figure note or solution","","Write the correction here.","","### Status","","Open"].join("\n");
+  }).join("\n\n---\n\n");
+  const now=new Date(),date=now.toISOString().slice(0,10),content=["# International Math - Flagged Questions","",`Exported: ${now.toLocaleString()}`,`Total flagged: ${items.length}`,"","Edit the notes and corrections below, then attach this file in Codex so the website questions can be corrected.","",sections,""].join("\n");
+  const blob=new Blob(["\ufeff",content],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
+  link.href=url;link.download=`international-math-flags-${date}.md`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  status.textContent=`Exported ${items.length} flagged question${items.length===1?"":"s"}.`;
 }
 function renderMap(){
   els.questionMap.innerHTML="";
@@ -168,6 +186,7 @@ els.translateButton.onclick=toggleTranslation;
 $("checkButton").onclick=checkAnswer;els.answerInput.addEventListener("input",()=>persist(papers[currentYear][currentIndex],{answer:els.answerInput.value,checked:false,correct:false}));els.answerInput.addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
 $("hintButton").onclick=()=>els.hintBox.classList.toggle("hidden");$("solutionButton").onclick=()=>{els.solutionSheet.classList.toggle("hidden");$("solutionButton").textContent=els.solutionSheet.classList.contains("hidden")?"Show solution":"Hide solution"};
 $("flagQuestionButton").onclick=()=>{const q=papers[currentYear][currentIndex];setFlag(q,!isFlagged(q));render()};
+$("exportFlagsButton").onclick=exportFlaggedQuestions;
 els.prevButton.onclick=()=>{if(currentIndex>0){currentIndex--;translationOpen=false;render()}};els.nextButton.onclick=()=>{currentIndex=(currentIndex+1)%papers[currentYear].length;translationOpen=false;render()};
 
 let testActive=false,testSubmitted=false;
