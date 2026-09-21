@@ -130,6 +130,8 @@ function formatQuestion(text){
     const alreadySaysSeeFigure=/see\s+(?:the\s+)?(?:figure|figures|picture|pictures|diagram|diagrams)/i.test(stem);
     return alreadySaysSeeFigure?cleaned:`${cleaned}\nSee figure for answer choices A-${lastChoice}.`;
   }
+  const numberedChoices=[...text.matchAll(/\s*\(([1-5])\)\s*/g)];
+  if(numberedChoices.length>=3)return text.replace(/\s*\(([1-5])\)\s*/g,"\n($1) ").trim();
   return text.replace(/\s*\(([A-E])\)\s*/g,"\n$1. ").trim();
 }
 function updateCount(){const list=papers[currentYear],done=list.filter(q=>record(q).checked).length;els.answeredCount.textContent=`${done} / ${list.length} done`}
