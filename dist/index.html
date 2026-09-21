@@ -52,14 +52,6 @@
           <button class="year-tab yellow" role="tab" aria-selected="false" data-year="KANGAROO-2024">2024</button>
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="KANGAROO-2023">2023</button>
         </div>
-        <section class="question-board" aria-labelledby="questionBoardTitle">
-          <div class="board-heading"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
-          <div class="status-key"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
-          <div class="question-map" id="questionMap" aria-label="Danh sách câu hỏi"></div>
-          <div class="flagged-review"><div class="flagged-review-title"><strong>⚑ Needs review</strong><span id="flaggedCount">0</span></div><div class="flagged-questions" id="flaggedQuestions"></div><p id="flaggedEmpty">No flagged questions.</p><button class="export-flags-button" id="exportFlagsButton" type="button" disabled>Export review file</button><p class="export-flags-status" id="exportFlagsStatus" role="status" aria-live="polite"></p></div>
-        </section>
-      </aside>
-      <div class="work-area">
         <section class="quest-race" id="questRace" aria-labelledby="raceTitle">
           <div class="race-heading">
             <div><p class="race-kicker">SPACE TREASURE RESCUE</p><h2 id="raceTitle">Your island race</h2><p id="raceSubtitle">Clear questions to reveal the path.</p></div>
@@ -69,6 +61,14 @@
           <div class="race-track-wrap"><div class="race-track" id="raceTrack" aria-label="Question race track"></div></div>
           <div class="race-legend"><span><i class="trail-open"></i>Open</span><span><i class="trail-fog"></i>Space fog</span><span><i class="trail-boss">★</i>Rescue gate</span></div>
         </section>
+        <section class="question-board review-board" aria-label="Question review tools">
+          <div class="board-heading hidden"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
+          <div class="status-key hidden"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
+          <div class="question-map hidden" id="questionMap" aria-label="Danh sách câu hỏi"></div>
+          <div class="flagged-review"><div class="flagged-review-title"><strong>⚑ Needs review</strong><span id="flaggedCount">0</span></div><div class="flagged-questions" id="flaggedQuestions"></div><p id="flaggedEmpty">No flagged questions.</p><button class="export-flags-button" id="exportFlagsButton" type="button" disabled>Export review file</button><p class="export-flags-status" id="exportFlagsStatus" role="status" aria-live="polite"></p></div>
+        </section>
+      </aside>
+      <div class="work-area">
         <div class="browser-window">
           <div class="window-bar"><div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div><div class="window-title" id="sourceLabel">SMC 2023 · Question 20</div><div class="window-actions" aria-hidden="true">— □ ×</div></div>
           <article class="question-card" aria-live="polite">
@@ -113,7 +113,7 @@
     <header class="test-header">
       <div class="test-brand"><span class="brand-tile">M</span><div><strong id="testPaperName">Test paper</strong><small>Focus mode</small></div></div>
       <div class="test-summary"><span><strong id="testAnsweredCount">0</strong> answered</span><span class="test-clock" id="testClock">90:00</span></div>
-      <div class="test-header-actions"><button id="submitTestButton" type="button">Submit test</button><button id="exitTestButton" type="button">Exit</button></div>
+      <div class="test-header-actions"><button class="restart-test-button" id="restartTestButton" type="button">Restart test</button><button id="submitTestButton" type="button">Submit test</button><button id="exitTestButton" type="button">Exit</button></div>
     </header>
     <div class="test-layout">
       <aside class="test-map-panel"><p class="eyebrow">QUESTIONS</p><div class="test-question-map" id="testQuestionMap"></div><p class="test-score" id="testScore" aria-live="polite"></p></aside>
