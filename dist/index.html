@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="tools.css?v=20260921-2">
   <link rel="stylesheet" href="test.css?v=20260921-2">
   <link rel="stylesheet" href="review.css?v=20260921-2">
-  <link rel="stylesheet" href="race.css?v=20260921-2">
+  <link rel="stylesheet" href="race.css?v=20260922-1">
 </head>
 <body>
   <div class="math-wallpaper" aria-hidden="true"></div>
@@ -24,6 +24,15 @@
   </header>
   <main>
     <section class="practice-shell" id="practice">
+      <section class="quest-race" id="questRace" aria-labelledby="raceTitle">
+        <div class="race-heading">
+          <div><p class="race-kicker">SPACE TREASURE RESCUE</p><h2 id="raceTitle">Your space race</h2><p id="raceSubtitle">Every question is visible. Clear the path and rescue every friend.</p></div>
+          <div class="race-actions"><button id="chooseRacerButton" type="button">Choose racer</button><button id="collectionButton" type="button">Animal Collection <span id="collectionCount">1/8</span></button></div>
+        </div>
+        <div class="race-dashboard"><span class="current-racer" id="currentRacer"><b aria-hidden="true">🦦</b> Pip</span><span class="race-stars" id="raceStars">☆ 0 rescued stars</span><span class="race-progress-label" id="raceProgressLabel">Path 0%</span></div>
+        <div class="race-track-wrap"><div class="race-track" id="raceTrack" aria-label="All questions on the space race map"></div></div>
+        <div class="race-legend"><span><i class="trail-open"></i>Open</span><span><i class="trail-fog"></i>Locked</span><span><i class="trail-boss">★</i>Boss rescue</span></div>
+      </section>
       <aside class="exam-panel">
         <div class="quote-card"><span class="quote-mark">“</span><blockquote id="quoteText">The only way to learn mathematics is to do mathematics.</blockquote><cite id="quoteSource">— Paul Halmos</cite></div>
         <div class="contest-tabs" role="tablist" aria-label="Chọn kỳ thi">
@@ -53,15 +62,6 @@
           <button class="year-tab yellow" role="tab" aria-selected="false" data-year="KANGAROO-2024">2024</button>
           <button class="year-tab lavender" role="tab" aria-selected="false" data-year="KANGAROO-2023">2023</button>
         </div>
-        <section class="quest-race" id="questRace" aria-labelledby="raceTitle">
-          <div class="race-heading">
-            <div><p class="race-kicker">SPACE TREASURE RESCUE</p><h2 id="raceTitle">Your island race</h2><p id="raceSubtitle">Clear questions to reveal the path.</p></div>
-            <div class="race-actions"><button id="chooseRacerButton" type="button">Choose racer</button><button id="collectionButton" type="button">Animal Collection <span id="collectionCount">1/8</span></button></div>
-          </div>
-          <div class="race-dashboard"><span class="current-racer" id="currentRacer"><b aria-hidden="true">🦦</b> Pip</span><span class="race-stars" id="raceStars">☆ 0 rescued stars</span><span class="race-progress-label" id="raceProgressLabel">Path 0%</span></div>
-          <div class="race-track-wrap"><div class="race-track" id="raceTrack" aria-label="Question race track"></div></div>
-          <div class="race-legend"><span><i class="trail-open"></i>Open</span><span><i class="trail-fog"></i>Space fog</span><span><i class="trail-boss">★</i>Rescue gate</span></div>
-        </section>
         <section class="question-board review-board" aria-label="Question review tools">
           <div class="board-heading hidden"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
           <div class="status-key hidden"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
@@ -172,7 +172,15 @@
     <p id="collectionSummary"></p><div class="collection-grid" id="collectionGrid"></div>
   </dialog>
   <div class="race-feedback" id="raceFeedback" role="dialog" aria-modal="true" aria-labelledby="raceFeedbackTitle" hidden>
-    <div class="race-feedback-card"><div class="race-star-field" id="raceStarField" aria-hidden="true"></div><div class="weather-face" id="weatherFace" aria-hidden="true">🌞</div><h2 id="raceFeedbackTitle">Path unlocked!</h2><p id="raceFeedbackMessage"></p><button id="closeRaceFeedback" type="button">Keep racing</button></div>
+    <div class="race-feedback-card">
+      <div class="race-star-field" id="raceStarField" aria-hidden="true"></div>
+      <div class="boss-battle" id="bossBattle" hidden aria-hidden="true">
+        <img class="boss-robot" src="assets/space-robot-boss-v1.png" alt="">
+        <div class="rescue-cage"><span class="cage-light"></span><span class="caged-mascot" id="cagedMascot"></span><i></i><i></i><i></i><i></i></div>
+        <span class="victory-burst">★</span>
+      </div>
+      <div class="weather-face" id="weatherFace" aria-hidden="true">🌞</div><h2 id="raceFeedbackTitle">Path unlocked!</h2><p id="raceFeedbackMessage"></p><button id="closeRaceFeedback" type="button">Keep racing</button>
+    </div>
   </div>
   <footer><strong>International Math</strong><span>SMC · TIMO · Kangaroo</span><a href="#practice">Back to top ↑</a></footer>
   <script src="timo-2020.js?v=20260921-2"></script>
@@ -181,7 +189,7 @@
   <script src="smc-2021.js?v=20260921-2"></script>
   <script src="kangaroo.js?v=20260921-2"></script>
   <script src="app.js?v=20260922-1"></script>
-  <script src="race.js?v=20260921-2"></script>
+  <script src="race.js?v=20260922-1"></script>
   <script src="tools.js?v=20260921-2"></script>
 </body>
 </html>
