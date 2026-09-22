@@ -241,6 +241,15 @@ function submitTest(){
 }
 $("testModeButton").onclick=startTestMode;$("restartTestButton").onclick=restartTest;$("exitTestButton").onclick=exitTestMode;$("submitTestButton").onclick=submitTest;document.addEventListener("keydown",event=>{if(event.key==="Escape"&&testActive&&$("imageLightbox").hidden)exitTestMode()});
 
+function resetPractice(){
+  const confirmed=window.confirm("Reset all practice progress? Answers, rescued stars and unlocked mascots will be cleared. Review flags will be kept.");
+  if(!confirmed)return;
+  localStorage.removeItem("smc-progress-v2");
+  localStorage.removeItem("international-math-race-v1");
+  window.location.reload();
+}
+$("resetPracticeButton").onclick=resetPractice;
+
 let seconds=90*60,timerId=null;function updateTimer(){const m=Math.floor(seconds/60),s=seconds%60,value=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;$("timerText").textContent=value;if($("testClock"))$("testClock").textContent=value;if(seconds===0){clearInterval(timerId);timerId=null;$("timerState").textContent="Time's up";if(testActive&&!testSubmitted)submitTest()}}
 $("timerButton").onclick=()=>{if(timerId){clearInterval(timerId);timerId=null;$("timerState").textContent="Resume"}else{if(seconds===0)seconds=90*60;timerId=setInterval(()=>{if(seconds>0)seconds--;updateTimer()},1000);$("timerState").textContent="Pause"}};
 showRandomQuote();render();
