@@ -5,7 +5,7 @@ window.questionsTimoRemaining = {
       "skill": "Logical Thinking",
       "title": "Question 1",
       "en": "If tomorrow will be Monday, which day of the week was 123 days ago?\n(A) Sunday\n(B) Wednesday\n(C) Thursday\n(D) Tuesday",
-      "vi": "",
+      "vi": "Nếu ngày mai là thứ Hai thì 123 ngày trước là thứ mấy?\n(A) Chủ nhật\n(B) Thứ Tư\n(C) Thứ Năm\n(D) Thứ Ba",
       "answer": "B",
       "accepted": [
         "B",
@@ -2333,7 +2333,7 @@ window.questionsTimoRemaining = {
       "skill": "Combinatorics",
       "title": "Question 21",
       "en": "After Peter takes 20 apples and 17 apples from Bobby and Charlie respectively, they will all have an equal number of apples. How many apple(s) did Bobby have more than Peter originally?",
-      "vi": "",
+      "vi": "Sau khi Peter lần lượt lấy 20 quả táo từ Bobby và 17 quả táo từ Charlie, cả ba người sẽ có số táo bằng nhau. Ban đầu Bobby có nhiều hơn Peter bao nhiêu quả táo?",
       "answer": "57",
       "accepted": [
         "57"
