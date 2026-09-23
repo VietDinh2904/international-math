@@ -12,13 +12,29 @@
   <link rel="stylesheet" href="test.css?v=20260921-2">
   <link rel="stylesheet" href="review.css?v=20260921-2">
   <link rel="stylesheet" href="race.css?v=20260922-1">
+  <link rel="stylesheet" href="adventure.css?v=20260923-1">
 </head>
 <body>
+  <section class="adventure-root" id="adventureRoot" aria-label="Solar System math adventure">
+    <header class="adventure-hud" id="adventureHud" hidden>
+      <button class="adventure-logo" id="adventureHome" type="button"><span>M</span><strong>International Math</strong></button>
+      <div class="hud-bars">
+        <div class="hud-stat human-stat"><span>Explorer</span><b id="humanHealth">♥ 5/5</b><b id="humanShield">◆ 0/5</b></div>
+        <div class="hud-stat ship-stat"><span>Spaceship</span><b id="shipHealth">♥ 20/20</b><b id="shipShield">◆ 20/20</b></div>
+      </div>
+      <button class="adventure-menu-button" id="adventureMenuButton" type="button" aria-expanded="false">☰ Menu</button>
+    </header>
+    <main class="adventure-view" id="adventureView"></main>
+    <aside class="adventure-menu" id="adventureMenu" hidden>
+      <div class="adventure-menu-card"><button class="menu-close" id="adventureMenuClose" type="button">×</button><p class="adventure-kicker">LEARNING MODE</p><h2>Where do you want to go?</h2><button id="menuExplore" type="button">🚀 Solar adventure</button><button id="menuPractice" type="button">✎ Practice library</button><button id="menuTest" type="button">◎ Test mode</button><button id="menuExportFlags" type="button">⚑ Export adventure flags</button><button class="danger-menu-button" id="resetQuestions" type="button">↻ Reset questions</button><button class="danger-menu-button" id="resetAdventure" type="button">⌁ Reset adventure</button></div>
+    </aside>
+  </section>
   <div class="math-wallpaper" aria-hidden="true"></div>
   <header class="desktop-bar">
     <a class="brand" href="#practice" aria-label="International Math"><span class="brand-tile">M</span><span><strong>International Math</strong><small>Grade 3–4</small></span></a>
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
-    <button class="reset-practice-button" id="resetPracticeButton" type="button" title="Start all practice papers again"><span aria-hidden="true">↻</span> <span>Reset practice</span></button>
+    <button class="reset-practice-button" id="resetPracticeButton" type="button" title="Reset question answers"><span aria-hidden="true">↻</span> <span>Reset questions</span></button>
+    <button class="return-adventure-button" id="returnAdventureButton" type="button">🚀 Adventure</button>
     <button class="test-mode-button" id="testModeButton" type="button"><span aria-hidden="true">◎</span> Test mode</button>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
@@ -191,5 +207,6 @@
   <script src="app.js?v=20260922-1"></script>
   <script src="race.js?v=20260922-1"></script>
   <script src="tools.js?v=20260921-2"></script>
+  <script src="adventure.js?v=20260923-1"></script>
 </body>
 </html>
