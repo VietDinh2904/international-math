@@ -1350,7 +1350,8 @@ window.questionsTimoRemaining = {
         "Use the matching perimeter, area or counting rule.",
         "Answer: C. 8"
       ],
-      "image": "assets/timo/timo-p4-q19.png"
+      "image": "assets/timo/timo-p4-q19.png",
+      "crop": [495, 0, 190, 183]
     },
     {
       "n": 20,
