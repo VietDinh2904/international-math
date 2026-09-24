@@ -658,18 +658,18 @@ window.questionsTimoRemaining = {
       "skill": "Arithmetic",
       "title": "Question 9",
       "en": "Find the value of 1-2+3-4+5-6+7-8+9-10+11-12+13.\n(A) 6\n(B) 9\n(C) 8\n(D) 7",
-      "vi": "",
-      "answer": "C",
+      "vi": "Tính giá trị của 1-2+3-4+5-6+7-8+9-10+11-12+13.\n(A) 6\n(B) 9\n(C) 8\n(D) 7",
+      "answer": "D",
       "accepted": [
-        "C",
-        "8"
+        "D",
+        "7"
       ],
       "unit": "",
-      "hint": "Calculate multiplication and division before addition and subtraction.",
+      "hint": "Pair consecutive terms: (1-2), (3-4), and so on.",
       "steps": [
-        "Copy the expression carefully.",
-        "Work from the simplest multiplication or division to the final total.",
-        "Answer: C. 8"
+        "(1-2)+(3-4)+(5-6)+(7-8)+(9-10)+(11-12)+13",
+        "There are six pairs equal to -1, so the total is -6+13=7.",
+        "Answer: D. 7"
       ]
     },
     {
