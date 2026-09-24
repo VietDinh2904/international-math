@@ -1554,21 +1554,22 @@ window.questionsTimoRemaining = {
       "n": 5,
       "skill": "Logical Thinking",
       "title": "Question 5",
-      "en": "115th group?\n(A) 5\n(B) 4\n(C) 2\n(D) 1",
-      "vi": "",
+      "en": "According to the pattern shown below, how many more ⊗ symbols than → symbols are there in the 115th group?\n(A) 5\n(B) 4\n(C) 2\n(D) 1",
+      "vi": "Dựa vào quy luật trong hình dưới đây, ở nhóm thứ 115 có nhiều hơn bao nhiêu ký hiệu ⊗ so với ký hiệu →?\n(A) 5\n(B) 4\n(C) 2\n(D) 1",
       "answer": "D",
       "accepted": [
         "D",
         "1"
       ],
       "unit": "",
-      "hint": "Find the repeating cycle of the group labels, then divide 115 by the cycle length.",
+      "hint": "Compare odd-numbered and even-numbered groups. The difference between the two symbols repeats every 2 groups.",
       "steps": [
-        "Find the repeating cycle of the group labels, then divide 115 by the cycle length.",
-        "Use the remainder to locate Group 115 in the cycle. It matches 1.",
+        "In each odd-numbered group, there is 1 more ⊗ than →.",
+        "115 is odd, so the 115th group has 1 more ⊗ than →.",
         "Possible answers: A. 5; B. 4; C. 2; D. 1",
         "Answer: D. 1"
-      ]
+      ],
+      "image": "assets/timo/timo-p5-q05-pattern.svg"
     },
     {
       "n": 6,
