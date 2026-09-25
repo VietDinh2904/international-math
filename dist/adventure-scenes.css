@@ -1,0 +1,31 @@
+#adventureRoot[data-scene="map"] #adventureView > section {
+  background: linear-gradient(#020615a8, #020615e8), url("assets/adventure-backgrounds/blue-galaxy.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="earth"] #adventureView > section {
+  background: linear-gradient(#030a19a0, #030a19e5), url("assets/adventure-backgrounds/earth-orbit.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="launch"] #adventureView > section {
+  background: linear-gradient(#0206158c, #020615dc), url("assets/adventure-backgrounds/astronaut-orbit.webp") center 35% / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="moon-travel"] #adventureView > section {
+  background: linear-gradient(#0206159c, #020615e5), url("assets/adventure-backgrounds/earth-mars.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="moon-base"] #adventureView > section {
+  background: linear-gradient(#030519a5, #030519e8), url("assets/adventure-backgrounds/alien-horizon.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="boss"] #adventureView > section {
+  background: linear-gradient(#08030da8, #05030ce8), url("assets/adventure-backgrounds/meteor-belt.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="mars-travel"] #adventureView > section {
+  background: linear-gradient(#0705139c, #070513e5), url("assets/adventure-backgrounds/solar-planets.webp") center / cover fixed no-repeat;
+}
+
+#adventureRoot[data-scene="mars"] #adventureView > section {
+  background: linear-gradient(#1508059c, #100604e5), url("assets/adventure-backgrounds/mars-base.webp") center / cover fixed no-repeat;
+}
