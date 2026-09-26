@@ -168,6 +168,7 @@ window.questionsTimoRemaining = {
       "title": "Question 9",
       "en": "Let A and B represent 1-digit numbers. What is the value of A + B if the equation below is correct?\n(A) 10\n(B) 11\n(C) 12\n(D) 13",
       "vi": "Hãy để A và B đại diện cho 1 chữ số. Giá trị của A + B là gì nếu phương trình dưới đây là đúng?\n(A) 10\n(B) 11\n(C) 12\n(D) 13",
+      "image": "assets/timo/timo-p2-q09.png",
       "answer": "B",
       "accepted": [
         "B",

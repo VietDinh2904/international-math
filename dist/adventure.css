@@ -19,3 +19,33 @@ body.adventure-active{overflow:hidden;background:#05091a}.adventure-root{positio
 .cockpit-panel{background-image:linear-gradient(135deg,#07152bf2,#12173ad9),url("assets/adventure-moon-base-v1.png")}
 @media(max-width:520px){.adventure-hud{flex-wrap:wrap}.hud-bars{order:3;width:100%}.hud-stat{flex:1}.adventure-view{padding-top:0}.landing-copy{padding-top:8vh}.landing-copy h1{font-size:51px}.map-toolbar{padding-top:42px}.brief-grid{grid-template-columns:1fr}.mission-brief,.shipyard-screen,.mission-screen,.boss-screen,.reward-screen{padding:125px 10px 35px}.mission-brief-card,.shipyard-card,.mission-card,.boss-card,.reward-card{padding:18px}.boss-arena{min-height:340px}.boss-target{width:49px;height:49px}.target-head{left:calc(50% - 25px)}}
 @media(prefers-reduced-motion:reduce){.start-adventure-button,.landing-orbits i,.ship-map-token,.map-event,.enemy-ship,.laser-shot,.battle-visual:before,.battle-player-ship,.battle-enemy-ship,.battle-engine-trail,.ship-explosion,.ship-explosion:after,.ship-explosion b,.boss-impact,.boss-impact:after,.boss-impact b,.ship-build-tile.newest,.part-earned-banner,.earned-piece,.ship-launch-screen:before,.ship-launch-screen:after,.launch-stars,.completed-ship img,.launch-glow,.launch-message,.ship-launch-card .primary-space-button,.boss-intro img,.boss-intro:after,.fight-call{animation:none}}
+
+/* Boss battle: two live monitors above the question panel. */
+.boss-card{width:min(1180px,100%)}
+.boss-combat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.boss-monitor,.player-monitor{min-width:0;padding:12px;border:2px solid #6feaff70;border-radius:19px;background:#050a20;box-shadow:inset 0 0 30px #000b,0 12px 30px #0007;overflow:hidden}
+.monitor-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;color:#7fe9ff;font:900 12px/1 system-ui;letter-spacing:.12em}
+.monitor-heading strong{color:#fff;letter-spacing:.04em}
+.battle-health{height:15px;border:2px solid #fff;border-radius:999px;background:#210d1d;overflow:hidden}
+.battle-health i{display:block;height:100%;width:var(--hp);transition:width .35s}
+.boss-battle-health i{background:linear-gradient(90deg,#ffca43,#ff365e)}
+.player-battle-health{background:#071f2f}.player-battle-health i{background:linear-gradient(90deg,#6effba,#4ddcff)}
+.boss-combat-grid .boss-arena{min-height:330px;margin-top:10px}
+.boss-combat-grid .boss-arena>img{height:63%;max-width:70%;object-fit:contain}
+.cockpit-visual{position:relative;min-height:330px;margin-top:10px;overflow:hidden;border:1px solid #ffffff52;border-radius:18px;background:#020619}
+.cockpit-visual>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.damage-readout{position:absolute;z-index:2;right:12px;top:12px;padding:7px 10px;border:1px solid #ff9aa4;border-radius:8px;background:#4b0c22dd;color:#fff;font:900 12px/1 system-ui;letter-spacing:.08em}
+.boss-question-panel{margin-top:22px;padding:24px;border:2px solid #ffffff50;border-radius:20px;background:#090f2bd9}
+.boss-question-panel h2{margin-top:0}
+.boss-combat-grid .target-head{left:calc(50% - 31px);top:24%}
+.boss-combat-grid .target-left-arm{left:27%;top:48%}.boss-combat-grid .target-right-arm{right:27%;top:48%}
+.boss-combat-grid .target-left-leg{left:39%;bottom:9%}.boss-combat-grid .target-right-leg{right:39%;bottom:9%}
+.counterattack-overlay.minor{background:transparent;animation:none}
+.counterattack-overlay.minor:before,.counterattack-overlay.minor:after{display:none}
+.counterattack-overlay.minor .enemy-laser{height:7px;box-shadow:0 0 7px #fff,0 0 18px #ff153c;animation-duration:.28s}
+.counterattack-overlay.minor strong{top:18%;padding:10px 18px;border:2px solid #ff9aa4;border-radius:12px;background:#531127d9;font-size:clamp(28px,5vw,58px);animation:minor-damage .65s ease-out both}
+.boss-screen.counterattacked.minor-hit .boss-card{animation:cockpit-shake-light .55s linear both}
+.boss-screen.counterattacked.critical-hit .boss-card{animation:cockpit-shake .75s linear both}
+@keyframes cockpit-shake-light{0%,100%{transform:none}18%{transform:translate(-5px,2px)}38%{transform:translate(5px,-2px)}58%{transform:translate(-3px,1px)}78%{transform:translate(2px,-1px)}}
+@keyframes minor-damage{0%{opacity:0;transform:scale(.7)}28%,72%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}
+@media(max-width:820px){.boss-combat-grid{grid-template-columns:1fr}.boss-combat-grid .boss-arena,.cockpit-visual{min-height:300px}}
