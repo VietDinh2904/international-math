@@ -121,6 +121,44 @@ function persist(q,patch){saved[key(q)]={...record(q),...patch};localStorage.set
 function isFlagged(q){return Boolean(reviewFlags[key(q)])}
 function setFlag(q,flagged){if(flagged)reviewFlags[key(q)]=true;else delete reviewFlags[key(q)];localStorage.setItem("international-math-review-flags-v1",JSON.stringify(reviewFlags))}
 function normalize(v){return v.trim().toLowerCase().replace(/\s+/g,"").replace(",",".")}
+function questionChoices(text){
+  const source=String(text||"");
+  for(const pattern of [/\(([A-E])\)\s*/g,/\(([1-5])\)\s*/g]){
+    const matches=[...source.matchAll(pattern)];
+    if(matches.length<2)continue;
+    return matches.map((match,index)=>({label:match[1].toUpperCase(),index:index+1,text:source.slice(match.index+match[0].length,index+1<matches.length?matches[index+1].index:source.length).trim()}));
+  }
+  return [];
+}
+function acceptedAnswers(q){
+  const values=[q.answer,...(q.accepted||[])].filter(value=>value!==undefined&&value!==null),choices=questionChoices(q.en);
+  if(!choices.length)return values;
+  const normalized=values.map(value=>normalize(String(value))),explicit=normalized.find(value=>/^option(?:[a-e]|[1-5])$/.test(value)),letter=normalized.find(value=>/^[a-e]$/.test(value));
+  let correctIndex=-1;
+  if(explicit){const token=explicit.replace("option","");correctIndex=/^[a-e]$/.test(token)?token.charCodeAt(0)-97:Number(token)-1}
+  else if(letter)correctIndex=letter.charCodeAt(0)-97;
+  else correctIndex=choices.findIndex(choice=>normalized.includes(normalize(choice.text.replace(/[.;,]+$/,""))));
+  if(correctIndex<0&&q.unit==="option"&&/^[1-5]$/.test(normalize(String(q.answer))))correctIndex=Number(q.answer)-1;
+  if(correctIndex>=0&&correctIndex<choices.length){const choice=choices[correctIndex],content=choice.text.replace(/[.;,]+$/,""),letterValue=String.fromCharCode(65+correctIndex),numberValue=String(correctIndex+1);values.push(letterValue,letterValue.toLowerCase(),numberValue,`option${letterValue}`,`option${numberValue}`);if(!/^see\s+(?:the\s+)?(?:figure|picture|diagram)/i.test(content))values.push(content)}
+  return [...new Set(values.map(String))];
+}
+window.acceptedAnswers=acceptedAnswers;
+function cleanFigureWatermark(context,w,h){
+  const image=context.getImageData(0,0,w,h),pixels=image.data;
+  for(let i=0;i<pixels.length;i+=4){const r=pixels[i],g=pixels[i+1],b=pixels[i+2],average=(r+g+b)/3,spread=Math.max(r,g,b)-Math.min(r,g,b);if(average>145&&spread>42) pixels[i]=pixels[i+1]=pixels[i+2]=255}
+  context.putImageData(image,0,0);
+}
+function tightFigureCrop(context,w,h){
+  const pixels=context.getImageData(0,0,w,h).data;let left=w,top=h,right=-1,bottom=-1;
+  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const i=(y*w+x)*4;if(pixels[i]<247||pixels[i+1]<247||pixels[i+2]<247){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}}
+  if(right<left||bottom<top)return[0,0,w,h];const padding=Math.max(10,Math.round(Math.min(w,h)*.025));left=Math.max(0,left-padding);top=Math.max(0,top-padding);right=Math.min(w-1,right+padding);bottom=Math.min(h-1,bottom+padding);return[left,top,right-left+1,bottom-top+1];
+}
+function prepareQuestionImageElement(q,image,done){
+  if(!q?.image||!image)return;const request=`${q.image}|${JSON.stringify(q.crop||[])}`;image.dataset.figureRequest=request;const source=new Image();
+  source.onload=()=>{if(image.dataset.figureRequest!==request)return;const scan=document.createElement("canvas"),scanContext=scan.getContext("2d",{willReadFrequently:true});scan.width=source.naturalWidth;scan.height=source.naturalHeight;scanContext.fillStyle="#fff";scanContext.fillRect(0,0,scan.width,scan.height);scanContext.drawImage(source,0,0);if(/assets\/timo\//.test(q.image))cleanFigureWatermark(scanContext,scan.width,scan.height);const [x,y,w,h]=q.crop||tightFigureCrop(scanContext,scan.width,scan.height),canvas=document.createElement("canvas"),context=canvas.getContext("2d");canvas.width=w;canvas.height=h;context.fillStyle="#fff";context.fillRect(0,0,w,h);context.drawImage(scan,x,y,w,h,0,0,w,h);const src=canvas.toDataURL("image/png");image.src=src;image.style.opacity="1";if(done)done(src)};
+  source.onerror=()=>{if(image.dataset.figureRequest!==request)return;image.src=q.image;image.style.opacity="1";if(done)done(q.image)};image.style.opacity="0";source.src=`${q.image}${q.image.includes("?")?"&":"?"}v=20260926-4`;
+}
+window.prepareQuestionImageElement=prepareQuestionImageElement;
 function formatQuestion(text){
   const visualChoicePattern=/\s*\(([A-E])\)\s*See\s+(?:the\s+)?(?:figure|figures|picture|pictures|diagram|diagrams)\s*/gi;
   const visualChoices=[...text.matchAll(new RegExp(visualChoicePattern.source,"gi"))];
@@ -166,14 +204,14 @@ function render(){
   const list=papers[currentYear],q=list[currentIndex],state=record(q);
   els.sourceLabel.textContent=`${paperNames[currentYear]} · Question ${q.n}`;els.skillLabel.textContent=q.skill;els.progressText.textContent=`${q.n} / ${list.length}`;els.progressBar.style.width=`${q.n/list.length*100}%`;
   const translated=q.vi||translationCache[key(q)]||"";els.questionNumber.textContent=q.n;els.questionTitle.textContent=q.title;els.questionEnglish.textContent=formatQuestion(q.en);els.questionVietnamese.textContent=translated;els.questionVietnamese.classList.toggle("hidden",!translationOpen);els.translateButton.textContent=translationOpen?"Hide translation":"Translate";els.translateButton.disabled=false;
-  els.answerUnit.textContent=q.unit||"";els.answerInput.value=state.answer||"";els.answerInput.inputMode=/^[A-E]$/.test(q.answer)?"text":"decimal";els.answerInput.placeholder=/^[A-E]$/.test(q.answer)?"A, B, C, D or E":"";els.answerInput.disabled=!q.ready;$("checkButton").disabled=!q.ready;$("hintButton").disabled=!q.ready;$("solutionButton").disabled=!q.ready;els.feedback.textContent=state.checked?(state.correct?"Correct!":"Not quite. Try again or use the hint."):"";els.feedback.className=`feedback${state.checked?(state.correct?" good":" bad"):""}`;
+  const choices=questionChoices(q.en);els.answerUnit.textContent=q.unit||"";els.answerInput.value=state.answer||"";els.answerInput.inputMode=choices.length?"text":/^[A-E]$/.test(q.answer)?"text":"decimal";els.answerInput.placeholder=choices.length?`A-${String.fromCharCode(64+choices.length)}, 1-${choices.length}, or answer value`:/^[A-E]$/.test(q.answer)?"A, B, C, D or E":"";els.answerInput.disabled=!q.ready;$("checkButton").disabled=!q.ready;$("hintButton").disabled=!q.ready;$("solutionButton").disabled=!q.ready;els.feedback.textContent=state.checked?(state.correct?"Correct!":"Not quite. Try again or use the hint."):"";els.feedback.className=`feedback${state.checked?(state.correct?" good":" bad"):""}`;
   $("flagQuestionButton").classList.toggle("flagged",isFlagged(q));$("flagQuestionButton").setAttribute("aria-pressed",isFlagged(q)?"true":"false");$("flagQuestionButton").textContent=isFlagged(q)?"⚑ Flagged for review":"⚑ Flag question";
   els.hintBox.classList.add("hidden");els.solutionSheet.classList.add("hidden");$("solutionButton").textContent="Show solution";els.hintText.textContent=q.hint||"";els.studentWork.innerHTML=(q.steps||[]).map(s=>`<p>${s}</p>`).join("");els.finalAnswer.textContent=q.ready?`${q.answer}${q.unit?" "+q.unit:""}`:"";
-  if(q.image){els.questionImage.src=q.image;els.questionImage.alt=`Diagram for question ${q.n}`;els.sourceFigure.classList.remove("hidden");els.sourceFigure.tabIndex=0;els.sourceFigure.setAttribute("role","button");els.sourceFigure.setAttribute("aria-label",`Enlarge diagram for question ${q.n}`)}else{els.sourceFigure.classList.add("hidden");els.sourceFigure.removeAttribute("tabindex");els.sourceFigure.removeAttribute("role");els.sourceFigure.removeAttribute("aria-label");els.questionImage.removeAttribute("src")}
+  if(q.image){els.questionImage.alt=`Diagram for question ${q.n}`;prepareQuestionImageElement(q,els.questionImage);els.sourceFigure.classList.remove("hidden");els.sourceFigure.tabIndex=0;els.sourceFigure.setAttribute("role","button");els.sourceFigure.setAttribute("aria-label",`Enlarge diagram for question ${q.n}`)}else{els.sourceFigure.classList.add("hidden");els.sourceFigure.removeAttribute("tabindex");els.sourceFigure.removeAttribute("role");els.sourceFigure.removeAttribute("aria-label");els.questionImage.removeAttribute("src");delete els.questionImage.dataset.figureRequest}
   els.prevButton.disabled=currentIndex===0;els.nextButton.textContent=currentIndex===list.length-1?"Back to Question 1 ↺":"Next →";renderMap();window.raceExperience?.render(currentYear,currentIndex);
 }
 function checkAnswer(){
-  const q=papers[currentYear][currentIndex];if(!q.ready)return;const value=normalize(els.answerInput.value),accepted=(q.accepted||[q.answer]).map(normalize);
+  const q=papers[currentYear][currentIndex];if(!q.ready)return;const value=normalize(els.answerInput.value),accepted=acceptedAnswers(q).map(normalize);
   if(!value){els.feedback.textContent="Please enter an answer first.";els.feedback.className="feedback bad";return}
   const correct=accepted.includes(value);persist(q,{answer:els.answerInput.value,checked:true,correct});els.feedback.textContent=correct?"Correct! Great work.":"Not quite. Try again or use the hint.";els.feedback.className=`feedback ${correct?"good":"bad"}`;renderMap();window.raceExperience?.handleAnswer({paperId:currentYear,question:q,correct});
 }
@@ -218,7 +256,7 @@ function renderTestPaper(){
     const state=record(q),card=document.createElement("article");card.className="test-question";card.id=`test-question-${q.n}`;
     const heading=document.createElement("div"),number=document.createElement("span"),title=document.createElement("h2"),flag=document.createElement("button");heading.className="test-question-heading";number.className="test-question-number";number.textContent=q.n;title.textContent=`Question ${q.n}`;flag.type="button";flag.className=`test-flag-button${isFlagged(q)?" flagged":""}`;flag.textContent=isFlagged(q)?"⚑ Flagged":"⚑ Flag";flag.setAttribute("aria-pressed",isFlagged(q)?"true":"false");flag.onclick=()=>{setFlag(q,!isFlagged(q));flag.classList.toggle("flagged",isFlagged(q));flag.textContent=isFlagged(q)?"⚑ Flagged":"⚑ Flag";flag.setAttribute("aria-pressed",isFlagged(q)?"true":"false");renderTestMap()};heading.append(number,title,flag);card.appendChild(heading);
     const question=document.createElement("p");question.className="test-question-text";question.textContent=formatQuestion(q.en);card.appendChild(question);
-    if(q.image){const image=document.createElement("img");image.className="test-question-image";image.src=q.image;image.alt=`Diagram for question ${q.n}`;card.appendChild(image)}
+    if(q.image){const image=document.createElement("img");image.className="test-question-image";image.alt=`Diagram for question ${q.n}`;card.appendChild(image);prepareQuestionImageElement(q,image)}
     const answer=document.createElement("div");answer.className="test-answer";const label=document.createElement("strong");label.textContent="Answer:";answer.appendChild(label);const letters=testOptionLetters(q);
     if(/^[A-E]$/.test(q.answer)&&letters.length){const choices=document.createElement("div");choices.className="test-choices";letters.forEach(letter=>{const choice=document.createElement("label"),input=document.createElement("input");choice.className="test-choice";input.type="radio";input.name=`test-answer-${currentYear}-${q.n}`;input.value=letter;input.checked=normalize(state.answer||"")===letter.toLowerCase();input.disabled=!q.ready;input.onchange=()=>{persist(q,{answer:letter,checked:false,correct:false});renderTestMap()};choice.append(input,document.createTextNode(letter));choices.appendChild(choice)});answer.appendChild(choices)}
     else{const input=document.createElement("input");input.className="test-text-answer";input.type="text";input.value=state.answer||"";input.disabled=!q.ready;input.placeholder=q.ready?"Type your answer":"Digitisation in progress";input.oninput=()=>{persist(q,{answer:input.value,checked:false,correct:false});renderTestMap()};answer.appendChild(input)}
@@ -236,7 +274,7 @@ function restartTest(){
 }
 function submitTest(){
   const list=papers[currentYear];let correct=0,gradable=0;testSubmitted=true;
-  list.forEach(q=>{if(!q.ready)return;gradable++;const state=record(q),accepted=(q.accepted||[q.answer]).map(normalize),isCorrect=accepted.includes(normalize(state.answer||""));if(isCorrect)correct++;persist(q,{answer:state.answer||"",checked:true,correct:isCorrect});const card=document.getElementById(`test-question-${q.n}`),result=card?.querySelector(`[data-result-for="${q.n}"]`);if(card){card.classList.toggle("correct",isCorrect);card.classList.toggle("wrong",!isCorrect)}if(result){result.textContent=isCorrect?"Correct ✓":`Correct answer: ${q.answer}${q.unit?` ${q.unit}`:""}`;result.className=`test-result ${isCorrect?"good":"bad"}`}});
+  list.forEach(q=>{if(!q.ready)return;gradable++;const state=record(q),accepted=acceptedAnswers(q).map(normalize),isCorrect=accepted.includes(normalize(state.answer||""));if(isCorrect)correct++;persist(q,{answer:state.answer||"",checked:true,correct:isCorrect});const card=document.getElementById(`test-question-${q.n}`),result=card?.querySelector(`[data-result-for="${q.n}"]`);if(card){card.classList.toggle("correct",isCorrect);card.classList.toggle("wrong",!isCorrect)}if(result){result.textContent=isCorrect?"Correct ✓":`Correct answer: ${q.answer}${q.unit?` ${q.unit}`:""}`;result.className=`test-result ${isCorrect?"good":"bad"}`}});
   $("testScore").textContent=`Score: ${correct} / ${gradable}`;renderTestMap();$("testMode").scrollTo({top:0,behavior:"smooth"});
 }
 $("testModeButton").onclick=startTestMode;$("restartTestButton").onclick=restartTest;$("exitTestButton").onclick=exitTestMode;$("submitTestButton").onclick=submitTest;document.addEventListener("keydown",event=>{if(event.key==="Escape"&&testActive&&$("imageLightbox").hidden)exitTestMode()});
