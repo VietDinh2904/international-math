@@ -4,6 +4,22 @@ Status: **Idea bank only — do not implement until the owner explicitly starts 
 
 Last updated: 2026-09-29
 
+## Confirmed owner decisions
+
+- The cockpit uses a third-person room view so the player can see both the animal pilot and the interactive room.
+- The penguin and seal differ visually only. Neither character has a gameplay advantage.
+- Players may switch character, but changing pilot costs one Knowledge Gem.
+- Earth Research and Rescue Friends are equal choices. The student chooses freely according to what they want to learn or play.
+- Plants continue growing while the browser is closed by using real timestamps.
+- Plants never die because the student returns late. Their progress pauses safely until the next care action.
+- Science answers do not directly award soil or water. Soil and water will come from another learning route, potentially Geography.
+- New players begin with three active flower pots.
+- One complete Knowledge Gem requires five fragments.
+- Gem colors are random and are revealed when the gem is assembled.
+- Each color belongs to a recognizable family of uses rather than having completely random powers.
+- Players may switch weapons during a battle.
+- Robot enemies will therefore need simple elemental attributes and readable weakness indicators.
+
 ## Core design principle
 
 The game must feel simple even when the underlying systems are deep:
@@ -73,6 +89,28 @@ Knowledge Gems are assembled from fragments rather than received as finished cry
 - Power a weapon upgrade.
 - Decode a star map.
 - Unlock a Zodiac constellation map.
+
+### Recommended first-version Gem economy
+
+Keep the first version limited to four colors. A complete Gem is consumed when used unless the reward explicitly says it is permanent.
+
+| Gem family | Main use | Example |
+| --- | --- | --- |
+| Blue | Growth and analysis | Advance one Garden stage early or analyze an unknown seed |
+| Red | Combat and energy | Charge a weapon skill or assemble a weapon part bonus |
+| Green | Exploration and discovery | Reveal a hidden object, resource location, or research clue |
+| Purple | Navigation and cosmic knowledge | Reveal one Zodiac clue or unlock part of a star map |
+
+Character switching can accept **any one complete Gem**. This makes changing avatars possible without adding another currency, but still makes the decision meaningful.
+
+Recommended rules:
+
+- Ordinary actions never need Gems.
+- Gems accelerate progress, reveal secrets, or unlock optional content.
+- Gems should not be required to continue the main learning path.
+- Before spending a Gem, always show the exact result and require one clear confirmation click.
+- The chest displays both loose fragments and complete Gems.
+- A newly assembled color receives a short hologram explanation before it enters the chest.
 
 Star maps should form collectible sets based on the Zodiac constellations. They can reveal lore, destinations, puzzles, or future wormhole routes.
 
@@ -146,6 +184,20 @@ Clicking any chest item opens a large inspection view with:
 
 The inspection view should feel like a holographic display projected from the chest.
 
+### Recommended robot attribute system
+
+Use only three robot armor attributes in the first version so weapon switching remains easy to understand:
+
+| Robot attribute | Visual signal | Weak weapon |
+| --- | --- | --- |
+| Energy Shield | Blue glowing shield | Plasma gun |
+| Overheated Armor | Red/orange vents and heat | Ice gun |
+| Frozen Armor | Frost and pale-blue ice shell | Flame gun |
+
+The battle screen should always show a small weakness symbol above the robot. Students may switch weapons during battle with one click. Choosing the matching weapon improves damage or grants a visible bonus, but choosing another weapon still works so the student is never completely blocked.
+
+Bosses can change attribute between phases. Regular robots should use only one attribute per battle.
+
 ## Simplicity rules
 
 - Maximum one click from the cockpit to Earth Research, Rescue Friends, Garden, Chest, Lab, or Vocabulary Journal.
@@ -175,38 +227,37 @@ The inspection view should feel like a holographic display projected from the ch
 
 ### Cockpit and characters
 
-1. Is the chosen penguin or seal only a visual avatar, or does each have a different ability?
-2. Can students switch characters freely, or only from the Living Room/wardrobe?
-3. Should the cockpit be shown from first-person view, third-person room view, or a mixture where the animal pilot is visible at a control desk?
+1. ~~Is the chosen penguin or seal only a visual avatar, or does each have a different ability?~~ Confirmed: visual difference only.
+2. Where is the character changed: directly in the cockpit, or later inside the Living Room/wardrobe?
+3. ~~Should the cockpit be shown from first-person view, third-person room view, or a mixture where the animal pilot is visible at a control desk?~~ Confirmed: third-person room view.
 4. Should the cockpit look cute and colorful, realistic sci-fi, or realistic sci-fi with chibi characters?
 
 ### Garden
 
-5. Does one correct science answer award one random resource, or a fixed package of water + soil progress?
-6. Should plants continue growing while the browser is closed using real timestamps?
+5. ~~Does one correct science answer award one random resource, or a fixed package of water + soil progress?~~ Confirmed: soil and water come from another route, potentially Geography.
+6. ~~Should plants continue growing while the browser is closed using real timestamps?~~ Confirmed: yes.
 7. Is the one-to-two-day wait per stage fixed, randomized, or different by plant species?
-8. What happens if a plant is not watered on time: pause safely, wilt temporarily, or die?
+8. ~~What happens if a plant is not watered on time: pause safely, wilt temporarily, or die?~~ Confirmed: pause safely.
 9. Should harvested fruit and seeds be consumed when used, or remain permanently in the collection?
-10. How many active pots should a new player have at the beginning?
+10. ~~How many active pots should a new player have at the beginning?~~ Confirmed: three.
 
 ### Gems and Zodiac maps
 
 11. How many gem colors should exist in the first version?
 12. Are gem properties fixed by color, randomized within each color, or shown only after assembly?
-13. How many fragments make one complete Knowledge Gem?
+13. ~~How many fragments make one complete Knowledge Gem?~~ Confirmed: five.
 14. Should assembling the wrong colors be impossible, create a random gem, or create a weaker mixed gem?
 15. Does one Zodiac map require gems, constellation fragments, or both?
 
 ### Weapons and battle
 
-16. Do plasma, flame, and ice weapons have strengths against different enemy types?
-17. Does the player choose one equipped weapon before a mission, or switch weapons during battle?
+16. ~~Do plasma, flame, and ice weapons have strengths against different enemy types?~~ Confirmed: yes; robots receive a simple readable attribute.
+17. ~~Does the player choose one equipped weapon before a mission, or switch weapons during battle?~~ Confirmed: switch during battle.
 18. Are weapon fragments awarded by mission type, planet, random drop, or boss?
 19. Can a completed weapon be upgraded with extra fragments?
 
 ### Progress and onboarding
 
-20. Which system should the first-time tutorial introduce first: the rescue route or Earth Research?
-21. Should existing progress be migrated into the new cockpit automatically?
+20. ~~Which system should the first-time tutorial introduce first: the rescue route or Earth Research?~~ Confirmed: let the student choose freely.
+21. Should existing progress be migrated into the new cockpit automatically? Migration means converting the student's current saved progress—completed missions, ship parts, rescued friends, science days, crystals, inventory, and marked vocabulary—into the new cockpit system instead of making them start over.
 22. Which three cockpit objects must be visually active on the very first visit, and which should start locked?
-
