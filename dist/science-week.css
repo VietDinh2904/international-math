@@ -10,3 +10,5 @@
 @media(max-width:900px){.earth-hub-planet{opacity:.38;width:65vw}.earth-path-grid{grid-template-columns:1fr}.earth-path-card{min-height:0}.storage-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:560px){.earth-hub-screen,.storage-screen{padding:130px 10px 30px}.earth-hub-heading h1{font-size:48px}.storage-heading{align-items:flex-start;flex-wrap:wrap}.storage-heading>div{order:3;flex-basis:100%}.storage-count{margin-left:auto}.storage-grid{grid-template-columns:repeat(2,1fr)}.fusion-coming{align-items:flex-start}.fusion-coming>span{font-size:46px}}
 @media(prefers-reduced-motion:reduce){.earth-hub-planet>span{animation:none}}
+.research-hero{background:linear-gradient(90deg,#071720e6,#07172066),url("assets/science-earth-lab-thumb-v2.png") center/cover}
+.science-search-scene.seed-search>button{left:83%;top:75%;bottom:auto}
