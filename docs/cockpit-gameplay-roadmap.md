@@ -19,6 +19,11 @@ Last updated: 2026-09-29
 - Each color belongs to a recognizable family of uses rather than having completely random powers.
 - Players may switch weapons during a battle.
 - Robot enemies will therefore need simple elemental attributes and readable weakness indicators.
+- All existing local progress must be migrated automatically into the cockpit system.
+- Character switching is available directly in the cockpit.
+- The cockpit uses a realistic science-fiction environment combined with chibi animal pilots.
+- Switching character costs one complete Knowledge Gem.
+- Weapon fragment families are primarily assigned by planet; additional fragment outcomes may depend on the robot type defeated.
 
 ## Core design principle
 
@@ -210,6 +215,94 @@ Bosses can change attribute between phases. Regular robots should use only one a
 - Locked content remains visible but clearly labeled with its unlock condition.
 - Rewards always fly visibly into the correct physical location: chest, lab, weapon rack, or garden shelf.
 
+## Knowledge-check mini-game framework
+
+Mini-games should reuse the same lesson and question data. They are presentation modes, not separate curricula. A student chooses one activity from a large cockpit screen and begins immediately.
+
+### Recommended core mini-games
+
+#### 1. Starfighter Race
+
+The player's small aircraft races two or three rivals through a short course.
+
+- A correct answer activates boost and moves the aircraft forward.
+- A wrong answer slows the aircraft briefly but allows another attempt.
+- Three consecutive correct answers trigger a visible super boost.
+- Best for rapid vocabulary recognition, arithmetic, and short multiple-choice review.
+- Typical length: five questions and two to four minutes.
+
+#### 2. Planet Relay Run
+
+The chosen chibi animal runs across terrain connected to the current lesson.
+
+- Correct answers clear obstacles, build bridges, or provide stamina.
+- Questions can ask students to choose the correct observation, sequence, label, or cause-and-effect relationship.
+- Wrong answers show a short clue and let the student retry.
+- Best for science and geography because the background can match wetlands, gardens, deserts, ice, or planets.
+
+#### 3. Spaceship Assembly Puzzle
+
+Students reconstruct a spaceship, laboratory instrument, plant lifecycle, robot, or constellation from pieces.
+
+- Each correct answer unlocks one puzzle piece.
+- The student drags or taps the piece into place.
+- When the object is complete, it animates and becomes a collectible blueprint or ship model.
+- Best for review at the end of one week because it produces a meaningful permanent reward.
+
+#### 4. Hologram Evidence Sort
+
+Students sort illustrated evidence cards into two or three holographic zones.
+
+- Examples: habitat/non-habitat, pollination/seed dispersal, solid/liquid/gas, renewable/non-renewable.
+- A correct placement makes the card lock into the hologram.
+- An incorrect placement gently returns the card and shows one clue.
+- Best for concept classification and comparing similar scientific terms.
+
+#### 5. Sequence Reactor
+
+Students arrange stages in the correct order to power a spaceship system.
+
+- Examples: seed to fruit, flower to pollination, animal lifecycle, water cycle, scientific method, mission chronology.
+- Each completed sequence charges the reactor or opens a route.
+- Best for process knowledge that ordinary multiple choice does not test well.
+
+#### 6. Constellation Connect
+
+Students answer questions to reveal stars, then connect them into a Zodiac constellation.
+
+- Every correct answer reveals one star or one connecting line.
+- Completing the shape unlocks its star-map page and a short story.
+- Knowledge Gems may reveal one optional hidden star, but are not required.
+- Best for weekly mastery rewards and the Zodiac collection system.
+
+#### 7. Garden Diagnosis
+
+Students inspect a plant with a visible problem and select the best evidence or care action.
+
+- Problems can include too little water, unsuitable soil, insufficient light, pollination failure, or seed dispersal questions.
+- Correct diagnosis restores the plant and provides a seed or research observation.
+- Wrong choices never kill the plant.
+- Best for applying science knowledge rather than recalling a definition.
+
+### Recommended rollout
+
+Start with only three modes:
+
+1. **Starfighter Race** for fast review.
+2. **Spaceship Assembly Puzzle** for weekly completion.
+3. **Hologram Evidence Sort** for science concepts.
+
+Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagnosis after the cockpit and Garden loops are stable.
+
+### Shared reward rules
+
+- A mini-game is launched from a visible cockpit console, not a hidden menu.
+- Students choose their preferred mini-game when more than one supports the current lesson.
+- Completing a game awards normal progress plus a small resource or fragment.
+- Different mini-games must not provide unequal academic advantages.
+- Replaying changes question order, rival position, route, or puzzle layout.
+- Mini-games should take two to five minutes and require no more than one short tutorial.
+
 ## Proposed build order when development starts
 
 1. Cockpit home screen and the two chibi pilot choices.
@@ -228,9 +321,9 @@ Bosses can change attribute between phases. Regular robots should use only one a
 ### Cockpit and characters
 
 1. ~~Is the chosen penguin or seal only a visual avatar, or does each have a different ability?~~ Confirmed: visual difference only.
-2. Where is the character changed: directly in the cockpit, or later inside the Living Room/wardrobe?
+2. ~~Where is the character changed: directly in the cockpit, or later inside the Living Room/wardrobe?~~ Confirmed: directly in the cockpit.
 3. ~~Should the cockpit be shown from first-person view, third-person room view, or a mixture where the animal pilot is visible at a control desk?~~ Confirmed: third-person room view.
-4. Should the cockpit look cute and colorful, realistic sci-fi, or realistic sci-fi with chibi characters?
+4. ~~Should the cockpit look cute and colorful, realistic sci-fi, or realistic sci-fi with chibi characters?~~ Confirmed: realistic sci-fi with chibi characters.
 
 ### Garden
 
@@ -253,11 +346,11 @@ Bosses can change attribute between phases. Regular robots should use only one a
 
 16. ~~Do plasma, flame, and ice weapons have strengths against different enemy types?~~ Confirmed: yes; robots receive a simple readable attribute.
 17. ~~Does the player choose one equipped weapon before a mission, or switch weapons during battle?~~ Confirmed: switch during battle.
-18. Are weapon fragments awarded by mission type, planet, random drop, or boss?
+18. ~~Are weapon fragments awarded by mission type, planet, random drop, or boss?~~ Confirmed: primarily by planet; additional outcomes may depend on robot type.
 19. Can a completed weapon be upgraded with extra fragments?
 
 ### Progress and onboarding
 
 20. ~~Which system should the first-time tutorial introduce first: the rescue route or Earth Research?~~ Confirmed: let the student choose freely.
-21. Should existing progress be migrated into the new cockpit automatically? Migration means converting the student's current saved progress—completed missions, ship parts, rescued friends, science days, crystals, inventory, and marked vocabulary—into the new cockpit system instead of making them start over.
+21. ~~Should existing progress be migrated into the new cockpit automatically?~~ Confirmed: preserve and migrate all existing local progress.
 22. Which three cockpit objects must be visually active on the very first visit, and which should start locked?
