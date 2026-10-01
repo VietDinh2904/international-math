@@ -15,3 +15,4 @@
 .science-week-selector{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
 .science-week-card{grid-template-columns:minmax(210px,.92fr) 1.08fr}
 .science-search-scene.bee-search>button{left:84%;top:34%;bottom:auto}
+.science-search-scene.winter-search>button{left:7%;top:79%;bottom:auto}
