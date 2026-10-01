@@ -12,3 +12,6 @@
 @media(prefers-reduced-motion:reduce){.earth-hub-planet>span{animation:none}}
 .research-hero{background:linear-gradient(90deg,#071720e6,#07172066),url("assets/science-earth-lab-thumb-v2.png") center/cover}
 .science-search-scene.seed-search>button{left:83%;top:75%;bottom:auto}
+.science-week-selector{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.science-week-card{grid-template-columns:minmax(210px,.92fr) 1.08fr}
+.science-search-scene.bee-search>button{left:84%;top:34%;bottom:auto}
