@@ -170,11 +170,13 @@ The Aquarium is a visible, interactive feature inside the **Living Room**. It is
 1. Enter the Living Room and click the aquarium directly.
 2. Choose a short Biology puzzle set.
 3. Answer three to five questions.
-4. Earn **Aqua Tokens** for correct answers and completion.
-5. Spend Aqua Tokens on fish, aquatic plants, tank equipment, decorations, or tank upgrades.
+4. Earn the game's shared soft currency for correct answers and completion.
+5. Spend that currency on fish, aquatic plants, tank equipment, decorations, or tank upgrades.
 6. Improve the habitat and unlock new observations, species profiles, and Biology cards.
 
-Aqua Tokens are a separate soft currency earned from Biology activities. In the first version they should not be purchasable with real money, exchangeable for Knowledge Gems, or required outside the Aquarium. This keeps the economy easy to understand.
+The Aquarium should use the same ordinary currency as the other learning games instead of introducing Aqua Tokens. The currency's final name is still undecided. Knowledge Gems remain rare collectible and unlocking materials rather than everyday money. In the first version, the shared currency should not be purchasable with real money.
+
+Biology progress controls access while the shared currency pays for the item. A player must first answer the required Biology questions or complete the relevant discovery set to unlock a species, animal category, tank feature, or equipment tier. Once unlocked, it can be purchased with the shared currency. This prevents a student from bypassing Biology simply by saving currency in another game.
 
 ### Biology content
 
@@ -193,13 +195,15 @@ Clicking a fish opens a large holographic Biology profile showing its common nam
 
 ### Tank progression
 
-Recommended first-version progression:
+Confirmed progression begins with freshwater habitats:
 
 1. Starter freshwater tank.
 2. Larger freshwater ecosystem.
 3. Planted freshwater aquarium with more compatible species.
 
-Marine and reef tanks can be added later as a separate advanced collection. Tank upgrades may include tank size, filter, light, heater, aerator, feeding tools, substrate, plants, and hiding places. Decorations can be attractive while also teaching habitat functions such as shelter, territory, or plant cover.
+After the pilot, the player can own multiple tanks. Each later tank can support a different habitat, collection, or scientific challenge. Marine and reef tanks can be added as advanced collections only after the freshwater system is stable. Tank upgrades may include tank size, filter, light, heater, aerator, feeding tools, substrate, plants, and hiding places.
+
+Decorations are functional as well as visual. For example, plants may improve cover and oxygen balance, caves may provide shelter, substrate may support certain animals or plants, and equipment may improve water conditions. Every effect must be visible and explained before purchase; avoid hidden statistics.
 
 Species combinations must remain scientifically plausible. The game should not reward placing incompatible fish together simply because they look attractive.
 
@@ -209,7 +213,7 @@ Species combinations must remain scientifically plausible. The game should not r
 - If care is overdue, growth and bonus rewards pause safely until the player returns.
 - Care actions use real timestamps but should not demand frequent check-ins.
 - The Aquarium clearly explains what each fish needs before it is acquired.
-- Biology questions, not repetitive tapping or waiting, are the main source of Aqua Tokens.
+- Biology questions, not repetitive tapping or waiting, are the main way to unlock aquarium content.
 - Replayed puzzle sets randomize question and answer order to reduce memorization.
 
 ### Visual and interaction direction
@@ -221,7 +225,7 @@ Species combinations must remain scientifically plausible. The game should not r
 - Upgrades visibly change the tank rather than only increasing a number.
 - The interface should retain the cockpit rule: visible objects, large targets, and no nested menus unless essential.
 
-Recommended pilot scope: one freshwater tank, three upgrade levels, approximately six compatible aquatic species, and a small set of functional decorations. Include fish plus optional aquarium invertebrates only after their Biology role is explained.
+Recommended pilot scope: one freshwater tank, three upgrade levels, approximately six compatible aquatic species, and a small set of functional decorations. The system may eventually contain many fish and other aquatic animals, but each species or category must be unlocked by answering Biology questions. Include aquarium invertebrates only after their Biology role and care needs are explained.
 
 ## Weapon collection system
 
@@ -420,9 +424,11 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 
 ### Biology Aquarium
 
-23. Should the first release contain only freshwater habitats, or include a marine tank immediately? Recommended: freshwater only.
-24. Should the player upgrade one permanent aquarium or eventually own several tanks? Recommended: one tank with three visible upgrade levels for the pilot.
+23. ~~Should the first release contain only freshwater habitats, or include a marine tank immediately?~~ Confirmed: freshwater first.
+24. ~~Should the player upgrade one permanent aquarium or eventually own several tanks?~~ Confirmed: begin with one tank and allow ownership of multiple tanks later.
 25. Confirm that fish never die and that missed care only pauses growth and bonuses.
-26. Should decorations be cosmetic only, or should some provide clear habitat benefits such as shelter and plant cover? Recommended: use both, with every functional effect stated before purchase.
-27. Should Aqua Tokens remain exclusive to Biology and the Aquarium? Recommended: yes during the pilot.
-28. Which fish or aquatic animals should form the first scientifically compatible collection?
+26. ~~Should decorations be cosmetic only, or should some provide clear habitat benefits such as shelter and plant cover?~~ Confirmed: decorations have clear functions.
+27. ~~Should Aqua Tokens remain exclusive to Biology and the Aquarium?~~ Confirmed direction: use one shared ordinary currency across all games; keep Knowledge Gems separate.
+28. ~~Should the Aquarium initially support only a small fixed species list?~~ Confirmed: allow many fish and aquatic animals over time, with each species or feature unlocked through Biology answers.
+29. What should the shared currency be called, and which activities award it?
+30. Which fish or aquatic animals should form the first scientifically compatible freshwater collection?
