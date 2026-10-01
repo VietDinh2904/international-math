@@ -161,6 +161,68 @@ Each transition should take approximately one or two real days before the next a
 - Each stage needs a visibly different illustration and a short scientific observation.
 - The Garden should look like a real spaceship room rather than a flat menu.
 
+## Biology Aquarium system
+
+The Aquarium is a visible, interactive feature inside the **Living Room**. It is tied specifically to Biology so the decoration loop always has a learning purpose.
+
+### Core loop
+
+1. Enter the Living Room and click the aquarium directly.
+2. Choose a short Biology puzzle set.
+3. Answer three to five questions.
+4. Earn **Aqua Tokens** for correct answers and completion.
+5. Spend Aqua Tokens on fish, aquatic plants, tank equipment, decorations, or tank upgrades.
+6. Improve the habitat and unlock new observations, species profiles, and Biology cards.
+
+Aqua Tokens are a separate soft currency earned from Biology activities. In the first version they should not be purchasable with real money, exchangeable for Knowledge Gems, or required outside the Aquarium. This keeps the economy easy to understand.
+
+### Biology content
+
+Aquarium puzzles and discoveries can teach:
+
+- Fish anatomy and the function of fins, gills, scales, and swim bladders.
+- Vertebrates and invertebrates.
+- Freshwater and saltwater habitats.
+- Food chains, food webs, producers, consumers, and decomposers.
+- Oxygen exchange, photosynthesis, and the role of aquatic plants.
+- Adaptation, camouflage, schooling, and predator avoidance.
+- Simplified water temperature, cleanliness, pH, and filtration concepts.
+- Ecosystems, biodiversity, and responsible animal care.
+
+Clicking a fish opens a large holographic Biology profile showing its common name, habitat, diet, key adaptations, care needs, and one memorable fact. Fish and important details should be illustrated clearly rather than represented by small generic icons.
+
+### Tank progression
+
+Recommended first-version progression:
+
+1. Starter freshwater tank.
+2. Larger freshwater ecosystem.
+3. Planted freshwater aquarium with more compatible species.
+
+Marine and reef tanks can be added later as a separate advanced collection. Tank upgrades may include tank size, filter, light, heater, aerator, feeding tools, substrate, plants, and hiding places. Decorations can be attractive while also teaching habitat functions such as shelter, territory, or plant cover.
+
+Species combinations must remain scientifically plausible. The game should not reward placing incompatible fish together simply because they look attractive.
+
+### Child-friendly care rules
+
+- Fish never die because the learner was absent.
+- If care is overdue, growth and bonus rewards pause safely until the player returns.
+- Care actions use real timestamps but should not demand frequent check-ins.
+- The Aquarium clearly explains what each fish needs before it is acquired.
+- Biology questions, not repetitive tapping or waiting, are the main source of Aqua Tokens.
+- Replayed puzzle sets randomize question and answer order to reduce memorization.
+
+### Visual and interaction direction
+
+- The Aquarium is physically visible in the Living Room, not hidden in a toolbar.
+- One click opens the aquarium view; another clear button returns to the Living Room.
+- Fish swim continuously and respond gently when selected.
+- New fish, plants, and decorations appear directly in the tank after purchase.
+- Upgrades visibly change the tank rather than only increasing a number.
+- The interface should retain the cockpit rule: visible objects, large targets, and no nested menus unless essential.
+
+Recommended pilot scope: one freshwater tank, three upgrade levels, approximately six compatible aquatic species, and a small set of functional decorations. Include fish plus optional aquarium invertebrates only after their Biology role is explained.
+
 ## Weapon collection system
 
 Initial weapon families:
@@ -314,7 +376,8 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 7. Three weapon fragment collections and assembly at 10/10.
 8. Knowledge Gem fragment assembly and randomized colors.
 9. Zodiac star-map collection.
-10. Engine Room, Living Room, and Outside in later phases.
+10. Living Room shell and a one-tank Biology Aquarium pilot.
+11. Engine Room and Outside in later phases.
 
 ## Decisions still needed
 
@@ -354,3 +417,12 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 20. ~~Which system should the first-time tutorial introduce first: the rescue route or Earth Research?~~ Confirmed: let the student choose freely.
 21. ~~Should existing progress be migrated into the new cockpit automatically?~~ Confirmed: preserve and migrate all existing local progress.
 22. Which three cockpit objects must be visually active on the very first visit, and which should start locked?
+
+### Biology Aquarium
+
+23. Should the first release contain only freshwater habitats, or include a marine tank immediately? Recommended: freshwater only.
+24. Should the player upgrade one permanent aquarium or eventually own several tanks? Recommended: one tank with three visible upgrade levels for the pilot.
+25. Confirm that fish never die and that missed care only pauses growth and bonuses.
+26. Should decorations be cosmetic only, or should some provide clear habitat benefits such as shelter and plant cover? Recommended: use both, with every functional effect stated before purchase.
+27. Should Aqua Tokens remain exclusive to Biology and the Aquarium? Recommended: yes during the pilot.
+28. Which fish or aquatic animals should form the first scientifically compatible collection?
