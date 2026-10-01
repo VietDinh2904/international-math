@@ -193,6 +193,30 @@ Aquarium puzzles and discoveries can teach:
 
 Clicking a fish opens a large holographic Biology profile showing its common name, habitat, diet, key adaptations, care needs, and one memorable fact. Fish and important details should be illustrated clearly rather than represented by small generic icons.
 
+### Aquarium as the first ecosystem prototype
+
+The Aquarium will be the first place where students learn and interact with:
+
+- Biotic and abiotic parts of an ecosystem.
+- Producers, consumers, and decomposers.
+- Trophic levels and the direction of energy flow.
+- Food chains, food webs, and ecological pyramids.
+- How a change in one population can affect the rest of an ecosystem.
+- The roles of light, water quality, oxygen, plants, food, shelter, and space.
+
+Suggested learning interactions:
+
+1. Arrange organisms into a valid food chain.
+2. Connect several chains to form a food web.
+3. Place organisms on the correct level of an ecological pyramid.
+4. Predict what happens when one population increases or decreases.
+5. Identify which missing habitat factor is making the aquarium unbalanced.
+6. Choose an appropriate producer, consumer, decomposer, or environmental condition to restore balance.
+
+The learner's collected pets should not visibly kill one another. Predation and population changes can be shown in a separate holographic simulation or observation panel so the Biology remains accurate without making the aquarium unpleasant or punitive.
+
+The Aquarium is also the technical and educational prototype for future **terrain ecosystems**. After its mechanics are proven, the same ecosystem model can be adapted to forests, grasslands, deserts, wetlands, polar habitats, oceans, and other terrains. Each terrain will have its own organisms, abiotic conditions, food chains, food webs, ecological pyramid, and population-change puzzles. Terrain expansion is deliberately postponed until the Aquarium version works well.
+
 ### Tank progression
 
 Confirmed progression begins with freshwater habitats:
@@ -381,7 +405,8 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 8. Knowledge Gem fragment assembly and randomized colors.
 9. Zodiac star-map collection.
 10. Living Room shell and a one-tank Biology Aquarium pilot.
-11. Engine Room and Outside in later phases.
+11. Aquarium ecosystem lessons: food chain, food web, ecological pyramid, and habitat balance.
+12. Engine Room, terrain ecosystems, and Outside in later phases.
 
 ## Decisions still needed
 
@@ -432,3 +457,4 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 28. ~~Should the Aquarium initially support only a small fixed species list?~~ Confirmed: allow many fish and aquatic animals over time, with each species or feature unlocked through Biology answers.
 29. What should the shared currency be called, and which activities award it?
 30. Which fish or aquatic animals should form the first scientifically compatible freshwater collection?
+31. ~~Should ecosystem and food-chain lessons launch across several terrains at once?~~ Confirmed: build and validate them inside the Aquarium first; expand to terrain ecosystems later.
