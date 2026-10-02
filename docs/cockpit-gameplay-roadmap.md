@@ -2,7 +2,7 @@
 
 Status: **Idea bank only — do not implement until the owner explicitly starts this phase.**
 
-Last updated: 2026-09-29
+Last updated: 2026-10-02
 
 ## Confirmed owner decisions
 
@@ -308,6 +308,34 @@ Bosses can change attribute between phases. Regular robots should use only one a
 ## Knowledge-check mini-game framework
 
 Mini-games should reuse the same lesson and question data. They are presentation modes, not separate curricula. A student chooses one activity from a large cockpit screen and begins immediately.
+
+### Illustrated Object Hunt — saved concept only
+
+Do not implement this mode until the owner explicitly starts it.
+
+The game reuses the realistic lesson illustrations already created for Daily Science. Before each round, students see a short, clear row of the objects they need to find. They then inspect the full lesson picture and click each matching object.
+
+Confirmed interaction direction:
+
+- Keep the first version intentionally easy for young learners.
+- Show three to five target objects at a time using a clear reference picture and an English name.
+- Use one large, sharp lesson illustration as the search scene.
+- Provide obvious Zoom In, Zoom Out, and Reset buttons.
+- Allow the student to drag or pan the picture while zoomed.
+- Use generous invisible click areas so precise tapping is not required.
+- A correct find receives a glow, check mark, short sound/animation, and immediate progress update.
+- A wrong tap has no penalty and only gives gentle feedback.
+- Provide a free hint that softly highlights the approximate search area.
+- Preserve the picture's aspect ratio at every zoom level; never stretch it horizontally or vertically.
+- On phones and tablets, targets and controls must remain large enough to tap comfortably.
+- The same engine should later work with Biology, Geography, vocabulary, hidden research samples, aquarium scenes, cockpit rooms, and planet exploration.
+
+Artwork rule:
+
+- Reuse an existing illustration only when every target is clearly visible and scientifically correct.
+- If a required object is absent, too small, visually ambiguous, cropped, or inaccurate, pause that scene and ask the owner for a reference image or permission to upgrade the artwork.
+- When requesting a reference, state the exact object, required appearance, viewing angle, environment, desired visibility, and why the current image is insufficient.
+- Do not replace an existing lesson image merely to add a search target without first reporting what needs to change.
 
 ### Recommended core mini-games
 
