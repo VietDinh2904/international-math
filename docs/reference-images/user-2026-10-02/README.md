@@ -16,6 +16,11 @@ Status: reference library only. Do not ship these files as production artwork wi
 - `10-space-fighter-squadron.png`: formation of space fighters above Earth.
 - `11-orbital-station.png`: spherical orbital station concept.
 - `12-desert-landing-craft.png`: spacecraft hovering or landing in a desert environment.
+- `13-earth-orbit-expedition.png`: Earth seen from orbit for the planet-selection and research-journey experience.
+- `14-mangrove-ecosystem.png`: mangrove roots, tidal water, and forest habitat reference.
+- `15-moss-terrarium-stream.png`: compact moss terrarium with stones and a miniature stream composition.
+- `16-bottle-terrarium-lab.png`: terrarium-building materials and a sealed bottle ecosystem for laboratory gameplay.
+- `17-succulent-terrarium.png`: open succulent terrarium with clearly separated plant forms and substrate layers.
 
 ## Intended future use
 
@@ -23,5 +28,8 @@ Status: reference library only. Do not ship these files as production artwork wi
 - Cockpit, spacecraft, mission, and hangar references.
 - Weapon silhouette references for plasma, flame, and ice weapon development.
 - Object-hunt scene planning when a lesson needs clear, recognizable target objects.
+- Earth-orbit route selection and planetary research transitions.
+- Mangrove food-web, habitat, root-adaptation, and tidal-ecosystem lessons.
+- Terrarium construction, closed-ecosystem observation, plant-care, and laboratory synthesis ideas.
 
 Ask the owner before replacing existing production art or deriving a close visual copy from any watermarked or third-party reference.
