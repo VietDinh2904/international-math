@@ -1,0 +1,41 @@
+.adventure-root[data-scene="cockpit"]{background:#dff6ff}
+.cockpit-home-screen{position:relative;min-height:100vh;overflow:hidden;background:#dff6ff;color:#102235;isolation:isolate}
+.cockpit-home-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3}
+.cockpit-vignette{position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(180deg,#0414268f 0,transparent 24%,transparent 70%,#04142680 100%),linear-gradient(90deg,#04142652,transparent 23%,transparent 77%,#04142652)}
+.cockpit-welcome{position:relative;z-index:5;width:min(720px,70vw);margin:0 auto;padding:104px 20px 0;text-align:center;color:#fff;text-shadow:0 2px 12px #00162b}
+.cockpit-welcome h1{margin:5px 0 7px;font:900 clamp(32px,4.8vw,66px)/.96 Georgia,serif}
+.cockpit-welcome>p:last-child{margin:0;font-size:16px;font-weight:800}
+.cockpit-route-grid{position:absolute;z-index:6;left:2.1%;right:2.1%;bottom:4.2%;display:flex;justify-content:space-between;pointer-events:none}
+.cockpit-route-card{pointer-events:auto;width:28.5%;min-height:190px;padding:20px 22px;border:2px solid #d8fbff;border-radius:22px;background:linear-gradient(145deg,#e9fbfff2,#bdeeffdf);box-shadow:0 14px 38px #001a3685,inset 0 0 25px #fff9;color:#092033;text-align:left;cursor:pointer;backdrop-filter:blur(8px);transition:transform .2s,box-shadow .2s}
+.cockpit-route-card:hover,.cockpit-route-card:focus-visible{transform:translateY(-7px);box-shadow:0 18px 48px #001a36a6,0 0 0 4px #7be9ff99}
+.cockpit-route-card small{display:block;color:#087693;font:900 11px/1 system-ui;letter-spacing:.16em}
+.cockpit-route-card strong{display:block;margin:9px 0 8px;font:900 clamp(23px,2.5vw,38px)/.95 Georgia,serif}
+.cockpit-route-card span{display:block;min-height:32px;color:#385466;font-size:12px;font-weight:800}
+.cockpit-route-card b{display:inline-block;margin-top:9px;padding:8px 11px;border-radius:99px;background:#087e9d;color:#fff;font-size:12px}
+.cockpit-route-card.rescue-route{background:linear-gradient(145deg,#fff5eaf2,#ffdcaee8)}
+.cockpit-route-card.rescue-route small{color:#9a4b0a}.cockpit-route-card.rescue-route b{background:#a8530a}
+.cockpit-pilot{position:absolute;z-index:7;left:50%;bottom:-1%;width:min(21vw,260px);transform:translateX(-50%);text-align:center;color:#fff;filter:drop-shadow(0 15px 16px #00162f8f)}
+.cockpit-pilot>img{display:block;width:100%;max-height:42vh;object-fit:contain;object-position:center bottom}
+.cockpit-pilot>div{position:absolute;left:50%;bottom:30px;width:max-content;max-width:230px;padding:8px 12px;border:1px solid #dffcff;border-radius:13px;background:#063c54e6;box-shadow:0 0 18px #67e8ff8a;transform:translateX(-50%);backdrop-filter:blur(5px)}
+.cockpit-pilot strong,.cockpit-pilot span{display:block}.cockpit-pilot strong{font:900 18px Georgia,serif}.cockpit-pilot span{font-size:10px;color:#bfeef5}
+.cockpit-pilot button{margin-top:5px;padding:4px 7px;border:0;border-radius:99px;background:#ffffff18;color:#d9faff;font-size:9px;cursor:pointer}
+.cockpit-hotspots{position:absolute;inset:0;z-index:5;pointer-events:none}
+.cockpit-hotspot{position:absolute;pointer-events:auto;min-width:120px;padding:7px 10px;border:1px solid #d8fbff;border-radius:10px;background:#06384fd9;color:#fff;box-shadow:0 5px 16px #00172d80,0 0 12px #69eaff4f;text-align:left;cursor:pointer;backdrop-filter:blur(5px);transition:.2s}
+.cockpit-hotspot:hover,.cockpit-hotspot:focus-visible{transform:scale(1.05);background:#075875}
+.cockpit-hotspot span,.cockpit-hotspot small{display:block}.cockpit-hotspot span{font-weight:900}.cockpit-hotspot small{margin-top:2px;color:#bcecf3;font-size:9px}
+.cockpit-hotspot.locked{border-color:#e9d7a7;background:#4d3a24df;color:#fff4d8}.cockpit-hotspot.locked small{color:#ead9b4}.cockpit-hotspot.locked:before{content:"LOCKED";display:block;margin-bottom:3px;color:#ffd677;font:900 8px/1 system-ui;letter-spacing:.14em}
+.cockpit-hotspot.chest{left:8%;top:42%}.cockpit-hotspot.journal{left:27%;top:45%}.cockpit-hotspot.lab{left:50%;top:45%;transform:translateX(-50%)}.cockpit-hotspot.lab:hover{transform:translateX(-50%) scale(1.05)}
+.cockpit-hotspot.garden{right:17%;top:34%}.cockpit-hotspot.engine{left:1.2%;top:31%}.cockpit-hotspot.living{right:1.2%;top:31%}.cockpit-hotspot.outside{right:9.5%;top:47%}
+.cockpit-flow-note{position:absolute;z-index:8;left:50%;bottom:1%;margin:0;padding:5px 11px;border-radius:99px;background:#03283dcc;color:#d9f8ff;font-size:10px;transform:translateX(-50%);white-space:nowrap}
+
+.pilot-select-screen{min-height:100vh;padding:95px clamp(16px,5vw,70px) 42px;background:radial-gradient(circle at 50% 15%,#eafbff,#9bdcef 48%,#163c69);color:#102235}
+.pilot-select-heading{max-width:820px;margin:0 auto 26px;text-align:center}.pilot-select-heading h1{margin:5px 0 10px;font:900 clamp(43px,7vw,78px)/.95 Georgia,serif}.pilot-select-heading>p:last-child{font-size:17px;line-height:1.55}
+.pilot-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;max-width:1100px;margin:auto}
+.pilot-choice-card{display:grid;grid-template-columns:minmax(180px,.8fr) 1.2fr;min-height:470px;overflow:hidden;border:2px solid #fff;border-radius:28px;background:linear-gradient(150deg,#ffffffed,#d9f8ffda);box-shadow:0 25px 65px #07264a70}
+.pilot-choice-card>img{align-self:end;width:100%;height:100%;max-height:520px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 13px 14px #12365a55)}
+.pilot-choice-card>div{align-self:center;padding:28px 28px 28px 8px}.pilot-choice-card h2{margin:5px 0 10px;font:900 48px/1 Georgia,serif}.pilot-choice-card p:not(.adventure-kicker){min-height:66px;line-height:1.5}.pilot-choice-card button{width:100%;margin-top:16px;padding:13px;border:2px solid #0c3857;border-radius:12px;background:#ffd15d;color:#11263a;font-weight:900;cursor:pointer;box-shadow:4px 5px 0 #0c3857}.pilot-choice-card button:hover{transform:translateY(-2px);box-shadow:5px 7px 0 #0c3857}
+
+@media(max-width:1000px){.cockpit-welcome{padding-top:118px}.cockpit-route-card{width:31%;padding:16px;min-height:172px}.cockpit-pilot{width:min(24vw,230px)}.cockpit-hotspot.journal{left:25%}.cockpit-hotspot.garden{right:15%}.cockpit-hotspot.outside{display:none}.pilot-choice-card{grid-template-columns:1fr;min-height:0}.pilot-choice-card>img{height:330px}.pilot-choice-card>div{padding:22px;text-align:center}}
+@media(max-width:760px){.cockpit-home-screen{min-height:100vh;overflow:auto;padding:105px 12px 35px;background:#bfeeff}.cockpit-home-bg{position:fixed;object-position:center top;opacity:.72}.cockpit-vignette{position:fixed;background:linear-gradient(#05213a9c,#05213ad9 42%,#05213af2)}.cockpit-welcome{width:auto;padding:8px 10px 0}.cockpit-welcome h1{font-size:42px}.cockpit-route-grid{position:relative;left:auto;right:auto;bottom:auto;display:grid;gap:12px;margin:24px 0 18px}.cockpit-route-card{width:100%;min-height:0;padding:18px}.cockpit-route-card strong{font-size:31px}.cockpit-pilot{position:relative;left:auto;bottom:auto;width:min(230px,65vw);margin:0 auto 16px;transform:none}.cockpit-pilot>img{max-height:330px}.cockpit-hotspots{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cockpit-hotspot,.cockpit-hotspot.chest,.cockpit-hotspot.journal,.cockpit-hotspot.lab,.cockpit-hotspot.garden,.cockpit-hotspot.engine,.cockpit-hotspot.living,.cockpit-hotspot.outside{position:relative;inset:auto;display:block;min-width:0;transform:none}.cockpit-hotspot.lab:hover{transform:scale(1.02)}.cockpit-hotspot.outside{display:block}.cockpit-flow-note{position:relative;left:auto;bottom:auto;margin:14px auto 0;text-align:center;transform:none;white-space:normal}.pilot-choice-grid{grid-template-columns:1fr}.pilot-select-screen{padding-top:45px}.pilot-choice-card{grid-template-columns:minmax(130px,.7fr) 1.3fr}.pilot-choice-card>img{height:300px}.pilot-choice-card>div{padding:20px 20px 20px 0;text-align:left}.pilot-choice-card h2{font-size:39px}}
+@media(max-width:470px){.cockpit-welcome h1{font-size:36px}.cockpit-hotspots{grid-template-columns:1fr}.pilot-choice-card{grid-template-columns:1fr}.pilot-choice-card>img{height:270px}.pilot-choice-card>div{padding:20px;text-align:center}.pilot-choice-card p:not(.adventure-kicker){min-height:0}}
+@media(prefers-reduced-motion:reduce){.cockpit-route-card,.cockpit-hotspot,.pilot-choice-card button{transition:none}}
