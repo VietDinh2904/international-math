@@ -1,6 +1,6 @@
 # Cockpit Gameplay Roadmap
 
-Status: **Idea bank only — do not implement until the owner explicitly starts this phase.**
+Status: **Phase 2 started with owner approval. The cockpit Garden prototype is now playable; Lab, Gem Workshop, Aquarium and the remaining rooms stay in the idea bank until separately activated.**
 
 Last updated: 2026-10-02
 
@@ -64,7 +64,7 @@ The student should not need to open a menu before choosing either route.
 - Garden door: opens the spaceship garden.
 - Future doors: Engine Room, Living Room, Outside/Airlock.
 
-Only the Garden is part of the next proposed build. The Engine Room, Living Room, and Outside remain visible as future destinations or locked doors.
+The Garden is the current playable build. The Engine Room, Living Room, and Outside remain visible as future destinations or locked doors.
 
 ## Knowledge Gem system
 
