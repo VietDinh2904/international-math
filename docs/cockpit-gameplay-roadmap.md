@@ -128,7 +128,7 @@ Science missions reward practical growing materials:
 - Soil.
 - Flower pots.
 
-Correct answers supply water, soil, and pots. Specific lessons or discoveries provide seed types.
+The Garden starter kit supplies the first three pots, soil and water. Future Geography exploration should become the main source of additional soil and water; Science discoveries can unlock new seed types.
 
 ### Garden loop
 
@@ -151,7 +151,9 @@ Correct answers supply water, soil, and pots. Specific lessons or discoveries pr
 6. Flowering.
 7. Fruiting, when appropriate for that species.
 
-Each transition should take approximately one or two real days before the next action becomes available. The exact timer remains to be decided.
+Each transition takes one or two real days before the next action becomes available. The first playable catalog contains climbing tomato, pea, sunflower and carrot, each with a distinct seven-stage cycle and scientific observations.
+
+Harvesting follows the real plant: tomato fruit, pea pods and sunflower heads return seeds, while harvesting a carrot taproot does not automatically create a new carrot seed.
 
 ### Visual direction
 
