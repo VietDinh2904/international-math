@@ -1,3 +1,4 @@
 tmp/
 .sites-runtime/
 .openai/*.tar.gz
+.research/open-source/
