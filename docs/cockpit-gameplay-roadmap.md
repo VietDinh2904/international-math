@@ -2,7 +2,7 @@
 
 Status: **Phase 2 started with owner approval. The cockpit Garden prototype is now playable; Lab, Gem Workshop, Aquarium and the remaining rooms stay in the idea bank until separately activated.**
 
-Last updated: 2026-10-02
+Last updated: 2026-10-04
 
 ## Confirmed owner decisions
 
@@ -403,6 +403,50 @@ Students inspect a plant with a visible problem and select the best evidence or 
 - Correct diagnosis restores the plant and provides a seed or research observation.
 - Wrong choices never kill the plant.
 - Best for applying science knowledge rather than recalling a definition.
+
+### Chapter-end space review arcade — saved concept only
+
+Do not implement these modes until the owner explicitly starts the chapter-review build. At the end of a chapter, students choose one or more short games that reuse only vocabulary, meanings, examples, images, and science knowledge from that chapter.
+
+#### Space Hangman
+
+- The playfield is a moving outer-space scene with the player's spaceship clearly visible.
+- Each wrong letter lets an enemy shot hit the ship and removes a small amount of ship health.
+- Correct letters repair or charge the ship and reveal the target word.
+- Damage is exciting but child-friendly: shield flashes, sparks and camera shake, with no gore or permanent loss.
+- A lost round restarts quickly with a clue and a different word.
+
+#### Picture Word Decoder
+
+- Show one clear, scientifically accurate square image without stretching it.
+- The learner identifies the word by arranging letters, typing it, or choosing from short alternatives.
+- A second clue can reveal the part of speech, meaning, or example sentence.
+- Use different images for different words; never reuse a generic picture that does not illustrate the target meaning.
+
+#### Cosmic Crossword
+
+- Crossword clues use English meanings, example sentences, or lesson images.
+- The board is projected as a hologram over a moving space background.
+- Correct words illuminate connected star lanes; completing the board opens a route home.
+- Keep the first version small: approximately six to ten words with large touch targets.
+
+#### Cockpit Escape Maze
+
+The learner pilots a small spaceship through a Pac-Man-like space maze toward the cockpit while two aliens chase it.
+
+- Each round presents one question and exactly two visibly labeled answer destinations.
+- The learner steers to the correct destination; the player ship moves slightly faster than both aliens.
+- Reaching the correct answer opens the next maze section and moves the ship closer to the cockpit.
+- Reaching the wrong answer causes shield damage and gives a short explanatory clue before a safe retry.
+- Touching an alien normally ends the current attempt and respawns the player at the last checkpoint.
+- A visible weapon pickup temporarily powers the ship so it can disable the aliens; without that pickup the ship cannot attack them.
+- Disabled aliens return after a short delay so the learning challenge remains active.
+- Keyboard arrows/WASD and large touch controls must both work. The steering tutorial should take one screen and less than 20 seconds.
+- Questions, answer positions, alien starting points and weapon position should change between rounds, but every generated maze must keep both answers reachable.
+- Use animated space, stars and ship effects behind the maze without reducing the readability of walls, answers or hazards.
+- The goal is always visually obvious: reach the correct answer, then continue toward the cockpit.
+
+Recommended first prototype: one compact maze, five questions, two alien types with the same speed, one temporary plasma pickup, three shield points and instant checkpoint retries. Add smarter alien behavior, more weapon families and larger maps only after young learners can finish the simple version without instruction.
 
 ### Recommended rollout
 
