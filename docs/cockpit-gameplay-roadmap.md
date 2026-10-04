@@ -524,6 +524,13 @@ When a set is complete, the student assembles the jigsaw on a large holographic 
 14. Aquarium ecosystem lessons: food chain, food web, ecological pyramid, and habitat balance.
 15. Engine Room, terrain ecosystems, and Outside in later phases.
 
+## Science Arcade prototypes now playable
+
+- **Alien Maze:** one question with two answer gates, connected orthogonal corridors, a five-second alien-bay delay, a temporary plasma blaster, and forgiving turn controls.
+- **Starship Word Rescue:** five randomized vocabulary words; students reveal letters from an English definition and part of speech while wrong guesses damage the ship's five shields.
+- **Picture Word Decoder:** five randomized illustrated specimens shown in a square scanner; students rebuild the matching science word from scrambled letter tiles.
+- Each game has its own saved best score. The game selector is reached from Earth Research and keeps the existing lesson and journal routes intact.
+
 ## Decisions still needed
 
 ### Cockpit and characters
