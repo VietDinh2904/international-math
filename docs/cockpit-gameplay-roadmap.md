@@ -404,9 +404,9 @@ Students inspect a plant with a visible problem and select the best evidence or 
 - Wrong choices never kill the plant.
 - Best for applying science knowledge rather than recalling a definition.
 
-### Chapter-end space review arcade — saved concept only
+### Chapter-end space review arcade — prototype started
 
-Do not implement these modes until the owner explicitly starts the chapter-review build. At the end of a chapter, students choose one or more short games that reuse only vocabulary, meanings, examples, images, and science knowledge from that chapter.
+The owner started the first playable chapter-review build on 2026-10-05. **Cockpit Escape Maze** is the active prototype; the other modes below remain saved concepts. At the end of a chapter, students choose one or more short games that reuse only vocabulary, meanings, examples, images, and science knowledge from that chapter.
 
 #### Space Hangman
 
@@ -467,6 +467,43 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 - Replaying changes question order, rival position, route, or puzzle layout.
 - Mini-games should take two to five minutes and require no more than one short tutorial.
 
+## Living Room Library and cockpit object map
+
+The Living Room contains a visible **Library** rather than hiding educational files in a toolbar. One click on the bookcase opens a library view containing:
+
+- lesson files and illustrated science books;
+- sample examination papers and past-paper PDFs;
+- teacher reference material and future student field reports;
+- filters by subject, level, week/chapter and file type;
+- a large cover preview, short description and clear Open/Read button.
+
+The cockpit's two Earth objects have separate jobs:
+
+- The large blue Earth visible through the front cockpit window opens **Earth Research**.
+- The small tabletop globe opens the **star map**, including the twelve Zodiac constellations. Each constellation may contain a different exercise family and progression path.
+
+This distinction must be visible without a tutorial: the front Earth looks like a travel/research destination, while the tabletop globe looks like a navigational model.
+
+## Mathematics salvage and original mecha construction
+
+Every ten correctly solved mathematics questions completes one salvage cycle. The cycle awards:
+
+1. one robot jigsaw fragment;
+2. one engine fragment;
+3. an energy reward used for machine upgrades and unlocking rooms.
+
+Robot and engine fragments are stored in the chest. Each robot blueprint is divided into jigsaw-shaped pieces and the awarded piece position is randomized among the pieces the student does not yet own, preventing useless duplicate pieces in the first version.
+
+Robot progression should be immediately readable:
+
+- **Scout class:** small frame, light armor, simple tool or blaster;
+- **Guardian class:** larger silhouette, more armor and health, stronger shoulder or arm weapon;
+- **Titan class:** very large original mecha, layered armor, high health and a distinctive heavy weapon system.
+
+Use broad mecha cues such as armored plates, illuminated reactors, mechanical joints, heavy proportions and modular weapons, but create original silhouettes, color layouts, faces and equipment. Do not reproduce Gundam, Pacific Rim, Transformers, or their identifiable characters. The supplied giant-robot image is a scale and mood reference only.
+
+When a set is complete, the student assembles the jigsaw on a large holographic workbench. The completed original robot becomes a display model first; battle abilities unlock later so the initial reward loop stays simple.
+
 ## Proposed build order when development starts
 
 1. Cockpit home screen and the two chibi pilot choices.
@@ -479,8 +516,11 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 8. Knowledge Gem fragment assembly and randomized colors.
 9. Zodiac star-map collection.
 10. Living Room shell and a one-tank Biology Aquarium pilot.
-11. Aquarium ecosystem lessons: food chain, food web, ecological pyramid, and habitat balance.
-12. Engine Room, terrain ecosystems, and Outside in later phases.
+11. Living Room Library with lessons, books and sample papers.
+12. Mathematics ten-answer salvage cycle: robot piece, engine piece and energy.
+13. Original robot jigsaw workbench and three readable rarity/size classes.
+14. Aquarium ecosystem lessons: food chain, food web, ecological pyramid, and habitat balance.
+15. Engine Room, terrain ecosystems, and Outside in later phases.
 
 ## Decisions still needed
 
@@ -532,3 +572,12 @@ Add Planet Relay Run, Sequence Reactor, Constellation Connect, and Garden Diagno
 29. What should the shared currency be called, and which activities award it?
 30. Which fish or aquatic animals should form the first scientifically compatible freshwater collection?
 31. ~~Should ecosystem and food-chain lessons launch across several terrains at once?~~ Confirmed: build and validate them inside the Aquarium first; expand to terrain ecosystems later.
+
+### Library, mathematics salvage and Zodiac navigation
+
+32. Should Library files be bundled with the app, downloaded on demand, or support both?
+33. Should teachers be able to add their own PDF files to the Library in the first release, or only in a later teacher mode?
+34. How much energy should one ten-answer mathematics cycle award, and how much energy should each room require?
+35. How many jigsaw fragments should complete Scout, Guardian and Titan robots?
+36. Can a student choose which incomplete robot receives the next fragment, or is the robot blueprint selected randomly?
+37. Should all twelve Zodiac routes be visible from the start, or should completing one constellation reveal the next group?
