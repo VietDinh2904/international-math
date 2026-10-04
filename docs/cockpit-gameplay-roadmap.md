@@ -502,6 +502,8 @@ Robot progression should be immediately readable:
 
 Use broad mecha cues such as armored plates, illuminated reactors, mechanical joints, heavy proportions and modular weapons, but create original silhouettes, color layouts, faces and equipment. Do not reproduce Gundam, Pacific Rim, Transformers, or their identifiable characters. The supplied giant-robot image is a scale and mood reference only.
 
+The additional vehicle-mecha references supplied on 2026-10-05 are catalogued in `docs/reference-images/user-2026-10-05/README.md`. They establish three visual directions—compact Scout, armored Guardian and heavy Titan—without authorizing reuse of any recognizable character design.
+
 When a set is complete, the student assembles the jigsaw on a large holographic workbench. The completed original robot becomes a display model first; battle abilities unlock later so the initial reward loop stays simple.
 
 ## Proposed build order when development starts
