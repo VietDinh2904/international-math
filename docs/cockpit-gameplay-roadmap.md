@@ -531,6 +531,15 @@ When a set is complete, the student assembles the jigsaw on a large holographic 
 - **Picture Word Decoder:** five randomized illustrated specimens shown in a square scanner; students rebuild the matching science word from scrambled letter tiles.
 - Each game has its own saved best score. The game selector is reached from Earth Research and keeps the existing lesson and journal routes intact.
 
+## Knowledge Gem and Treasure Vault system now playable
+
+- Each completed Earth Research day awards one Knowledge Crystal fragment. Five unused fragments can be forged into one complete Knowledge Gem.
+- A forged Gem receives one of six random colours and attributes. The Gem record explains its stored property and intended upgrade use.
+- The Treasure Vault uses illustrated square thumbnails taken from the related lesson artwork. Opening an object enlarges it into a mini lesson with its name, source, property and science fun facts.
+- A first-time object record has a short reading lock before it can be closed.
+- Gem Exchange rewards use mathematics security: Common objects require 1 correct answer, Rare objects require 3, and Legendary objects require 5. Gems are consumed only after all required answers are correct.
+- A Crew Identity Pass provides the previously planned one-Gem pilot change between Pico and Mochi.
+
 ## Decisions still needed
 
 ### Cockpit and characters
