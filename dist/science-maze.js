@@ -9,7 +9,7 @@
     "###.#.###.#.#.###",
     "#...#.....#.#...#",
     "#.#.#######.#.#.#",
-    "#.#...#XX.#...#.#",
+    "#.#...#XXX#...#.#",
     "#.###.#...#.###.#",
     "#.....#...#.....#",
     "#.###.##G##.###.#",
@@ -62,25 +62,22 @@
     if(game.release>0)return;
     if(alien.stunned>0){alien.stunned-=dt;return}
     if(alien.p<1){alien.p=Math.min(1,alien.p+dt*alien.speed);if(alien.p<1)return;alien.r=alien.to.r;alien.c=alien.to.c}
-    const playerTile={r:Math.round(visual(game.player).y-.5),c:Math.round(visual(game.player).x-.5)};
-    let direction;
-    if(game.power>0){const moves=neighbors(alien.r,alien.c).filter(move=>move.name!==opposite(alien.dir));moves.sort((a,b)=>(Math.abs(b.r-playerTile.r)+Math.abs(b.c-playerTile.c))-(Math.abs(a.r-playerTile.r)+Math.abs(a.c-playerTile.c)));direction=moves[0]?.name}
-    else direction=shortestDirection(alien,playerTile,index?null:`${game.aliens[1].r},${game.aliens[1].c}`);
-    if(!direction){const moves=neighbors(alien.r,alien.c);direction=moves[Math.floor(Math.random()*moves.length)]?.name}
+    const all=neighbors(alien.r,alien.c),forward=all.find(move=>move.name===alien.dir),turns=all.filter(move=>move.name!==opposite(alien.dir));
+    let direction=forward&&Math.random()<.68?forward.name:(turns.length?turns:all)[Math.floor(Math.random()*(turns.length||all.length))]?.name;
     startMove(alien,direction);
   }
   function opposite(dir){return({up:"down",down:"up",left:"right",right:"left"})[dir]}
 
   function resetPositions(game,full=false){
     const player=find("P"),aliens=[];GRID.forEach((row,r)=>[...row].forEach((ch,c)=>{if(ch==="X")aliens.push({r,c})}));
-    game.player=makeEntity(player,3.25,"#72f4ff");
-    game.aliens=aliens.map((pos,i)=>makeEntity(pos,1.18+i*.1,i?"#ff5dd7":"#ff795b"));
+    game.player=makeEntity(player,3.35,"#72f4ff");
+    game.aliens=aliens.map((pos,i)=>makeEntity(pos,.72+i*.06,["#ff795b","#ff5dd7","#8e7dff"][i]));
     game.invulnerable=1.2;game.release=5;
     if(full){game.power=0;game.gun=true}
   }
   function prepareQuestion(game){
     const source=QUESTIONS[game.order[game.index%game.order.length]],answers=shuffle(source.a.map((text,i)=>({text,correct:i===source.right})));
-    game.question=source;game.left=answers[0];game.right=answers[1];game.message="You have 5 seconds before the alien bay opens — choose your route.";game.locked=false;resetPositions(game,true);syncHud(game)
+    game.question=source;game.left=answers[0];game.right=answers[1];game.message="You have 5 seconds before three wandering aliens leave their bay.";game.locked=false;game.hint=0;resetPositions(game,true);syncHud(game)
   }
   function hitPlayer(game){
     if(game.invulnerable>0||game.locked)return;
@@ -112,7 +109,7 @@
       const ch=GRID[r][c],x=c*tw,y=r*th;
       if(ch==="#"){ctx.fillStyle="#071128";ctx.strokeStyle="#2879b8";ctx.lineWidth=1.4;ctx.shadowColor="#31a8ff";ctx.shadowBlur=8;drawRounded(ctx,x+2,y+2,tw-4,th-4,Math.min(tw,th)*.16);ctx.shadowBlur=0}
       else{ctx.fillStyle="rgba(44,121,180,.07)";ctx.fillRect(x,y,tw,th)}
-      if(ch==="A"||ch==="B"){const left=ch==="A",answer=left?game.left:game.right;ctx.fillStyle=left?"rgba(74,230,255,.23)":"rgba(255,101,215,.22)";ctx.strokeStyle=left?"#62f1ff":"#ff7bdc";ctx.lineWidth=3;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=18;drawRounded(ctx,x+4,y+4,tw-8,th-8,9);ctx.shadowBlur=0;ctx.fillStyle="#fff";ctx.font=`900 ${Math.max(12,tw*.35)}px system-ui`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(ch,x+tw/2,y+th/2)}
+      if(ch==="A"||ch==="B"){const left=ch==="A",answer=left?game.left:game.right,hinted=game.hint>0&&answer.correct;ctx.fillStyle=left?"rgba(74,230,255,.23)":"rgba(255,101,215,.22)";ctx.strokeStyle=hinted?"#fff36d":left?"#62f1ff":"#ff7bdc";ctx.lineWidth=hinted?7:3;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=hinted?35:18;drawRounded(ctx,x+4,y+4,tw-8,th-8,9);ctx.shadowBlur=0;ctx.fillStyle="#fff";ctx.font=`900 ${Math.max(12,tw*.35)}px system-ui`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(ch,x+tw/2,y+th/2)}
     }
     const bay=find("X"),bayX=(bay.c-.18)*tw,bayY=(bay.r-.22)*th;ctx.fillStyle="rgba(255,85,185,.08)";ctx.strokeStyle="#ff67ca";ctx.lineWidth=2;ctx.setLineDash([6,5]);ctx.strokeRect(bayX,bayY,2.36*tw,1.42*th);ctx.setLineDash([]);ctx.fillStyle="#ffc3ed";ctx.font=`800 ${Math.max(9,tw*.18)}px system-ui`;ctx.textAlign="center";ctx.fillText(game.release>0?`ALIEN BAY · ${Math.ceil(game.release)}s`:"ALIEN BAY OPEN",bayX+1.18*tw,bayY-.12*th);
     if(game.gun){const gun=find("G"),x=(gun.c+.5)*tw,y=(gun.r+.5)*th,pulse=1+Math.sin(time*.008)*.1;ctx.save();ctx.translate(x,y);ctx.scale(pulse,pulse);ctx.shadowColor="#ffe65d";ctx.shadowBlur=18;ctx.strokeStyle="#fff7aa";ctx.fillStyle="#ffcb39";ctx.lineWidth=2;ctx.fillRect(-tw*.22,-th*.08,tw*.38,th*.16);ctx.strokeRect(-tw*.22,-th*.08,tw*.38,th*.16);ctx.fillRect(tw*.04,th*.05,tw*.1,th*.16);ctx.restore()}
@@ -124,8 +121,8 @@
   function drawAlien(ctx,pos,tw,th,color,time,frightened){const s=Math.min(tw,th)*.35;ctx.save();ctx.translate(pos.x*tw,pos.y*th);ctx.shadowColor=frightened?"#75f5ff":color;ctx.shadowBlur=16;ctx.fillStyle=frightened?"#235c91":color;ctx.beginPath();ctx.arc(0,-s*.1,s,Math.PI,0);ctx.lineTo(s,s*.62);ctx.lineTo(s*.52,s*.38);ctx.lineTo(0,s*.7);ctx.lineTo(-s*.52,s*.38);ctx.lineTo(-s,s*.62);ctx.closePath();ctx.fill();ctx.fillStyle="#fff";[-.35,.35].forEach(x=>{ctx.beginPath();ctx.arc(x*s,-s*.12,s*.2,0,Math.PI*2);ctx.fill()});ctx.fillStyle=frightened?"#6beeff":"#151b39";[-.35,.35].forEach(x=>{ctx.beginPath();ctx.arc(x*s,-s*.1,s*.09,0,Math.PI*2);ctx.fill()});ctx.restore()}
 
   function update(game,dt){
-    if(game.locked)return;if(game.invulnerable>0)game.invulnerable-=dt;if(game.power>0)game.power=Math.max(0,game.power-dt);if(game.release>0)game.release=Math.max(0,game.release-dt);
-    updatePlayer(game,dt);game.aliens.forEach((alien,i)=>updateAlien(game,alien,dt,i));
+    if(game.locked)return;if(game.invulnerable>0)game.invulnerable-=dt;if(game.power>0)game.power=Math.max(0,game.power-dt);if(game.hint>0)game.hint=Math.max(0,game.hint-dt);if(game.release>0)game.release=Math.max(0,game.release-dt);
+    updatePlayer(game,dt);game.aliens.forEach((alien,i)=>updateAlien(game,alien,dt*(game.hint>0?.55:1),i));
     const p=visual(game.player),gun=find("G");if(game.gun&&Math.hypot(p.x-(gun.c+.5),p.y-(gun.r+.5))<.55){game.gun=false;game.power=9;game.message="Plasma active! Touch an alien to send it back.";syncHud(game)}
     if(game.release<=0)game.aliens.forEach((alien,i)=>{if(dist(p,visual(alien))<.56){if(game.power>0){const starts=[];GRID.forEach((row,r)=>[...row].forEach((ch,c)=>{if(ch==="X")starts.push({r,c})}));Object.assign(alien,makeEntity(starts[i],alien.speed,alien.color));alien.stunned=.7;game.message="Alien disabled! Keep flying.";syncHud(game)}else hitPlayer(game)}});
     if(game.player.p>=1){const ch=cellAt(game.player.r,game.player.c);if(ch==="A")answerGate(game,"left");if(ch==="B")answerGate(game,"right")}
@@ -134,10 +131,10 @@
   function resize(game){const box=game.canvas.getBoundingClientRect(),ratio=Math.min(1.5,window.devicePixelRatio||1);game.canvas.width=Math.min(1600,Math.max(620,Math.round(box.width*ratio)));game.canvas.height=Math.round(game.canvas.width*GRID.length/GRID[0].length)}
 
   function mount(options){
-    if(active)active.destroy();const root=options.root;root.innerHTML=`<section class="science-maze-screen"><div class="maze-space-layer" aria-hidden="true"></div><header class="maze-header"><button id="mazeBack">← Earth Lab</button><div><p>CHAPTER FLIGHT REVIEW</p><h1>Escape the Alien Maze</h1></div><div class="maze-header-score"><span id="mazeLives">♥♥♥</span><b id="mazeScore">0/10</b></div></header><article class="maze-mission-panel"><small>SCIENCE TRANSMISSION</small><h2 id="mazeQuestion"></h2><div class="maze-answer-strip"><span id="mazeLeft"></span><span id="mazeRight"></span></div></article><div class="maze-stage"><canvas id="scienceMazeCanvas" tabindex="0" aria-label="Space maze game. Use arrow keys, WASD, or the touch controls."></canvas><div class="maze-cockpit-frame" aria-hidden="true"><i></i><i></i></div></div><div class="maze-status"><span id="mazePower">FIND THE BLASTER</span><p id="mazeMessage">Fly to the correct hologram gate.</p><small>🚀 You are faster than the aliens · ⚡ Collect the gold plasma blaster</small></div><nav class="maze-dpad" aria-label="Spaceship controls"><button data-dir="up" aria-label="Fly up">▲</button><button data-dir="left" aria-label="Fly left">◀</button><button data-dir="down" aria-label="Fly down">▼</button><button data-dir="right" aria-label="Fly right">▶</button></nav></section>`;
-    const canvas=document.getElementById("scienceMazeCanvas"),ctx=canvas.getContext("2d"),game={options,root:root.querySelector(".science-maze-screen"),canvas,ctx,onExit:options.onExit,onScore:options.onScore||(()=>{}),order:shuffle(QUESTIONS.map((_,i)=>i)),index:0,score:0,lives:3,power:0,gun:true,invulnerable:0,locked:false,running:true,last:performance.now(),stars:Array.from({length:95},()=>({x:Math.random(),y:Math.random(),r:Math.random()*2+1,s:Math.random()*2+1,p:Math.random()*6}))};
+    if(active)active.destroy();const root=options.root;root.innerHTML=`<section class="science-maze-screen"><div class="maze-space-layer" aria-hidden="true"></div><header class="maze-header"><button id="mazeBack">← Earth Lab</button><div><p>CHAPTER FLIGHT REVIEW</p><h1>Escape the Alien Maze</h1></div><div class="maze-header-score"><span id="mazeLives">♥♥♥</span><b id="mazeScore">0/10</b></div></header><article class="maze-mission-panel"><small>SCIENCE TRANSMISSION</small><h2 id="mazeQuestion"></h2><div class="maze-answer-strip"><span id="mazeLeft"></span><span id="mazeRight"></span></div></article><div class="maze-stage"><canvas id="scienceMazeCanvas" tabindex="0" aria-label="Space maze game. Use arrow keys, WASD, or the touch controls."></canvas><div class="maze-cockpit-frame" aria-hidden="true"><i></i><i></i></div></div><div class="maze-status"><span id="mazePower">FIND THE BLASTER</span><p id="mazeMessage">Fly to the correct hologram gate.</p><button id="mazeHint">Hint · show safe gate</button><small>✈ Your aircraft turns early · 3 aliens wander randomly · ⚡ Gold plasma disables them</small></div><nav class="maze-dpad" aria-label="Aircraft controls"><button data-dir="up" aria-label="Fly up">▲</button><button data-dir="left" aria-label="Fly left">◀</button><button data-dir="down" aria-label="Fly down">▼</button><button data-dir="right" aria-label="Fly right">▶</button></nav></section>`;
+    const canvas=document.getElementById("scienceMazeCanvas"),ctx=canvas.getContext("2d"),game={options,root:root.querySelector(".science-maze-screen"),canvas,ctx,onExit:options.onExit,onScore:options.onScore||(()=>{}),order:shuffle(QUESTIONS.map((_,i)=>i)),index:0,score:0,lives:3,power:0,hint:0,gun:true,invulnerable:0,locked:false,running:true,last:performance.now(),stars:Array.from({length:95},()=>({x:Math.random(),y:Math.random(),r:Math.random()*2+1,s:Math.random()*2+1,p:Math.random()*6}))};
     const keydown=event=>{const direction=KEY_DIR[event.key];if(direction){event.preventDefault();steer(game,direction)}};
-    const resizeHandler=()=>resize(game);window.addEventListener("keydown",keydown);window.addEventListener("resize",resizeHandler);document.getElementById("mazeBack").onclick=options.onExit;document.querySelectorAll("[data-dir]").forEach(button=>{button.onclick=event=>{event.preventDefault();steer(game,button.dataset.dir)}});
+    const resizeHandler=()=>resize(game);window.addEventListener("keydown",keydown);window.addEventListener("resize",resizeHandler);document.getElementById("mazeBack").onclick=options.onExit;document.getElementById("mazeHint").onclick=()=>{game.hint=6;game.message=`Hint active: the ${game.left.correct?"A":"B"} gate is glowing. Aliens are slowed.`;syncHud(game)};document.querySelectorAll("[data-dir]").forEach(button=>{button.onclick=event=>{event.preventDefault();steer(game,button.dataset.dir)}});
     game.destroy=()=>{game.running=false;cancelAnimationFrame(game.frame);window.removeEventListener("keydown",keydown);window.removeEventListener("resize",resizeHandler)};active=game;resetPositions(game,true);prepareQuestion(game);resize(game);game.frame=requestAnimationFrame(t=>loop(game,t));canvas.focus();
   }
   window.ScienceMaze={mount,destroy(){if(active)active.destroy();active=null}};

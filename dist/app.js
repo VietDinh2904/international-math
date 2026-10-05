@@ -264,9 +264,9 @@ function renderTestPaper(){
   });renderTestMap();
 }
 function startTestMode(){
-  testActive=true;testSubmitted=false;seconds=(currentYear.startsWith("KANGAROO")?60:90)*60;if(timerId)clearInterval(timerId);timerId=setInterval(()=>{if(seconds>0)seconds--;updateTimer()},1000);$("timerState").textContent="Pause";updateTimer();renderTestPaper();$("testMode").hidden=false;document.body.classList.add("test-focus");$("testMode").scrollTop=0;$("exitTestButton").focus();
+  testActive=true;testSubmitted=false;seconds=(currentYear.startsWith("KANGAROO")?60:90)*60;if(timerId)clearInterval(timerId);timerId=setInterval(()=>{if(seconds>0)seconds--;updateTimer()},1000);$("timerState").textContent="Pause";updateTimer();renderTestPaper();$("testMode").hidden=false;document.body.classList.add("test-focus");window.AttackMode?.start(currentYear,paperNames[currentYear]||currentYear);$("testMode").scrollTop=0;$("exitTestButton").focus();
 }
-function exitTestMode(){testActive=false;if(timerId){clearInterval(timerId);timerId=null}$("testMode").hidden=true;document.body.classList.remove("test-focus");$("timerState").textContent="Resume";render();$("testModeButton").focus()}
+function exitTestMode(){testActive=false;if(timerId){clearInterval(timerId);timerId=null}$("testMode").hidden=true;document.body.classList.remove("test-focus");window.AttackMode?.exit();$("timerState").textContent="Resume";render();$("testModeButton").focus()}
 function restartTest(){
   if(!window.confirm(`Restart ${paperNames[currentYear]}? All answers in this test will be cleared.`))return;
   papers[currentYear].forEach(q=>delete saved[key(q)]);localStorage.setItem("smc-progress-v2",JSON.stringify(saved));
@@ -275,7 +275,7 @@ function restartTest(){
 function submitTest(){
   const list=papers[currentYear];let correct=0,gradable=0;testSubmitted=true;
   list.forEach(q=>{if(!q.ready)return;gradable++;const state=record(q),accepted=acceptedAnswers(q).map(normalize),isCorrect=accepted.includes(normalize(state.answer||""));if(isCorrect){correct++;window.registerAdventureMathCorrect?.(`practice:${currentYear}:${q.n}`)}persist(q,{answer:state.answer||"",checked:true,correct:isCorrect});const card=document.getElementById(`test-question-${q.n}`),result=card?.querySelector(`[data-result-for="${q.n}"]`);if(card){card.classList.toggle("correct",isCorrect);card.classList.toggle("wrong",!isCorrect)}if(result){result.textContent=isCorrect?"Correct ✓":`Correct answer: ${q.answer}${q.unit?` ${q.unit}`:""}`;result.className=`test-result ${isCorrect?"good":"bad"}`}});
-  $("testScore").textContent=`Score: ${correct} / ${gradable}`;renderTestMap();$("testMode").scrollTo({top:0,behavior:"smooth"});
+  $("testScore").textContent=`Score: ${correct} / ${gradable}`;window.AttackMode?.submit({paperId:currentYear,paperName:paperNames[currentYear]||currentYear,correct,total:gradable});renderTestMap();$("testMode").scrollTo({top:0,behavior:"smooth"});
 }
 $("testModeButton").onclick=startTestMode;$("restartTestButton").onclick=restartTest;$("exitTestButton").onclick=exitTestMode;$("submitTestButton").onclick=submitTest;document.addEventListener("keydown",event=>{if(event.key==="Escape"&&testActive&&$("imageLightbox").hidden)exitTestMode()});
 

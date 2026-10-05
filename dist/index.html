@@ -21,10 +21,15 @@
   <link rel="stylesheet" href="science-maze.css?v=20261005-2">
   <link rel="stylesheet" href="science-arcade.css?v=20261005-2">
   <link rel="stylesheet" href="treasure-vault.css?v=20261005-1">
+  <link rel="stylesheet" href="earth-resources.css?v=20261005-1">
+  <link rel="stylesheet" href="attack-mode.css?v=20261005-1">
+  <link rel="stylesheet" href="ui-accessibility.css?v=20261005-1">
+  <link rel="stylesheet" href="engine-room.css?v=20261005-1">
   <link rel="stylesheet" href="zodiac-map.css?v=20261005-1">
   <link rel="stylesheet" href="adventure-scenes.css?v=20260925-1">
 </head>
 <body>
+  <aside class="reading-zoom" aria-label="Text zoom controls"><button id="readingZoomOut" type="button" aria-label="Make text smaller">A−</button><output id="readingZoomLevel">100%</output><button id="readingZoomIn" type="button" aria-label="Make text larger">A+</button></aside>
   <section class="adventure-root" id="adventureRoot" aria-label="Solar System math adventure">
     <header class="adventure-hud" id="adventureHud" hidden>
       <button class="adventure-logo" id="adventureHome" type="button"><span>M</span><strong>International Math</strong></button>
@@ -45,7 +50,7 @@
     <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
     <button class="reset-practice-button" id="resetPracticeButton" type="button" title="Reset question answers"><span aria-hidden="true">↻</span> <span>Reset questions</span></button>
     <button class="return-adventure-button" id="returnAdventureButton" type="button">🚀 Adventure</button>
-    <button class="test-mode-button" id="testModeButton" type="button"><span aria-hidden="true">◎</span> Test mode</button>
+    <button class="test-mode-button" id="testModeButton" type="button"><span aria-hidden="true">⚔</span> Attack mode</button>
     <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
   </header>
   <main>
@@ -138,7 +143,7 @@
   </main>
   <section class="test-mode" id="testMode" aria-label="Focused test mode" hidden>
     <header class="test-header">
-      <div class="test-brand"><span class="brand-tile">M</span><div><strong id="testPaperName">Test paper</strong><small>Focus mode</small></div></div>
+      <div class="test-brand"><span class="brand-tile">M</span><div><strong id="testPaperName">Attack paper</strong><small>ATTACK MODE · PAPER SURVIVAL</small></div></div>
       <div class="test-summary"><span><strong id="testAnsweredCount">0</strong> answered</span><span class="test-clock" id="testClock">90:00</span></div>
       <div class="test-header-actions"><button class="restart-test-button" id="restartTestButton" type="button">Restart test</button><button id="submitTestButton" type="button">Submit test</button><button id="exitTestButton" type="button">Exit</button></div>
     </header>
@@ -222,6 +227,9 @@
   <script src="science-arcade.js?v=20261005-1"></script>
   <script src="treasure-vault.js?v=20261005-1"></script>
   <script src="zodiac-map.js?v=20261005-1"></script>
+  <script src="earth-resources.js?v=20261005-1"></script>
   <script src="adventure.js?v=20261005-5"></script>
+  <script src="attack-mode.js?v=20261005-1"></script>
+  <script src="ui-accessibility.js?v=20261005-1"></script>
 </body>
 </html>

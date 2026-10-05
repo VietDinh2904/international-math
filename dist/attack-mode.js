@@ -1,0 +1,23 @@
+(()=>{
+  "use strict";
+  const MODELS=[
+    {name:"Plasma Interceptor",type:"warship",sprite:0,rarity:"rare"},
+    {name:"Aegis Shield Frigate",type:"warship",sprite:1,rarity:"rare"},
+    {name:"Nova Survey Fighter",type:"warship",sprite:2,rarity:"rare"},
+    {name:"Guardian Mecha",type:"robot",sprite:3,rarity:"legendary"},
+    {name:"Energy Ranger",type:"robot",sprite:4,rarity:"legendary"},
+    {name:"Engineering Titan",type:"robot",sprite:5,rarity:"legendary"}
+  ];
+  let current={paperId:"",paperName:"",enemyCount:0};
+  const battle=()=>window.getAdventureBattleState?.()||{energy:0,collection:[],completedPapers:[]};
+  function ensure(){const mode=document.getElementById("testMode");if(!mode||document.getElementById("attackOverlay"))return;mode.insertAdjacentHTML("afterbegin",`<aside class="attack-overlay" id="attackOverlay" aria-label="Attack mode battle status"><div class="attack-energy"><small>ENGINE ENERGY</small><b id="attackEnergy">⚡ 0</b><span>Earn 1 for each new correct Math answer.</span></div><div class="attack-battlefield" id="attackBattlefield" aria-hidden="true"></div><div class="attack-controls"><button id="attackBlaster">Fire blaster · 4 ⚡</button><button id="attackBomb">E-Bomb · 10 ⚡</button><small>Wrong answers add enemy ships around the paper. Your work remains readable.</small></div><div class="attack-reward" id="attackReward" hidden></div></aside>`);document.getElementById("attackBlaster").onclick=()=>clear("blaster");document.getElementById("attackBomb").onclick=()=>clear("bomb");sync()}
+  function sync(){ensure();const state=battle(),energy=document.getElementById("attackEnergy"),blaster=document.getElementById("attackBlaster"),bomb=document.getElementById("attackBomb");if(energy)energy.textContent=`⚡ ${state.energy||0}`;if(blaster)blaster.disabled=(state.energy||0)<4||current.enemyCount<1;if(bomb)bomb.disabled=(state.energy||0)<10||current.enemyCount<1;drawEnemies()}
+  function drawEnemies(){const field=document.getElementById("attackBattlefield");if(!field)return;field.innerHTML=Array.from({length:current.enemyCount},(_,i)=>`<i class="enemy-fighter enemy-${i%4}" style="--i:${i}"></i>`).join("")}
+  function start(paperId,paperName){ensure();current={paperId:String(paperId),paperName:String(paperName||paperId),enemyCount:0};document.getElementById("testMode")?.classList.add("attack-active");const label=document.querySelector("#testMode .test-brand small");if(label)label.textContent="ATTACK MODE · PAPER SURVIVAL";const score=document.getElementById("testScore");if(score)score.textContent="Complete the full paper to recover a robot or warship.";sync()}
+  function submit({paperId,correct,total,paperName}){ensure();current.paperId=String(paperId);current.paperName=String(paperName||paperId);current.enemyCount=Math.min(16,Math.max(0,total-correct));const state=battle();let reward=null;if(!state.completedPapers.includes(current.paperId)){state.completedPapers.push(current.paperId);reward={...MODELS[state.completedPapers.length-1<MODELS.length?state.completedPapers.length-1:Math.floor(Math.random()*MODELS.length)],id:`attack-${current.paperId}-${Date.now()}`,paperId:current.paperId,paperName:current.paperName,earnedAt:Date.now()};window.registerBattleReward?.(reward)}const panel=document.getElementById("attackReward");if(panel&&reward){panel.hidden=false;panel.innerHTML=`<div class="battle-atlas-sprite battle-${reward.sprite}"></div><p>FULL PAPER REWARD</p><b>${reward.name}</b><span>Stored in the Treasure Vault.</span>`;setTimeout(()=>{if(panel)panel.hidden=true},6500)}sync()}
+  function clear(kind){const cost=kind==="bomb"?10:4;if(!window.spendAdventureEnergy?.(cost))return;const mode=document.getElementById("testMode");mode?.classList.add("attack-blast");const before=current.enemyCount;current.enemyCount=kind==="bomb"?0:Math.max(0,current.enemyCount-3);drawEnemies();setTimeout(()=>{mode?.classList.remove("attack-blast");const field=document.getElementById("attackBattlefield");if(field&&before>current.enemyCount){field.insertAdjacentHTML("beforeend",Array.from({length:Math.min(9,before-current.enemyCount)*2},(_,i)=>`<i class="ship-debris" style="--i:${i}"></i>`).join(""));setTimeout(()=>field.querySelectorAll(".ship-debris").forEach(node=>node.remove()),1300)}sync()},560)}
+  function exit(){document.getElementById("testMode")?.classList.remove("attack-active")}
+  function init(){const button=document.getElementById("testModeButton");if(button)button.innerHTML='<span aria-hidden="true">⚔</span> Attack mode';const menu=document.getElementById("menuTest");if(menu)menu.textContent="⚔ Attack mode";ensure()}
+  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",init):init();
+  window.AttackMode={start,submit,sync,exit};
+})();

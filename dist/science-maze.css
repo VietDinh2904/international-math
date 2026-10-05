@@ -4,5 +4,6 @@
 @media(max-width:760px){.science-maze-launch{grid-template-columns:1fr}.maze-launch-art{min-height:190px}.maze-header{grid-template-columns:auto 1fr}.maze-header-score{grid-column:1/-1;display:flex;justify-content:space-between}.maze-answer-strip{grid-template-columns:1fr}.maze-status{grid-template-columns:1fr}.maze-status small{display:none}.maze-dpad{display:grid}.science-maze-screen{padding-top:125px}.maze-stage{padding:7px 7px 0}.maze-stage canvas{min-height:420px;object-fit:contain}.science-maze-finish{padding-top:150px}}
 @media(prefers-reduced-motion:reduce){.science-maze-launch:before,.science-maze-screen:before,.maze-space-layer,.launch-alien{animation:none}}
 .maze-status>span.countdown{background:#4d235e;color:#ffd8f3;box-shadow:0 0 18px #ff67ca66}
+.maze-status{grid-template-columns:auto 1fr auto;gap:12px}.maze-status small{grid-column:1/-1;text-align:center}.maze-status>button{padding:8px 11px;border:1px solid #ffe877;border-radius:9px;background:#45391a;color:#fff4ab;font-weight:900;cursor:pointer}.maze-status>button:hover{background:#6a561e}
 .maze-stage canvas{aspect-ratio:17/15}
 @media(max-width:760px){.maze-stage canvas{min-height:0}}
