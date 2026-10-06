@@ -421,12 +421,31 @@ html.aquarium-demo-enabled .attack-overlay {
   border: 0;
   background: transparent;
   box-shadow: none;
-  animation: reef-drift 5s ease-in-out infinite alternate;
 }
 
-.reef-hotspot.owned .reef-specimen-image {
-  filter: drop-shadow(0 9px 10px rgba(0, 19, 31, .5));
+.reef-live-sprite {
+  position: absolute;
+  inset: -13%;
+  display: block;
+  background-image: url("assets/coral-organism-cutouts-v1.png");
+  background-repeat: no-repeat;
+  background-size: 400% 200%;
+  background-position: var(--atlas-x) var(--atlas-y);
+  filter: drop-shadow(0 8px 8px rgba(0, 22, 34, .52));
+  transform-origin: 50% 82%;
 }
+
+.reef-hotspot.owned.species-acropora { --size: clamp(96px, 11vw, 180px); }
+.reef-hotspot.owned.species-anemone { --size: clamp(92px, 10vw, 165px); }
+.reef-hotspot.owned.species-clownfish { --size: clamp(78px, 9vw, 145px); animation: reef-fish-swim 6.2s ease-in-out infinite alternate; }
+.reef-hotspot.owned.species-parrotfish { --size: clamp(105px, 13vw, 205px); animation: reef-fish-swim-wide 8.2s ease-in-out infinite alternate; }
+.reef-hotspot.owned.species-shrimp { --size: clamp(76px, 8vw, 132px); animation: reef-bottom-crawl 7s ease-in-out infinite alternate; }
+.reef-hotspot.owned.species-crab { --size: clamp(76px, 8vw, 130px); animation: reef-bottom-crawl 8.5s ease-in-out infinite alternate-reverse; }
+.reef-hotspot.owned.species-clam { --size: clamp(88px, 9vw, 148px); }
+.reef-hotspot.species-anemone .reef-live-sprite { animation: reef-anemone-sway 4.8s ease-in-out infinite alternate; }
+
+.reef-hotspot.owned.species-acropora,
+.reef-hotspot.owned.species-clam { transform: translate(-50%, -50%); }
 
 .reef-specimen-image {
   width: 100%;
@@ -783,6 +802,26 @@ html.aquarium-demo-enabled .attack-overlay {
   to { transform: translate(-50%, -47%) rotate(1deg); }
 }
 
+@keyframes reef-fish-swim {
+  from { transform: translate(-58%, -52%) rotate(-1deg); }
+  to { transform: translate(-38%, -48%) rotate(1.5deg); }
+}
+
+@keyframes reef-fish-swim-wide {
+  from { transform: translate(-60%, -49%) rotate(1deg); }
+  to { transform: translate(-39%, -54%) rotate(-1deg); }
+}
+
+@keyframes reef-bottom-crawl {
+  from { transform: translate(-56%, -50%) rotate(-1deg); }
+  to { transform: translate(-43%, -50%) rotate(1deg); }
+}
+
+@keyframes reef-anemone-sway {
+  from { transform: rotate(-1.8deg) scaleY(.985); }
+  to { transform: rotate(1.8deg) scaleY(1.02); }
+}
+
 @keyframes bubble-rise {
   from { transform: translateY(0) scale(.6); opacity: 0; }
   12% { opacity: .8; }
@@ -815,6 +854,7 @@ html.aquarium-demo-enabled .attack-overlay {
 
 @media (prefers-reduced-motion: reduce) {
   .reef-hotspot.owned,
+  .reef-live-sprite,
   .reef-clue,
   .reef-bubble { animation: none !important; }
 }
