@@ -4,8 +4,132 @@
   display: none !important;
 }
 
+html.aquarium-demo-enabled .reading-zoom,
+html.aquarium-demo-enabled body.adventure-active .study-tools,
+html.aquarium-demo-enabled body.adventure-active .drawing-canvas,
+html.aquarium-demo-enabled .attack-overlay {
+  display: none !important;
+}
+
 .aquarium-demo-enabled .cockpit-route-grid {
   grid-template-columns: minmax(280px, 520px);
+}
+
+.living-room-hub {
+  min-height: calc(100vh - 116px);
+  position: relative;
+  overflow: hidden;
+  color: #f7fdff;
+  background:
+    linear-gradient(180deg, rgba(1, 12, 22, .2), rgba(1, 12, 22, .42)),
+    url("assets/living-room-infinity-library-v1.png") center / cover;
+}
+
+.living-room-hub::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(1, 12, 24, .34), transparent 28% 72%, rgba(1, 12, 24, .34)),
+    linear-gradient(0deg, rgba(1, 11, 22, .62), transparent 36%);
+}
+
+.living-hub-topbar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px clamp(18px, 3vw, 42px);
+  background: linear-gradient(rgba(2, 17, 31, .82), rgba(2, 17, 31, .12));
+}
+
+.living-hub-heading {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 90px;
+  width: min(650px, 90%);
+  text-align: center;
+  transform: translateX(-50%);
+  text-shadow: 0 3px 18px #00111f;
+}
+
+.living-hub-heading h1 {
+  margin: 5px 0;
+  font: 800 clamp(2.2rem, 5vw, 4.5rem)/.95 Georgia, serif;
+}
+
+.living-hub-heading p { margin: 5px 0; color: #d7f8ff; }
+
+.living-hotspot {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 175px;
+  padding: 12px 16px;
+  border: 1px solid rgba(177, 243, 255, .72);
+  border-radius: 20px;
+  color: #f8feff;
+  background: rgba(3, 30, 47, .82);
+  box-shadow: 0 12px 35px rgba(0,0,0,.36), 0 0 24px rgba(74, 225, 255, .13);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.living-hotspot:hover {
+  background: rgba(7, 65, 83, .94);
+  box-shadow: 0 15px 40px rgba(0,0,0,.4), 0 0 34px rgba(82, 235, 255, .28);
+  transform: translateY(-3px);
+}
+
+.living-hotspot b { font: 800 1.05rem/1.1 Georgia, serif; }
+.living-hotspot small { color: #b9e8ef; font-weight: 700; }
+.living-hotspot-icon { color: #8df3ff; font-size: 2rem; line-height: 1; }
+.library-zone { left: 4%; top: 40%; }
+.aquarium-zone { right: 4%; top: 42%; }
+.robot-zone { left: 30%; bottom: 6%; }
+
+.earth-zone {
+  left: 50%;
+  top: 51%;
+  min-width: 210px;
+  border-color: rgba(122, 239, 255, .88);
+  transform: translate(-50%, -50%);
+}
+
+.earth-zone:hover { transform: translate(-50%, calc(-50% - 3px)); }
+
+.earth-orb {
+  width: 54px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 63% 36%, #a7f6ff 0 4%, transparent 5%),
+    radial-gradient(circle at 39% 57%, #44c78c 0 17%, transparent 18%),
+    radial-gradient(circle at 54% 45%, #2995db 0 49%, #0d4f92 50% 66%, transparent 67%);
+  box-shadow: 0 0 0 2px #aaf5ff, 0 0 28px #39dfff;
+}
+
+.living-robot-avatar { font-size: 2.3rem; filter: drop-shadow(0 0 9px #72e9ff); }
+
+.living-hub-caption {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 15px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #bfe9f0;
+  background: rgba(1, 18, 30, .76);
+  font-size: .76rem;
+  font-weight: 800;
+  transform: translateX(-50%);
 }
 
 .aquarium-shell {
@@ -520,6 +644,64 @@
   margin-top: 20px;
 }
 
+.library-book-grid,
+.robot-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.library-book {
+  min-height: 210px;
+  padding: 20px 14px !important;
+  display: grid;
+  align-content: end;
+  justify-items: start;
+  gap: 7px;
+  border-radius: 12px 24px 24px 12px !important;
+  text-align: left;
+  box-shadow: inset 8px 0 rgba(255,255,255,.12), 0 15px 30px rgba(0,0,0,.3) !important;
+}
+
+.library-book span { font: 900 2.7rem/1 Georgia, serif; }
+.library-book b { font: 800 1.15rem/1.05 Georgia, serif; }
+.library-book small { color: rgba(255,255,255,.75); }
+.library-book.math { background: linear-gradient(145deg, #3c75b8, #102844); }
+.library-book.papers { background: linear-gradient(145deg, #b9722c, #4e2510); }
+.library-book.science { background: linear-gradient(145deg, #348a75, #123f3c); }
+.library-book.future { background: linear-gradient(145deg, #404b58, #1a222c); opacity: .55; }
+
+.robot-shop-card {
+  padding: 16px;
+  border: 1px solid rgba(158, 235, 255, .28);
+  border-radius: 20px;
+  text-align: center;
+  background: rgba(3, 27, 43, .78);
+}
+
+.robot-shop-card.selected { border-color: #ffe078; box-shadow: 0 0 24px rgba(255, 215, 99, .17); }
+.robot-shop-icon { display: block; font-size: 3.7rem; filter: drop-shadow(0 0 12px #62e3ff); }
+.robot-shop-card h3 { margin: 7px 0 3px; font: 800 1.35rem Georgia, serif; }
+.robot-shop-card p { min-height: 2.4em; color: #abdce5; }
+.robot-shop-card button { width: 100%; }
+
+.robot-upgrade-row {
+  margin-top: 18px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid rgba(220, 157, 255, .46);
+  border-radius: 18px;
+  background: rgba(50, 23, 70, .5);
+}
+
+.robot-upgrade-row div { display: grid; gap: 2px; }
+.robot-upgrade-row small { color: #e0a7ff; font-weight: 900; letter-spacing: .13em; }
+.robot-upgrade-row span { color: #cebfe0; }
+
 .reef-chest-grid {
   grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
   justify-content: start;
@@ -608,6 +790,13 @@
 }
 
 @media (max-width: 760px) {
+  .living-room-hub { min-height: auto; padding-bottom: 20px; background-position: 58% center; }
+  .living-hub-topbar { align-items: flex-start; }
+  .living-hub-topbar .eco-wallet { justify-content: flex-end; }
+  .living-hub-heading { position: relative; left: auto; top: auto; width: auto; margin: 35px 18px 20px; transform: none; }
+  .living-hotspot { position: relative; inset: auto; width: calc(100% - 28px); margin: 10px 14px; transform: none !important; }
+  .living-hub-caption { position: relative; left: auto; bottom: auto; display: block; width: max-content; max-width: calc(100% - 28px); margin: 18px auto 0; transform: none; }
+  .robot-upgrade-row { align-items: stretch; flex-direction: column; }
   .aquarium-shell { min-height: calc(100vh - 84px); }
   .aquarium-library-strip { min-height: 330px; }
   .reef-workspace { width: calc(100% - 14px); margin-top: -42px; }

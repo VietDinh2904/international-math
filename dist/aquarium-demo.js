@@ -14,10 +14,15 @@
     {id:"cleaning",x:25,y:67,title:"Trạm làm sạch",text:"Một số cá chủ động ghé tôm bác sĩ để tôm lấy ký sinh trùng và mô chết trên cơ thể chúng."},
     {id:"reef-builder",x:13,y:36,title:"Kỹ sư của rạn",text:"Bộ xương đá vôi do các polyp san hô tạo ra trở thành nền móng cho nhiều nơi ẩn náu khác."}
   ];
+  const robots=[
+    {id:"orbit",name:"Orbit",role:"Library helper",icon:"🤖",currency:"gold",cost:0},
+    {id:"atlas",name:"Atlas",role:"Habitat engineer",icon:"🦾",currency:"gold",cost:80},
+    {id:"nova",name:"Nova",role:"Research specialist",icon:"🔬",currency:"gem",cost:3}
+  ];
   let state,activeOptions={};
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
-  const defaults=()=>({version:1,gold:160,energy:8,gems:3,owned:[],noted:[],clues:[],location:"coral-lagoon"});
-  function load(){try{const saved=JSON.parse(localStorage.getItem(STORE)||"null")||{};return {...defaults(),...saved,owned:Array.isArray(saved.owned)?saved.owned:[],noted:Array.isArray(saved.noted)?saved.noted:[],clues:Array.isArray(saved.clues)?saved.clues:[]}}catch{return defaults()}}
+  const defaults=()=>({version:2,gold:160,energy:8,gems:3,owned:[],noted:[],clues:[],location:"coral-lagoon",robot:"orbit",robotLevel:1,robotOwned:["orbit"]});
+  function load(){try{const saved=JSON.parse(localStorage.getItem(STORE)||"null")||{};return {...defaults(),...saved,owned:Array.isArray(saved.owned)?saved.owned:[],noted:Array.isArray(saved.noted)?saved.noted:[],clues:Array.isArray(saved.clues)?saved.clues:[],robotOwned:Array.isArray(saved.robotOwned)?saved.robotOwned:["orbit"]}}catch{return defaults()}}
   const save=()=>localStorage.setItem(STORE,JSON.stringify(state));
   const isOwned=id=>state.owned.includes(id);
   const specimenStyle=item=>`--atlas-x:${item.ax};--atlas-y:${item.ay}`;
@@ -106,18 +111,78 @@
   }
   function openLibrary(){
     modal(`
-      <p class="reef-eyebrow">INFINITY LIBRARY · PREVIEW</p><h2>Thư viện học tập trong Living Room</h2>
-      <p class="reef-modal-lead">Khu này sẽ chứa sách Toán, Science và sau đó mở rộng thêm Văn, Sử và Địa. Field Journal và hai kho đặc biệt cũng sẽ được kết nối tại đây.</p>
-      <div class="reef-map-grid">
-        <article class="reef-map-card"><span>ĐANG HOẠT ĐỘNG</span><b>Science Field Journal</b><small>Từ vựng và sinh vật đã thu thập</small></article>
-        <article class="reef-map-card locked"><span>GIAI ĐOẠN SAU</span><b>Extinct Archive</b><small>Hóa thạch và sinh vật tuyệt chủng</small></article>
-        <article class="reef-map-card locked"><span>GIAI ĐOẠN SAU</span><b>Mythic Archive</b><small>Truyền thuyết và văn hóa, tách riêng khoa học</small></article>
+      <p class="reef-eyebrow">INFINITY LIBRARY · BOOK COLLECTION</p><h2>Chọn một kệ sách</h2>
+      <p class="reef-modal-lead">Sách đang sử dụng được mở trực tiếp. Các môn mới vẫn nằm trên kệ để phát triển ở giai đoạn tiếp theo.</p>
+      <div class="library-book-grid">
+        <button class="library-book math" data-book="math"><span>∑</span><b>Mathematics</b><small>Luyện tập theo câu hỏi</small></button>
+        <button class="library-book papers" data-book="papers"><span>▤</span><b>Original Papers</b><small>SMC · TIMO · Kangaroo</small></button>
+        <button class="library-book science" data-book="science"><span>⌁</span><b>Science Journal</b><small>Bài học và hồ sơ sinh vật</small></button>
+        <button class="library-book future" disabled><span>文</span><b>Văn học</b><small>Sẽ mở sau</small></button>
+        <button class="library-book future" disabled><span>⌖</span><b>Sử & Địa</b><small>Sẽ mở sau</small></button>
       </div>`);
+    document.querySelectorAll("[data-book]").forEach(button=>button.onclick=()=>openBook(button.dataset.book));
+  }
+  function openBook(book){
+    closeModal();
+    if(book==="math"){document.getElementById("menuPractice")?.click();return}
+    if(book==="papers"){document.getElementById("menuPractice")?.click();setTimeout(()=>{location.hash="library";document.getElementById("library")?.scrollIntoView({behavior:"smooth"})},80);return}
+    if(book==="science"){activeOptions.onBack?.();setTimeout(()=>document.getElementById("cockpitLab")?.click(),80)}
+  }
+  function openTest(){
+    document.getElementById("menuPractice")?.click();
+    setTimeout(()=>document.getElementById("testModeButton")?.click(),80);
+  }
+  function robotPrice(robot){return robot.currency==="gem"?`◆ ${robot.cost} Gem`:`● ${robot.cost} vàng`}
+  function buyRobot(id){
+    const robot=robots.find(item=>item.id===id);if(!robot)return;
+    if(state.robotOwned.includes(id)){state.robot=id;save();closeModal();renderHub();announce(`${robot.name} đang đồng hành cùng bạn.`);return}
+    const key=robot.currency==="gem"?"gems":"gold";
+    if(state[key]<robot.cost){announce(robot.currency==="gem"?"Chưa đủ Knowledge Gem.":"Chưa đủ vàng.");return}
+    state[key]-=robot.cost;state.robotOwned.push(id);state.robot=id;save();closeModal();renderHub();announce(`${robot.name} đã được mở khóa.`);
+  }
+  function upgradeRobot(){
+    const cost=state.robotLevel;
+    if(state.robotLevel>=3){announce("Robot đã đạt cấp tối đa trong bản demo.");return}
+    if(state.gems<cost){announce("Chưa đủ Knowledge Gem để nâng cấp.");return}
+    state.gems-=cost;state.robotLevel+=1;save();closeModal();renderHub();announce(`Robot đã lên cấp ${state.robotLevel}.`);
+  }
+  function openRobotShop(){
+    const current=robots.find(item=>item.id===state.robot)||robots[0];
+    modal(`
+      <p class="reef-eyebrow">ROBOT WORKSHOP</p><h2>Đổi và nâng cấp robot</h2>
+      <p class="reef-modal-lead">Robot hiện tại: <b>${esc(current.name)}</b> · cấp ${state.robotLevel}. Mẫu robot được mua bằng vàng; mẫu nghiên cứu đặc biệt dùng Knowledge Gem.</p>
+      <div class="robot-shop-grid">${robots.map(robot=>{const owned=state.robotOwned.includes(robot.id),selected=state.robot===robot.id;return `<article class="robot-shop-card ${selected?"selected":""}"><span class="robot-shop-icon">${robot.icon}</span><h3>${esc(robot.name)}</h3><p>${esc(robot.role)}</p><button data-robot="${robot.id}" ${selected?"disabled":""}>${selected?"Đang sử dụng":owned?"Chọn robot":`Mua · ${robotPrice(robot)}`}</button></article>`}).join("")}</div>
+      <div class="robot-upgrade-row"><div><small>GEM UPGRADE</small><b>Cấp ${state.robotLevel}/3</b><span>Tăng khả năng hỗ trợ học tập và nghiên cứu habitat.</span></div><button id="upgradeLivingRobot" ${state.robotLevel>=3?"disabled":""}>${state.robotLevel>=3?"Đã tối đa":`Nâng cấp · ◆ ${state.robotLevel} Gem`}</button></div>`);
+    document.querySelectorAll("[data-robot]").forEach(button=>button.onclick=()=>buyRobot(button.dataset.robot));
+    document.getElementById("upgradeLivingRobot").onclick=upgradeRobot;
   }
   function openClue(id){
     const clue=clues.find(item=>item.id===id);if(!clue)return;const recorded=state.clues.includes(id);
     modal(`<p class="reef-eyebrow">DIRECT HABITAT OBSERVATION</p><h2>${esc(clue.title)}</h2><p class="reef-modal-lead">${esc(clue.text)}</p><div class="reef-fun-fact"><b>HỌC TRỰC TIẾP TRÊN HÌNH</b><p>Điểm sáng liên kết cảnh vật với một mối quan hệ sinh thái và lưu ghi chú vào Field Journal.</p></div><div class="species-actions"><button class="primary" id="recordReefClue" ${recorded?"disabled":""}>${recorded?"✓ Đã ghi nhận":"Ghi vào Field Journal"}</button></div>`);
     document.getElementById("recordReefClue").onclick=()=>{if(!state.clues.includes(id))state.clues.push(id);save();closeModal();render();announce("Đã lưu quan sát sinh thái.")};
+  }
+  function renderHub(){
+    const root=document.getElementById("adventureView");if(!root)return;root.scrollTop=0;closeModal();
+    const robot=robots.find(item=>item.id===state.robot)||robots[0];
+    root.innerHTML=`
+      <section class="living-room-hub" aria-label="Living Room Infinity Library">
+        <div class="living-hub-topbar">
+          <button class="aquarium-back" id="livingBack">← Cockpit</button>
+          <div class="aquarium-brand"><small>LIVING ROOM</small><strong>Infinity Library</strong></div>
+          <div class="eco-wallet"><span class="gold">● <b>${state.gold}</b> vàng</span><span class="energy">⚡ <b>${state.energy}</b> Energy</span><span class="gems">◆ <b>${state.gems}</b> Gem</span></div>
+        </div>
+        <div class="living-hub-heading"><p class="reef-eyebrow">READ · TEST · COLLECT · GROW</p><h1>Phòng học và sinh thái</h1><p>Chạm vào một khu vực trong phòng để bắt đầu.</p></div>
+        <button class="living-hotspot library-zone" id="livingLibrary"><span class="living-hotspot-icon">▥</span><b>Infinity Library</b><small>Mở các loại sách</small></button>
+        <button class="living-hotspot earth-zone" id="livingEarth"><span class="earth-orb" aria-hidden="true"></span><b>Earth Test Center</b><small>Làm đề kiểm tra</small></button>
+        <button class="living-hotspot robot-zone" id="livingRobot"><span class="living-robot-avatar">${robot.icon}</span><b>${esc(robot.name)} · Cấp ${state.robotLevel}</b><small>Đổi hoặc nâng cấp robot</small></button>
+        <button class="living-hotspot aquarium-zone" id="livingAquarium"><span class="living-hotspot-icon">≈</span><b>Coral Lagoon</b><small>Mở hồ san hô sát bờ</small></button>
+        <div class="living-hub-caption">Kệ sách · Test Center · Robot Workshop · Habitat Aquarium</div>
+      </section>`;
+    document.getElementById("livingBack").onclick=()=>activeOptions.onBack?.();
+    document.getElementById("livingLibrary").onclick=openLibrary;
+    document.getElementById("livingEarth").onclick=openTest;
+    document.getElementById("livingRobot").onclick=openRobotShop;
+    document.getElementById("livingAquarium").onclick=render;
   }
   function render(){
     const root=document.getElementById("adventureView");if(!root)return;root.scrollTop=0;
@@ -125,11 +190,11 @@
       <section class="aquarium-shell">
         <div class="aquarium-library-strip">
           <div class="aquarium-topbar">
-            <button class="aquarium-back" id="aquariumBack">← Cockpit</button>
-            <div class="aquarium-brand"><small>LIVING ROOM · INFINITY LIBRARY</small><strong>Coastal Habitat Observatory</strong></div>
+            <button class="aquarium-back" id="aquariumBack">← Living Room</button>
+            <div class="aquarium-brand"><small>LIVING ROOM · AQUARIUM</small><strong>Coastal Habitat Observatory</strong></div>
             <div class="eco-wallet"><span class="gold">● <b>${state.gold}</b> vàng</span><span class="energy">⚡ <b>${state.energy}</b> Energy</span><span class="gems">◆ <b>${state.gems}</b> Gem</span></div>
           </div>
-          <div class="aquarium-intro"><p class="reef-eyebrow">DEMO HABITAT 01</p><h1>Rạn san hô sát bờ</h1><p>Mặt cắt 3D từ mặt nước đến độ sâu 20 mét. Chạm vào sinh vật hoặc điểm sáng để mở hồ sơ học tập.</p><button class="library-preview-chip" id="libraryPreview">▤ Xem trước Infinity Library</button></div>
+          <div class="aquarium-intro"><p class="reef-eyebrow">DEMO HABITAT 01</p><h1>Rạn san hô sát bờ</h1><p>Mặt cắt 3D từ mặt nước đến độ sâu 20 mét. Chạm vào sinh vật hoặc điểm sáng để mở hồ sơ học tập.</p></div>
         </div>
         <div class="reef-workspace">
           <div class="reef-toolbar"><div class="reef-location"><strong>Coral Lagoon · Indo-Pacific</strong><small>Coastal reef · Sunlit zone · 0–20 m</small></div><div class="reef-toolbar-actions"><button id="reefMap">⌖ Bản đồ</button><button id="reefChest">▣ Rương · ${state.owned.length}/7</button><button class="reef-shop-button" id="reefShop">● Habitat Shop</button></div></div>
@@ -142,8 +207,8 @@
           <div class="reef-status-row"><article class="reef-status-card"><b>🧬 Bộ sưu tập ${state.owned.length}/7</b><span>Bóng khóa biến thành tiêu bản sau khi mở.</span></article><article class="reef-status-card"><b>📓 Quan sát ${state.clues.length}/3</b><span>Điểm sáng lưu bài học ngắn vào Field Journal.</span></article><article class="reef-status-card"><b>⚡ Habitat stable</b><span>Demo dùng 1 Energy. Arcade sẽ là nguồn Energy chính.</span></article></div>
         </div>
       </section>`;
-    document.getElementById("aquariumBack").onclick=()=>activeOptions.onBack?.();
-    document.getElementById("reefMap").onclick=openMap;document.getElementById("reefShop").onclick=openShop;document.getElementById("reefChest").onclick=openChest;document.getElementById("libraryPreview").onclick=openLibrary;
+    document.getElementById("aquariumBack").onclick=renderHub;
+    document.getElementById("reefMap").onclick=openMap;document.getElementById("reefShop").onclick=openShop;document.getElementById("reefChest").onclick=openChest;
     document.querySelectorAll("[data-species]").forEach(button=>button.onclick=()=>openSpecies(button.dataset.species));
     document.querySelectorAll("[data-clue]").forEach(button=>button.onclick=()=>openClue(button.dataset.clue));
   }
@@ -156,7 +221,7 @@
     living.onclick=()=>window.AquariumDemo.mount({onBack:()=>document.getElementById("adventureHome")?.click()});
   }
   document.documentElement.classList.add("aquarium-demo-enabled");
-  window.AquariumDemo={mount(options={}){activeOptions=options;state=load();render()},getState:()=>({...state,owned:[...state.owned],noted:[...state.noted],clues:[...state.clues]})};
+  window.AquariumDemo={mount(options={}){activeOptions=options;state=load();renderHub()},showHub:renderHub,showAquarium:render,getState:()=>({...state,owned:[...state.owned],noted:[...state.noted],clues:[...state.clues],robotOwned:[...state.robotOwned]})};
   new MutationObserver(wireCockpit).observe(document.getElementById("adventureRoot"),{childList:true,subtree:true});
   setTimeout(wireCockpit,0);
 })();
