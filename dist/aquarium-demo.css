@@ -520,6 +520,11 @@
   margin-top: 20px;
 }
 
+.reef-chest-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
+  justify-content: start;
+}
+
 .reef-card {
   padding: 12px;
   border: 1px solid rgba(153, 234, 255, .22);
