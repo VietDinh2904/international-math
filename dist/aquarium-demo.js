@@ -163,6 +163,8 @@
   }
   function renderHub(){
     const root=document.getElementById("adventureView");if(!root)return;root.scrollTop=0;closeModal();
+    const menu=document.getElementById("adventureMenu");if(menu)menu.hidden=true;
+    document.getElementById("adventureMenuButton")?.setAttribute("aria-expanded","false");
     const robot=robots.find(item=>item.id===state.robot)||robots[0];
     root.innerHTML=`
       <section class="living-room-hub" aria-label="Living Room Infinity Library">
