@@ -47,6 +47,25 @@
     {word:"shoot",pos:"noun",meaning:"a young stem or new plant growth",image:"assets/science-vocab-w2d4-v1.png",position:"right"}
   ];
 
+  const SORTS=[
+    {prompt:"Pondweed uses sunlight to make food.",labels:["Producer","Consumer"],right:0,tag:"POND ECOSYSTEM",why:"A producer makes its own food using light energy."},
+    {prompt:"A frog eats insects beside a pond.",labels:["Producer","Consumer"],right:1,tag:"POND ECOSYSTEM",why:"A consumer gets energy by eating other organisms."},
+    {prompt:"A mushroom breaks down a fallen log.",labels:["Decomposer","Pollinator"],right:0,tag:"FOREST FLOOR",why:"Fungi can decompose dead material and recycle nutrients."},
+    {prompt:"A bee carries pollen between flowers.",labels:["Pollinator","Predator"],right:0,tag:"FLOWER NETWORK",why:"A pollinator transfers pollen as it visits flowers."},
+    {prompt:"A heron catches and eats a fish.",labels:["Prey","Predator"],right:1,tag:"FOOD WEB",why:"A predator hunts another animal for food."},
+    {prompt:"A small fish is hunted by a larger fish.",labels:["Prey","Producer"],right:0,tag:"FOOD WEB",why:"Prey is an animal hunted by another animal."},
+    {prompt:"Water and minerals are parts of a habitat.",labels:["Living","Nonliving"],right:1,tag:"HABITAT",why:"Water and minerals are nonliving environmental factors."},
+    {prompt:"An earthworm grows, feeds and responds to its surroundings.",labels:["Living","Nonliving"],right:0,tag:"SOIL ECOSYSTEM",why:"An earthworm carries out the life processes of an organism."}
+  ];
+
+  const SEQUENCES=[
+    {title:"From flower to fruit",steps:["Pollen reaches a flower","Seeds begin to form","The ovary grows into fruit"],why:"Pollination happens before seed and fruit development."},
+    {title:"From nectar to honey",steps:["A bee collects nectar","Workers place nectar in honeycomb","Wing fanning removes water"],why:"Honey forms after nectar is stored and loses water."},
+    {title:"Seed germination",steps:["The seed absorbs water","The root begins to emerge","The shoot grows toward light"],why:"Water activates the seed before roots and shoots grow."},
+    {title:"Nutrient recycling",steps:["A leaf falls to the soil","Decomposers break it down","Roots absorb released nutrients"],why:"Decomposition returns material that plants can use again."},
+    {title:"Food-chain energy",steps:["Sunlight reaches pondweed","A tadpole eats pondweed","A fish eats the tadpole"],why:"Energy enters through a producer and then moves to consumers."}
+  ];
+
   const LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   let active=null;
   const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
@@ -60,14 +79,18 @@
 
   function renderHub(game){
     game.mode="hub";
-    shell(game,"Science Arcade","COCKPIT TRAINING DECK",`<main class="arcade-hub"><section class="arcade-hub-intro"><div><span>3 PLAYABLE MISSIONS</span><h2>Choose a review game</h2><p>Every mission uses the science words and ideas collected during your Earth expeditions.</p></div><div class="arcade-orbit" aria-hidden="true"><i></i><b>SCIENCE<br>ARCADE</b></div></section><section class="arcade-game-grid">
+    shell(game,"Science Arcade","COCKPIT TRAINING DECK",`<main class="arcade-hub"><section class="arcade-hub-intro"><div><span>5 PLAYABLE MISSIONS</span><h2>Choose a review game</h2><p>Every mission uses the science words and ideas collected during your Earth expeditions.</p></div><div class="arcade-orbit" aria-hidden="true"><i></i><b>SCIENCE<br>ARCADE</b></div></section><section class="arcade-game-grid">
       <article class="arcade-game-card maze-card"><div class="arcade-card-art" aria-hidden="true"><span class="mini-ship">▲</span><span class="mini-alien one">●</span><span class="mini-alien two">●</span></div><p>FLIGHT + SCIENCE QUESTIONS</p><h3>Alien Maze</h3><span>Fly an aircraft to the correct gate while three aliens wander the corridors.</span><div><b>Best ${game.best.maze||0}/10</b><button id="arcadeMaze">Play maze →</button></div></article>
       <article class="arcade-game-card hangman-card"><div class="arcade-card-art ship-art" aria-hidden="true"><span class="rescue-ship">▲</span><i class="laser one"></i><i class="laser two"></i></div><p>VOCABULARY + SPELLING</p><h3>Starship Word Rescue</h3><span>Guess the missing word before alien lasers disable your starship.</span><div><b>Best ${game.best.hangman||0}/5</b><button id="arcadeHangman">Play rescue →</button></div></article>
       <article class="arcade-game-card decoder-card"><div class="arcade-card-art scan-art" aria-hidden="true"><i></i><strong>?</strong><span>SCAN COMPLETE</span></div><p>PICTURE + WORD BUILDING</p><h3>Picture Word Decoder</h3><span>Study a specimen image, then rebuild its science word from scrambled letters.</span><div><b>Best ${game.best.decoder||0}/5</b><button id="arcadeDecoder">Play decoder →</button></div></article>
-    </section></main>`,{label:"Earth Lab",best:`${Math.max(game.best.hangman||0,game.best.decoder||0)}/5`,action:game.onExit});
+      <article class="arcade-game-card sorter-card"><div class="arcade-card-art sorter-art" aria-hidden="true"><span>LEAF</span><i>?</i><strong>SOIL</strong></div><p>CLASSIFICATION + EVIDENCE</p><h3>Ecosystem Sorter</h3><span>Read an observation and send it to the correct scientific category.</span><div><b>Best ${game.best.sorter||0}/5</b><button id="arcadeSorter">Play sorter →</button></div></article>
+      <article class="arcade-game-card sequence-card"><div class="arcade-card-art sequence-art" aria-hidden="true"><b>1</b><b>2</b><b>3</b><i></i></div><p>PROCESSES + ORDER</p><h3>Process Sequencer</h3><span>Rebuild biological processes by arranging evidence in the correct order.</span><div><b>Best ${game.best.sequence||0}/5</b><button id="arcadeSequence">Play sequence →</button></div></article>
+    </section></main>`,{label:"Earth Lab",best:`${Math.max(game.best.hangman||0,game.best.decoder||0,game.best.sorter||0,game.best.sequence||0)}/5`,action:game.onExit});
     document.getElementById("arcadeMaze").onclick=game.onMaze;
     document.getElementById("arcadeHangman").onclick=()=>startHangman(game);
     document.getElementById("arcadeDecoder").onclick=()=>startDecoder(game);
+    document.getElementById("arcadeSorter").onclick=()=>startSorter(game);
+    document.getElementById("arcadeSequence").onclick=()=>startSequence(game);
   }
 
   function startHangman(game){
@@ -107,14 +130,35 @@
   }
   function nextDecoder(game){game.locked=false;game.round++;if(game.round>=game.deck.length)return finishGame(game,"decoder","Picture Decoder complete");game.placed=[];game.letterOrder=null;game.letterWord="";renderDecoder(game)}
 
+  function startSorter(game){game.mode="sorter";game.round=0;game.score=0;game.deck=shuffle(SORTS).slice(0,5);game.locked=false;renderSorter(game)}
+  function renderSorter(game){
+    const item=game.deck[game.round];
+    shell(game,"Ecosystem Sorter","SCIENCE ARCADE · MISSION 04",`<main class="sorter-game"><section class="sorter-observation"><div class="sorter-orbit-art" aria-hidden="true"><i></i><i></i><strong>?</strong></div><p>${esc(item.tag)}</p><h2>${esc(item.prompt)}</h2><span>Choose the category supported by the observation.</span></section><section class="sorter-console"><div class="round-counter"><span>OBSERVATION ${game.round+1} / 5</span><b>SCORE ${game.score}</b></div><div class="sorter-bins">${item.labels.map((label,index)=>`<button data-sort="${index}"><i>${index?"B":"A"}</i><b>${esc(label)}</b><span>Send observation here</span></button>`).join("")}</div><p class="arcade-feedback" id="sorterMessage">Select one scientific category.</p></section></main>`,{label:"Game Select",best:`${game.best.sorter||0}/5`,action:()=>renderHub(game)});
+    document.querySelectorAll("[data-sort]").forEach(button=>button.onclick=()=>chooseSort(game,Number(button.dataset.sort)));
+  }
+  function chooseSort(game,index){
+    if(game.locked)return;game.locked=true;const item=game.deck[game.round],correct=index===item.right,screen=game.root.querySelector(".science-arcade-screen"),message=document.getElementById("sorterMessage");if(correct){game.score++;screen.classList.add("arcade-success")}else screen.classList.add("decoder-error");if(message)message.textContent=`${correct?"Correct":"Not this category"}. ${item.why}`;later(game,()=>{game.locked=false;game.round++;if(game.round>=game.deck.length)finishGame(game,"sorter","Ecosystem Sorter complete");else renderSorter(game)},1050)
+  }
+
+  function startSequence(game){game.mode="sequence";game.round=0;game.score=0;game.deck=shuffle(SEQUENCES).slice(0,5);game.sequenceOrder=null;game.sequenceTitle="";game.placed=[];game.firstTry=true;game.locked=false;renderSequence(game)}
+  function renderSequence(game){
+    const item=game.deck[game.round];if(game.sequenceTitle!==item.title){game.sequenceOrder=shuffle(item.steps.map((text,index)=>({text,index})));game.sequenceTitle=item.title;game.placed=[];game.firstTry=true}const available=game.sequenceOrder;
+    shell(game,"Process Sequencer","SCIENCE ARCADE · MISSION 05",`<main class="sequence-game"><section class="sequence-brief"><p>PROCESS ${game.round+1} / 5</p><h2>${esc(item.title)}</h2><span>Select each evidence card in the order it happens.</span><div class="sequence-track">${item.steps.map((_,index)=>`<div><small>STEP ${index+1}</small><b>${game.placed[index]?esc(game.placed[index].text):"?"}</b></div>`).join("")}</div></section><section class="sequence-console"><div class="round-counter"><span>ORDER THE EVIDENCE</span><b>SCORE ${game.score}</b></div><div class="sequence-cards">${available.map(card=>`<button data-sequence="${card.index}" ${game.placed.some(used=>used.index===card.index)?"disabled":""}>${esc(card.text)}</button>`).join("")}</div><div class="decoder-actions"><button id="sequenceBackspace">⌫ Backspace</button><button id="sequenceClear">Clear</button><p id="sequenceMessage">Build the process from first to last.</p></div></section></main>`,{label:"Game Select",best:`${game.best.sequence||0}/5`,action:()=>renderHub(game)});
+    document.querySelectorAll("[data-sequence]").forEach(button=>button.onclick=()=>placeSequence(game,Number(button.dataset.sequence)));document.getElementById("sequenceBackspace").onclick=()=>{if(game.locked)return;game.placed.pop();renderSequence(game)};document.getElementById("sequenceClear").onclick=()=>{if(game.locked)return;game.placed=[];renderSequence(game)};
+  }
+  function placeSequence(game,index){if(game.locked||game.placed.some(card=>card.index===index))return;const card=game.sequenceOrder.find(entry=>entry.index===index);if(!card)return;game.placed.push(card);renderSequence(game);if(game.placed.length===game.deck[game.round].steps.length)checkSequence(game)}
+  function checkSequence(game){
+    const item=game.deck[game.round],correct=game.placed.every((card,index)=>card.index===index),screen=game.root.querySelector(".science-arcade-screen"),message=document.getElementById("sequenceMessage");game.locked=true;if(correct){if(game.firstTry)game.score++;screen.classList.add("arcade-success");if(message)message.textContent=`Sequence complete. ${item.why}`;later(game,()=>{game.locked=false;game.round++;game.sequenceTitle="";game.sequenceOrder=null;game.placed=[];if(game.round>=game.deck.length)finishGame(game,"sequence","Process Sequencer complete");else renderSequence(game)},1150)}else{game.firstTry=false;screen.classList.add("decoder-error");if(message)message.textContent="That order does not show the process yet. Try again.";later(game,()=>{game.locked=false;game.placed=[];renderSequence(game)},850)}
+  }
+
   function finishGame(game,key,title){
     game.best[key]=Math.max(game.best[key]||0,game.score);game.onScore(key,game.score);game.mode="finish";
     shell(game,title,"SCIENCE ARCADE · MISSION COMPLETE",`<main class="arcade-finish"><div class="finish-planet" aria-hidden="true"></div><p>FINAL SCORE</p><h2>${game.score}<small>/5</small></h2><h3>${game.score===5?"Perfect research flight!":game.score>=3?"Mission complete — your science skills are growing.":"Good first scan. Review the field journal and try again."}</h3><div><button id="arcadeReplay">Play again</button><button id="arcadeHome">Choose another game</button></div></main>`,{label:"Game Select",best:`${game.best[key]}/5`,action:()=>renderHub(game)});
-    document.getElementById("arcadeReplay").onclick=()=>key==="hangman"?startHangman(game):startDecoder(game);
+    document.getElementById("arcadeReplay").onclick=()=>({hangman:startHangman,decoder:startDecoder,sorter:startSorter,sequence:startSequence}[key]||startDecoder)(game);
     document.getElementById("arcadeHome").onclick=()=>renderHub(game);
   }
 
-  function mount(options){destroy();const game={root:options.root,best:{maze:options.mazeBest||0,hangman:0,decoder:0,...options.best},onExit:options.onExit,onMaze:options.onMaze,onScore:options.onScore||(()=>{}),timers:new Set(),locked:false};active=game;renderHub(game)}
+  function mount(options){destroy();const game={root:options.root,best:{maze:options.mazeBest||0,hangman:0,decoder:0,sorter:0,sequence:0,...options.best},onExit:options.onExit,onMaze:options.onMaze,onScore:options.onScore||(()=>{}),timers:new Set(),locked:false};active=game;renderHub(game)}
   function destroy(){if(!active)return;active.timers.forEach(clearTimeout);active.timers.clear();active=null}
   window.ScienceArcade={mount,destroy};
 })();
