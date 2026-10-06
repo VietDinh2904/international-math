@@ -17,6 +17,8 @@ html.aquarium-demo-enabled .attack-overlay {
 
 .living-room-hub {
   min-height: calc(100vh - 116px);
+  box-sizing: border-box;
+  padding-top: 92px;
   position: relative;
   overflow: hidden;
   color: #f7fdff;
@@ -136,6 +138,8 @@ html.aquarium-demo-enabled .attack-overlay {
   --glass: rgba(5, 35, 56, .76);
   --line: rgba(151, 240, 255, .42);
   min-height: calc(100vh - 116px);
+  box-sizing: border-box;
+  padding-top: 92px;
   color: #f5fdff;
   background: #03141f;
   position: relative;
@@ -790,14 +794,14 @@ html.aquarium-demo-enabled .attack-overlay {
 }
 
 @media (max-width: 760px) {
-  .living-room-hub { min-height: auto; padding-bottom: 20px; background-position: 58% center; }
+  .living-room-hub { min-height: auto; padding: 126px 0 20px; background-position: 58% center; }
   .living-hub-topbar { align-items: flex-start; }
   .living-hub-topbar .eco-wallet { justify-content: flex-end; }
   .living-hub-heading { position: relative; left: auto; top: auto; width: auto; margin: 35px 18px 20px; transform: none; }
   .living-hotspot { position: relative; inset: auto; width: calc(100% - 28px); margin: 10px 14px; transform: none !important; }
   .living-hub-caption { position: relative; left: auto; bottom: auto; display: block; width: max-content; max-width: calc(100% - 28px); margin: 18px auto 0; transform: none; }
   .robot-upgrade-row { align-items: stretch; flex-direction: column; }
-  .aquarium-shell { min-height: calc(100vh - 84px); }
+  .aquarium-shell { min-height: calc(100vh - 84px); padding-top: 126px; }
   .aquarium-library-strip { min-height: 330px; }
   .reef-workspace { width: calc(100% - 14px); margin-top: -42px; }
   .reef-stage { min-height: 570px; aspect-ratio: auto; background-position: 42% center; }
