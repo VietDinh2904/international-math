@@ -264,7 +264,7 @@ function renderTestPaper(){
   });renderTestMap();
 }
 function startTestMode(){
-  testActive=true;testSubmitted=false;seconds=(currentYear.startsWith("KANGAROO")?60:90)*60;if(timerId)clearInterval(timerId);timerId=setInterval(()=>{if(seconds>0)seconds--;updateTimer()},1000);$("timerState").textContent="Pause";updateTimer();renderTestPaper();$("testMode").hidden=false;document.body.classList.add("test-focus");if(!document.documentElement.classList.contains("aquarium-demo-enabled"))window.AttackMode?.start(currentYear,paperNames[currentYear]||currentYear);$("testMode").scrollTop=0;$("exitTestButton").focus();
+  testActive=true;testSubmitted=false;seconds=(currentYear.startsWith("KANGAROO")?60:90)*60;if(timerId)clearInterval(timerId);timerId=setInterval(()=>{if(seconds>0)seconds--;updateTimer()},1000);$("timerState").textContent="Pause";updateTimer();renderTestPaper();$("testMode").hidden=false;document.body.classList.add("test-focus");if(document.documentElement.classList.contains("aquarium-demo-enabled")){const label=document.querySelector("#testMode .test-brand small");if(label)label.textContent="TEST MODE · MATHEMATICS"}else window.AttackMode?.start(currentYear,paperNames[currentYear]||currentYear);$("testMode").scrollTop=0;$("exitTestButton").focus();
 }
 function exitTestMode(){testActive=false;if(timerId){clearInterval(timerId);timerId=null}$("testMode").hidden=true;document.body.classList.remove("test-focus");if(!document.documentElement.classList.contains("aquarium-demo-enabled"))window.AttackMode?.exit();$("timerState").textContent="Resume";render();$("testModeButton").focus()}
 function restartTest(){
