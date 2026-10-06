@@ -1,5 +1,5 @@
 (()=>{
-  const STORE="international-math-ecosystem-v1";
+  const STORE="international-math-ecosystem-v2";
   const species=[
     {id:"acropora",name:"San hô nhánh Acropora",scientific:"Acropora sp.",role:"Kỹ sư hệ sinh thái",rarity:"Mức bảo tồn tùy theo loài",depth:"1–15 m",food:"Tảo cộng sinh và sinh vật phù du",predators:"Sao biển gai, ốc ăn san hô",fact:"Một quần thể san hô gồm rất nhiều polyp nhỏ cùng xây bộ xương đá vôi.",currency:"gold",cost:24,x:16,y:47,ax:"0%",ay:"0%"},
     {id:"anemone",name:"Hải quỳ đầu bóng",scientific:"Entacmaea quadricolor",role:"Nơi trú ẩn cộng sinh",rarity:"Chưa đánh giá toàn cầu",depth:"1–20 m",food:"Sinh vật phù du và mảnh thức ăn nhỏ",predators:"Một số loài cá bướm và rùa biển",fact:"Tế bào châm trên xúc tu giúp hải quỳ bắt mồi và bảo vệ cá hề.",currency:"gold",cost:32,x:31,y:58,ax:"33.333%",ay:"0%"},
