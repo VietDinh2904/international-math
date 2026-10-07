@@ -8,3 +8,4 @@
 .maze-stage canvas{aspect-ratio:17/15}
 @media(max-width:760px){.maze-stage canvas{min-height:0}}
 .maze-dpad{display:grid;opacity:.48;transition:opacity .2s ease}.maze-dpad:hover,.maze-dpad:focus-within{opacity:1}.maze-dpad button{background:linear-gradient(145deg,#163964,#081d3c);box-shadow:inset 0 0 14px #62dfff1f,0 8px 20px #0005}.maze-dpad button:active{background:#1a6b88;transform:translateY(1px)}
+.science-maze-screen{overflow-x:hidden;overflow-y:auto}.maze-stage{padding-bottom:34px}.maze-cockpit-frame{height:32px}@media(max-width:760px){.maze-stage{padding-bottom:28px}}

@@ -158,6 +158,9 @@
     ]}
   ];
   const bookWeekNumbers=new Set(books.flatMap(book=>book.chapters.flatMap(chapter=>chapter.weeks)));
+  const weekBackgrounds={
+    6:"assets/science-worm-soil-work-v1.png",18:"assets/microscopic-world-v1.png",19:"assets/science-germs-transmission-v1.png",20:"assets/science-germs-gut-microbiome-v1.png",21:"assets/science-germs-immune-defense-v1.png",22:"assets/science-winter-hoard-v1.png",23:"assets/science-earth-lab-v1.png",24:"assets/science-seed-dispersal-v2.png",25:"assets/science-earth-lab-thumb-v2.png",26:"assets/science-germs-review-v1.png",27:"assets/science-winter-fat-energy-v1.png",28:"assets/science-winter-migration-v1.png",29:"assets/science-angiosperm-pollination-v2.png",30:"assets/science-garden-nutrient-cycle-v1.png",31:"assets/microscopic-world-v1.png",32:"assets/coral-reef-habitat-v1.png",33:"assets/science-wetland-effects-v2.png",34:"assets/science-winter-review-v1.png",35:"assets/moon-bio-lab-v1.png",36:"assets/science-beaver-field-report-v2.png"
+  };
 
   function esc(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
   function closeLayer(layer){layer?.remove()}
@@ -211,8 +214,8 @@
     section.querySelectorAll("[data-science-book]").forEach(button=>button.onclick=()=>openBook(root,books.find(book=>book.id===button.dataset.scienceBook)));
     selector.querySelectorAll("[data-week]").forEach(button=>{if(bookWeekNumbers.has(Number(button.dataset.week)))button.closest(".science-week-card").classList.add("book-week-hidden")});
     const remaining=[...selector.querySelectorAll(".science-week-card:not(.book-week-hidden)")].length;
-    heading.querySelector("h2").textContent=`${remaining} independent expeditions`;
-    heading.querySelector(".science-kicker").textContent="BONUS & EARLIER FIELD EXPEDITIONS";
+    heading.querySelector("h2").textContent=`${remaining} Grade 4 expeditions`;
+    heading.querySelector(".science-kicker").textContent="DAILY SCIENCE GRADE 4 · EARLIER FIELD EXPEDITIONS";
   }
 
   const observer=new MutationObserver(()=>{
@@ -222,6 +225,14 @@
   observer.observe(document.documentElement,{childList:true,subtree:true});
   function bindWeeks(weeks){
     allWeeks=weeks;
+    Object.values(weeks).forEach(week=>{
+      if(!bookWeekNumbers.has(Number(week.number)))week.source={...(week.source||{}),grade:4};
+      const background=weekBackgrounds[week.number];
+      if(!background)return;
+      week.hero=background;
+      week.days.slice(1).forEach(day=>{day.image=background;day.vocabImage=background});
+      if(week.habitat)week.habitat.background=background;
+    });
     if(weeks[6]){
       weeks[6].subtitle="Grade 5 · Big Idea 2 · Week 1";
       weeks[6].source={grade:5,bigIdea:2,bookWeek:1,pages:"38-43"};
