@@ -264,6 +264,7 @@
     realisticLessonImages[number]=week.days.map(day=>day?.image||null);
     vocabularySheets[number]=week.days.map(day=>day?.image||null);
   });
+  window.ScienceBooks?.bindWeeks?.(weeks);
   Object.values(weeks).forEach(week=>{week.habitat=(expansion.habitats||{})[week.number]||{name:week.subtitle,region:"Earth field site",zone:"Chapter observation area",background:week.hero,accent:"#64d9d2"}});
   Object.values(weeks).forEach(w=>w.days.slice(1).forEach(day=>{day.image=realisticLessonImages[w.number][day.day];day.vocabImage=vocabularySheets[w.number][day.day]}));
   Object.values(weeks).forEach(w=>w.hero=realisticLessonImages[w.number][1]);
