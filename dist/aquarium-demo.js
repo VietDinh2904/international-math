@@ -4,10 +4,10 @@
     {id:"acropora",name:"Branching Acropora Coral",scientific:"Acropora sp.",role:"Ecosystem engineer",rarity:"Conservation status varies by species",depth:"1–15 m",food:"Symbiotic algae and plankton",predators:"Crown-of-thorns starfish and coral-eating snails",fact:"A coral colony is made of many tiny polyps that build a shared limestone skeleton.",currency:"gold",cost:24,x:16,y:47,ax:"0%",ay:"0%"},
     {id:"anemone",name:"Bubble-tip Anemone",scientific:"Entacmaea quadricolor",role:"Symbiotic shelter",rarity:"Not globally assessed",depth:"1–20 m",food:"Plankton and small food particles",predators:"Some butterflyfish and sea turtles",fact:"Stinging cells in its tentacles help the anemone catch food and protect clownfish.",currency:"gold",cost:32,x:31,y:58,ax:"33.333%",ay:"0%"},
     {id:"clownfish",name:"Ocellaris Clownfish",scientific:"Amphiprion ocellaris",role:"Anemone partner",rarity:"Common",depth:"1–15 m",food:"Plankton, algae and food scraps",predators:"Larger reef fish",fact:"A special mucus layer lets clownfish live safely among an anemone's stinging tentacles.",currency:"gold",cost:36,x:43,y:38,ax:"66.667%",ay:"0%"},
-    {id:"parrotfish",name:"Green Humphead Parrotfish",scientific:"Bolbometopon muricatum",role:"Algae grazer and sand maker",rarity:"Rare · needs protection",depth:"1–30 m",food:"Algae growing on the reef",predators:"Large reef sharks and people",fact:"Its powerful beak scrapes algae from rock; tiny limestone grains later become sand.",currency:"gem",cost:2,x:62,y:47,ax:"100%",ay:"0%"},
+    {id:"parrotfish",name:"Green Humphead Parrotfish",scientific:"Bolbometopon muricatum",role:"Algae grazer and sand maker",rarity:"Rare · needs protection",depth:"1–30 m",food:"Algae growing on the reef",predators:"Large reef sharks and people",fact:"Its powerful beak scrapes algae from rock; tiny limestone grains later become sand.",currency:"gold",cost:80,x:62,y:47,ax:"100%",ay:"0%"},
     {id:"shrimp",name:"Cleaner Shrimp",scientific:"Lysmata amboinensis",role:"Cleaning station",rarity:"Not globally assessed",depth:"5–40 m",food:"Parasites and dead tissue from fish",predators:"Small predatory fish",fact:"The shrimp waves its antennae to advertise a cleaning station to visiting fish.",currency:"gold",cost:42,x:27,y:73,ax:"0%",ay:"100%"},
     {id:"crab",name:"Coral Guard Crab",scientific:"Trapezia sp.",role:"Coral defender",rarity:"Not globally assessed",depth:"1–20 m",food:"Coral mucus and organic particles",predators:"Octopuses and crustacean-eating fish",fact:"This crab lives among coral branches and can chase away some coral predators.",currency:"gold",cost:38,x:50,y:76,ax:"33.333%",ay:"100%"},
-    {id:"clam",name:"Giant Clam",scientific:"Tridacna sp.",role:"Filter feeder",rarity:"International trade is regulated",depth:"1–20 m",food:"Plankton and energy from symbiotic algae",predators:"Snails, fish and people",fact:"Microscopic algae living in its tissues provide extra energy from sunlight.",currency:"gem",cost:3,x:72,y:76,ax:"66.667%",ay:"100%"}
+    {id:"clam",name:"Giant Clam",scientific:"Tridacna sp.",role:"Filter feeder",rarity:"International trade is regulated",depth:"1–20 m",food:"Plankton and energy from symbiotic algae",predators:"Snails, fish and people",fact:"Microscopic algae living in its tissues provide extra energy from sunlight.",currency:"gold",cost:120,x:72,y:76,ax:"66.667%",ay:"100%"}
   ];
   const clues=[
     {id:"symbiosis",x:35,y:42,title:"Symbiosis Signal",text:"The clownfish gains shelter, while its movement circulates water and nutrients around the anemone."},
@@ -21,15 +21,17 @@
   };
   let state,activeOptions={};
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
-  const defaults=()=>({version:3,gold:160,energy:8,gems:3,seeds:2,fertilizer:1,water:5,soil:3,owned:[],noted:[],clues:[],location:"coral-lagoon",robotLevel:1,robotConfig:{head:0,arms:0,base:0},robotInventory:{head:[0],arms:[0],base:[0]}});
-  function load(){try{const saved=JSON.parse(localStorage.getItem(STORE)||"null")||{},base=defaults();return {...base,...saved,owned:Array.isArray(saved.owned)?saved.owned:[],noted:Array.isArray(saved.noted)?saved.noted:[],clues:Array.isArray(saved.clues)?saved.clues:[],robotConfig:{...base.robotConfig,...saved.robotConfig},robotInventory:{head:Array.isArray(saved.robotInventory?.head)?saved.robotInventory.head:[0],arms:Array.isArray(saved.robotInventory?.arms)?saved.robotInventory.arms:[0],base:Array.isArray(saved.robotInventory?.base)?saved.robotInventory.base:[0]}}}catch{return defaults()}}
-  const save=()=>localStorage.setItem(STORE,JSON.stringify(state));
+  const defaults=()=>({version:4,gold:0,energy:0,gems:0,seeds:0,fertilizer:0,water:0,soil:0,owned:[],noted:[],clues:[],regions:["coral-lagoon"],location:"coral-lagoon",robotLevel:1,robotConfig:{head:0,arms:0,base:0},robotInventory:{head:[0],arms:[0],base:[0]}});
+  function load(){try{const saved=JSON.parse(localStorage.getItem(STORE)||"null")||{},base=defaults();if((saved.version||0)<4){saved.version=4;saved.gold=0;saved.energy=0;saved.gems=0;saved.seeds=0;saved.fertilizer=0;saved.water=0;saved.soil=0}return {...base,...saved,owned:Array.isArray(saved.owned)?saved.owned:[],noted:Array.isArray(saved.noted)?saved.noted:[],clues:Array.isArray(saved.clues)?saved.clues:[],regions:Array.isArray(saved.regions)?saved.regions:["coral-lagoon"],robotConfig:{...base.robotConfig,...saved.robotConfig},robotInventory:{head:Array.isArray(saved.robotInventory?.head)?saved.robotInventory.head:[0],arms:Array.isArray(saved.robotInventory?.arms)?saved.robotInventory.arms:[0],base:Array.isArray(saved.robotInventory?.base)?saved.robotInventory.base:[0]}}}catch{return defaults()}}
+  const signalResources=mode=>{window.__ecosystemResourceMode=mode||window.__ecosystemResourceMode||"living";document.dispatchEvent(new CustomEvent("ecosystem-resources",{detail:{mode:window.__ecosystemResourceMode}}))};
+  const save=()=>{localStorage.setItem(STORE,JSON.stringify(state));signalResources()};
   const isOwned=id=>state.owned.includes(id);
   const specimenStyle=item=>`--atlas-x:${item.ax};--atlas-y:${item.ay}`;
+  const gemCount=()=>window.getAdventureKnowledgeGemCount?.()??state.gems;
   const price=item=>item.currency==="gem"?`${item.cost} Knowledge Gem`:`${item.cost} Gold`;
   const resourceStyle=(x,y)=>`--resource-x:${x};--resource-y:${y}`;
   const resourceItem=(type,value,label,x,y)=>`<span class="eco-resource ${type}"><i style="${resourceStyle(x,y)}"></i><b>${value}</b><small>${label}</small></span>`;
-  const resourceBar=(mode="aquatic")=>`<div class="eco-resource-bar" aria-label="Habitat resources">${mode==="terrain"?[resourceItem("seeds",state.seeds,"Seeds","100%","0%"),resourceItem("fertilizer",state.fertilizer,"Fertilizer","0%","100%"),resourceItem("water",state.water,"Water","33.333%","100%"),resourceItem("soil",state.soil,"Soil","66.667%","100%")].join(""):[resourceItem("gold",state.gold,"Gold","0%","0%"),resourceItem("gems",state.gems,"Gems","33.333%","0%"),resourceItem("energy",state.energy,"Energy","66.667%","0%")].join("")}</div>`;
+  const resourceBar=()=>"";
   const partStyle=(type,index)=>`--part-x:${index*50}%;--part-y:${type==="head"?"0%":type==="arms"?"50%":"100%"}`;
   const robotPreview=(extra="")=>`<span class="robot-composite ${extra}"><i class="robot-part robot-base" style="${partStyle("base",state.robotConfig.base)}"></i><i class="robot-part robot-arms" style="${partStyle("arms",state.robotConfig.arms)}"></i><i class="robot-part robot-head" style="${partStyle("head",state.robotConfig.head)}"></i></span>`;
 
@@ -39,9 +41,9 @@
     toast.className="reef-toast";toast.id="reefToast";toast.setAttribute("role","status");toast.textContent=message;
     document.body.appendChild(toast);setTimeout(()=>toast.remove(),2600);
   }
-  function closeModal(){document.getElementById("reefModalLayer")?.remove()}
+  function closeModal(reset=true){document.getElementById("reefModalLayer")?.remove();if(reset)signalResources(document.querySelector(".aquarium-shell")?"aquarium":"living")}
   function modal(content){
-    closeModal();
+    closeModal(false);
     const layer=document.createElement("div");
     layer.className="reef-modal-backdrop";layer.id="reefModalLayer";
     layer.innerHTML=`<section class="reef-modal" role="dialog" aria-modal="true"><button class="reef-modal-close" id="reefModalClose" aria-label="Close">×</button>${content}</section>`;
@@ -80,11 +82,12 @@
   }
   function purchase(id){
     const item=species.find(entry=>entry.id===id);if(!item||isOwned(id))return;
-    const key=item.currency==="gem"?"gems":"gold";
-    if(state[key]<item.cost){announce(item.currency==="gem"?"Not enough Knowledge Gems.":"Not enough Gold.");return}
-    state[key]-=item.cost;state.owned.push(id);save();closeModal();render();announce(`${item.name} has joined the reef!`);setTimeout(()=>openSpecies(id),350);
+    if(item.currency==="gem"){if(!(window.spendAdventureKnowledgeGems?.(item.cost,`species-${item.id}`)??(state.gems>=item.cost&&(state.gems-=item.cost)>=0))){announce("Not enough Knowledge Gems.");return}}
+    else{if(state.gold<item.cost){announce("Not enough Gold. Earn it from unique Math answers or completed Arcade games.");return}state.gold-=item.cost}
+    state.owned.push(id);save();closeModal();render();announce(`${item.name} has joined the reef!`);setTimeout(()=>openSpecies(id),350);
   }
   function openShop(){
+    signalResources("shop");
     modal(`
       <p class="reef-eyebrow">LIVING ROOM · HABITAT SHOP</p><h2>Habitat Specimen Shop</h2>
       <p class="reef-modal-lead">Locked organisms remain silhouettes. After purchase, the full organism appears in both the habitat and specimen chest.</p>
@@ -97,16 +100,15 @@
     document.querySelectorAll("[data-shop-species]").forEach(button=>button.onclick=()=>purchase(button.dataset.shopSpecies));
   }
   function openMap(){
+    const regions=[{id:"coral-lagoon",name:"Coral Lagoon",detail:"Nearshore coral reef · 0–20 m",cost:0},{id:"mangrove-nursery",name:"Mangrove Nursery",detail:"Mangrove forest · 0–5 m",cost:2},{id:"kelp-coast",name:"Kelp Coast",detail:"Kelp forest · 2–30 m",cost:3}];
     modal(`
       <p class="reef-eyebrow">HABITAT MAP · COASTAL REGION</p><h2>Aquatic Habitat Map</h2>
-      <p class="reef-modal-lead">Each location has its own seafloor, depth range and community. This demo currently opens the shallow coral reef.</p>
-      <div class="reef-map-grid">
-        <article class="reef-map-card"><span>01 · OPEN</span><b>Coral Lagoon</b><small>Nearshore coral reef · 0–20 m</small></article>
-        <article class="reef-map-card locked"><span>02 · REQUIRES KNOWLEDGE GEMS</span><b>Mangrove Nursery</b><small>Mangrove forest · 0–5 m</small></article>
-        <article class="reef-map-card locked"><span>03 · REQUIRES KNOWLEDGE GEMS</span><b>Kelp Coast</b><small>Kelp forest · 2–30 m</small></article>
-      </div>`);
+      <p class="reef-modal-lead">Gold buys organisms and objects. Knowledge Gems expand the map itself. Unlocking records the region now; its full living scene arrives as that chapter is built.</p>
+      <div class="reef-map-grid">${regions.map((region,index)=>{const unlocked=state.regions.includes(region.id);return `<article class="reef-map-card ${unlocked?"":"locked"}"><span>${String(index+1).padStart(2,"0")} · ${unlocked?"OPEN":`REQUIRES ${region.cost} KNOWLEDGE GEMS`}</span><b>${region.name}</b><small>${region.detail}</small>${region.cost?`<button data-region-unlock="${region.id}" ${unlocked?"disabled":""}>${unlocked?"✓ Region unlocked":`Unlock map region · ${region.cost} Gems`}</button>`:""}</article>`}).join("")}</div>`);
+    document.querySelectorAll("[data-region-unlock]").forEach(button=>button.onclick=()=>{const region=regions.find(item=>item.id===button.dataset.regionUnlock);if(!region)return;if(!(window.spendAdventureKnowledgeGems?.(region.cost,`region-${region.id}`)??(state.gems>=region.cost&&(state.gems-=region.cost)>=0))){announce("Not enough Knowledge Gems. Forge five Science fragments into one Gem.");return}state.regions.push(region.id);save();openMap();announce(`${region.name} was added to the habitat map.`)});
   }
   function openChest(){
+    signalResources("storage");
     const owned=species.filter(item=>isOwned(item.id));
     modal(`
       <p class="reef-eyebrow">SPECIMEN STORAGE</p><h2>Ecological Specimen Chest</h2>
@@ -143,19 +145,20 @@
     const part=robotParts[type]?.[index];if(!part)return;
     const inventory=state.robotInventory[type];
     if(!inventory.includes(index)){
-      const key=part.currency==="gem"?"gems":"gold";
-      if(state[key]<part.cost){announce(part.currency==="gem"?"Not enough Knowledge Gems.":"Not enough Gold.");return}
-      state[key]-=part.cost;inventory.push(index);
+      if(part.currency==="gem"){if(!(window.spendAdventureKnowledgeGems?.(part.cost,`robot-part-${type}-${index}`)??(state.gems>=part.cost&&(state.gems-=part.cost)>=0))){announce("Not enough Knowledge Gems.");return}}
+      else{if(state.gold<part.cost){announce("Not enough Gold.");return}state.gold-=part.cost}
+      inventory.push(index);
     }
     state.robotConfig[type]=index;save();openRobotShop();announce(`${part.name} equipped immediately.`);
   }
   function upgradeRobot(){
     const cost=state.robotLevel;
     if(state.robotLevel>=3){announce("The robot has reached the demo level cap.");return}
-    if(state.gems<cost){announce("Not enough Knowledge Gems to upgrade.");return}
-    state.gems-=cost;state.robotLevel+=1;save();openRobotShop();announce(`Robot upgraded to level ${state.robotLevel}.`);
+    if(!(window.spendAdventureKnowledgeGems?.(cost,"robot-upgrade")??(state.gems>=cost&&(state.gems-=cost)>=0))){announce("Not enough Knowledge Gems to upgrade.");return}
+    state.robotLevel+=1;save();openRobotShop();announce(`Robot upgraded to level ${state.robotLevel}.`);
   }
   function openRobotShop(){
+    signalResources("shop");
     modal(`
       <p class="reef-eyebrow">ROBOT WORKSHOP</p><h2>Build your library robot</h2>
       <p class="reef-modal-lead">Select a part and it is installed directly on the robot preview. Standard parts use Gold; advanced research parts use Knowledge Gems.</p>
@@ -173,6 +176,7 @@
   function renderHub(){
     const root=document.getElementById("adventureView");if(!root)return;root.scrollTop=0;closeModal();
     document.body.classList.add("ecosystem-mode");
+    signalResources("living");
     const menu=document.getElementById("adventureMenu");if(menu)menu.hidden=true;
     document.getElementById("adventureMenuButton")?.setAttribute("aria-expanded","false");
     root.innerHTML=`
@@ -198,6 +202,7 @@
   function render(){
     const root=document.getElementById("adventureView");if(!root)return;root.scrollTop=0;
     document.body.classList.add("ecosystem-mode");
+    signalResources("aquarium");
     root.innerHTML=`
       <section class="aquarium-shell">
         <div class="aquarium-library-strip">
@@ -233,7 +238,7 @@
     living.onclick=()=>window.AquariumDemo.mount({onBack:()=>document.getElementById("adventureHome")?.click()});
   }
   document.documentElement.classList.add("aquarium-demo-enabled");
-  window.AquariumDemo={mount(options={}){activeOptions=options;state=load();renderHub()},showHub:renderHub,showAquarium:render,getState:()=>({...state,owned:[...state.owned],noted:[...state.noted],clues:[...state.clues],robotConfig:{...state.robotConfig},robotInventory:{head:[...state.robotInventory.head],arms:[...state.robotInventory.arms],base:[...state.robotInventory.base]}})};
+  window.AquariumDemo={mount(options={}){activeOptions=options;state=load();renderHub()},showHub:renderHub,showAquarium:render,addResources(reward={}){if(!state)state=load();state.gold=Math.max(0,state.gold+(Number(reward.gold)||0));state.energy=Math.max(0,state.energy+(Number(reward.energy)||0));save();return{gold:Number(reward.gold)||0,energy:Number(reward.energy)||0}},getState:()=>{if(!state)state=load();return{...state,gems:gemCount(),owned:[...state.owned],noted:[...state.noted],clues:[...state.clues],regions:[...state.regions],robotConfig:{...state.robotConfig},robotInventory:{head:[...state.robotInventory.head],arms:[...state.robotInventory.arms],base:[...state.robotInventory.base]}}}};
   new MutationObserver(wireCockpit).observe(document.getElementById("adventureRoot"),{childList:true,subtree:true});
   setTimeout(wireCockpit,0);
 })();

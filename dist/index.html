@@ -12,14 +12,15 @@
   <link rel="stylesheet" href="test.css?v=20260921-2">
   <link rel="stylesheet" href="review.css?v=20260921-2">
   <link rel="stylesheet" href="race.css?v=20261003-3">
-  <link rel="stylesheet" href="adventure.css?v=20261003-3">
+  <link rel="stylesheet" href="adventure.css?v=20261007-7">
   <link rel="stylesheet" href="cockpit-home.css?v=20261005-2">
   <link rel="stylesheet" href="garden.css?v=20261003-2">
   <link rel="stylesheet" href="science-discovery.css?v=20261007-1">
+  <link rel="stylesheet" href="kingdom-habitat.css?v=20261007-1">
   <link rel="stylesheet" href="science-week.css?v=20261004-2">
   <link rel="stylesheet" href="science-journal.css?v=20261005-5">
   <link rel="stylesheet" href="science-maze.css?v=20261006-4">
-  <link rel="stylesheet" href="science-arcade.css?v=20261006-5">
+  <link rel="stylesheet" href="science-arcade.css?v=20261007-1">
   <link rel="stylesheet" href="treasure-vault.css?v=20261005-2">
   <link rel="stylesheet" href="earth-resources.css?v=20261005-1">
   <link rel="stylesheet" href="attack-mode.css?v=20261005-1">
@@ -34,9 +35,9 @@
   <section class="adventure-root" id="adventureRoot" aria-label="Solar System math adventure">
     <header class="adventure-hud" id="adventureHud" hidden>
       <button class="adventure-logo" id="adventureHome" type="button"><span>M</span><strong>International Math</strong></button>
-      <div class="hud-bars">
-        <div class="hud-stat human-stat"><span>Explorer</span><b id="humanHealth">♥ 5/5</b><b id="humanShield">◆ 0/5</b></div>
-        <div class="hud-stat ship-stat"><span>Spaceship</span><b id="shipHealth">♥ 20/20</b><b id="shipShield">◆ 20/20</b></div>
+      <div class="hud-context">
+        <span id="hudContextLabel">Cockpit resources</span>
+        <div class="hud-resource-bar" id="hudResourceBar" aria-live="polite"></div>
       </div>
       <button class="adventure-menu-button" id="adventureMenuButton" type="button" aria-expanded="false">☰ Menu</button>
     </header>
@@ -224,14 +225,15 @@
   <script src="race.js?v=20261003-2"></script>
   <script src="tools.js?v=20260921-2"></script>
   <script src="science-expansion.js?v=20261007-6"></script>
-  <script src="science-discovery.js?v=20261007-4"></script>
+  <script src="kingdom-habitat.js?v=20261007-1"></script>
+  <script src="science-discovery.js?v=20261007-5"></script>
   <script src="science-maze.js?v=20261006-9"></script>
-  <script src="science-arcade.js?v=20261006-4"></script>
-  <script src="treasure-vault.js?v=20261007-1"></script>
+  <script src="science-arcade.js?v=20261007-1"></script>
+  <script src="treasure-vault.js?v=20261007-2"></script>
   <script src="zodiac-map.js?v=20261005-1"></script>
   <script src="earth-resources.js?v=20261007-5"></script>
-  <script src="aquarium-demo.js?v=20261006-6"></script>
-  <script src="adventure.js?v=20261007-6"></script>
+  <script src="aquarium-demo.js?v=20261007-1"></script>
+  <script src="adventure.js?v=20261007-7"></script>
   <script src="attack-mode.js?v=20261005-1"></script>
   <script src="ui-accessibility.js?v=20261005-1"></script>
 </body>
