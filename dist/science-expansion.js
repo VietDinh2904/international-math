@@ -68,7 +68,7 @@
     13:{name:"Temperate Forest",region:"Seasonal woodland",zone:"Canopy to leaf litter",background:"assets/science-winter-hoard-v1.png",accent:"#f3a75d"},
     14:{name:"Living Wetland",region:"River floodplain",zone:"Open water to saturated soil",background:"assets/science-wetland-effects-v2.png",accent:"#64d9a9"},
     15:{name:"Plant Research Garden",region:"Orbital botany pod",zone:"Soil bed to leaf canopy",background:"assets/garden-room-v1.png",accent:"#8be37e"},
-    16:{name:"Watershed Observatory",region:"Mountain-to-wetland basin",zone:"Cloud layer to groundwater",background:"assets/science-wetland-effects-v2.png",accent:"#72cfff"}
+    16:{name:"Rain Kingdom",region:"Mountain-to-wetland basin",zone:"Cloud layer to freshwater reservoir",background:"assets/science-wetland-effects-v2.png",accent:"#72cfff"}
   };
 
   window.ScienceExpansion={
