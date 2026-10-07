@@ -113,6 +113,14 @@ Finishing a five-round game pays `max(1, correct answers × 2)` Gold. A perfect 
 
 ## 8. Scientific content constraints
 
+### Microscopic World
+
+Week 10 uses its own culture controls: relative warmth, nutrients and water availability. Science progress can unlock a plaque biofilm colony, helpful gut bacteria, a bacteriophage, budding yeast, an amoeba culture and a sealed Bacillus research culture. A bacteriophage also requires a bacterial host to be placed, reinforcing that viruses cannot reproduce independently.
+
+### Moon World
+
+Week 7 opens a sealed lunar astrobiology bio-dome with habitat pressure, recycled water and radiation shielding controls. Unlockable Earth specimens include an Arabidopsis test plant, microalgae bioreactor, tardigrade test capsule, yeast culture and Bacillus research culture. The interface states that these are protected Earth organisms used for experiments, not native lunar life.
+
 - Wetland organisms require hydrology appropriate to saturated soils.
 - Soil water availability depends on texture, pore space and organic matter; high water is not automatically healthy because waterlogging can reduce oxygen.
 - Reef-building corals require fully aquatic, clear and well-lit conditions in this model.
