@@ -16,7 +16,7 @@
     const routes=[
       ["Terrain card","Garden · Terrain Console","Creates the matching land model on the right side of the Garden"],
       ["Common specimen","Compatible habitat","Can be placed only after checking food, water, shelter and climate"],
-      ["Rare / synthesized specimen","Storage · Lab Queue","Keep it safely blocked until the Science Lab synthesis bay opens"],
+      ["Rare / synthesized specimen","Science Lab · Containment Queue","Research it safely; habitat release stays blocked until the required Lab devices are installed"],
       ["Crop seed","Garden · Crop Row","Prepare soil with tools, sow, water, grow and harvest"],
       ["Aquatic specimen","Living Room · Aquarium","Choose a matching location and depth before release"]
     ];
@@ -27,7 +27,7 @@
       ["Garden","OPEN","Crop row on the left and terrain habitat console on the right."],
       ["Storage Chest","OPEN","Tabbed archive for cards, specimens, supplies, missions and materials."],
       ["Engine Room","OPEN","Shows Energy, charging and future protection systems."],
-      ["Science Lab","LOCKED","Rare, extinct and synthesized life waits in the Lab Queue until this room opens."],
+      ["Science Lab","OPEN","Microscope study is available now. Gem Exchange devices unlock animated research models and the future synthesis bay."],
       ["Living Room / Aquarium","LOCKED","Aquatic specimens remain stored until the full depth habitat opens."],
       ["Outside / Earth Defence","LOCKED","Reserved for the future Protect Earth route."]
     ];
