@@ -230,7 +230,7 @@
       const background=weekBackgrounds[week.number];
       if(!background)return;
       week.hero=background;
-      week.days.slice(1).forEach(day=>{day.image=background;day.vocabImage=background});
+      week.days.slice(1).forEach(day=>{day.image=background});
       if(week.habitat)week.habitat.background=background;
     });
     if(weeks[6]){

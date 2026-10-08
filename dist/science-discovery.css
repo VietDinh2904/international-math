@@ -59,3 +59,24 @@
 @keyframes habitat-light{to{transform:translateX(18%)}}
 @media(max-width:900px){.chapter-habitat-preview{grid-template-columns:1fr}.chapter-habitat-preview-art{min-height:260px;background:linear-gradient(0deg,#0b202a,transparent 48%),var(--habitat-image) center/cover}.chapter-habitat-toolbar{grid-template-columns:auto 1fr}.chapter-habitat-toolbar>strong{grid-column:1/-1;justify-self:start}.chapter-habitat-ledger{grid-template-columns:repeat(2,1fr)}.chapter-habitat-ledger>div{grid-column:1/-1}.chapter-habitat-scene{min-height:720px}.chapter-habitat-modal>article{grid-template-columns:1fr}.habitat-record-image img,.habitat-locked-record{min-height:260px;max-height:330px}}
 @media(max-width:600px){.chapter-habitat-screen{padding:125px 8px 24px}.chapter-habitat-toolbar{gap:10px;padding:11px}.chapter-habitat-toolbar span{display:none}.chapter-habitat-scene{min-height:760px}.habitat-observation{min-width:88px}.habitat-observation>span{width:56px;font-size:25px}.habitat-observation>b{max-width:100px;font-size:10px}.habitat-scene-label{left:10px;right:10px;bottom:10px}.chapter-habitat-ledger{grid-template-columns:1fr 1fr}.chapter-habitat-preview>div:last-child{padding:24px 18px}.habitat-preview-progress{align-items:stretch;flex-direction:column}.chapter-habitat-modal{padding:8px}.chapter-habitat-modal article>div:last-child{padding:24px 18px}}
+
+/* Long-form reading and meaning-first vocabulary visuals. */
+.science-story-grid.reading-mode{grid-template-columns:minmax(300px,.82fr) minmax(0,1.18fr);align-items:start}
+.reading-mode>img{position:sticky;top:102px}
+.science-reading-passage{display:grid;gap:13px}
+.reading-section{padding:16px 18px;border:1px solid #80d9d266;border-radius:15px;background:#0b2b35}
+.reading-section.core-reading{border-left:5px solid #ffd453}
+.reading-section.linked-reading{border-left:5px solid #63e1c5;background:#0c2530}
+.reading-section small{display:block;margin-bottom:5px;color:#78f3dd;font-weight:900;letter-spacing:.15em}
+.reading-section h2{margin:0 0 8px;font:900 clamp(22px,3vw,32px)/1.08 Georgia,serif;color:#fff}
+.reading-section p{margin:0;color:#e7f5f2;font-size:17px;line-height:1.72}
+.science-related-links{display:flex;flex-wrap:wrap;gap:9px;padding-top:5px}
+.science-related-links>small{width:100%;color:#ffd453;font-weight:900;letter-spacing:.13em}
+.science-related-links button{padding:10px 13px;border:1px solid #78f3dd;border-radius:999px;background:#0d4150;color:#fff;font-weight:800;cursor:pointer}
+.word-photo.concept-word{display:grid;place-items:center;align-content:center;gap:7px;aspect-ratio:1;overflow:hidden;padding:16px;background:radial-gradient(circle at 50% 36%,#1d6472,#082c37 68%,#041820)}
+.concept-word i{font:normal 900 clamp(38px,7vw,72px)/1 system-ui;color:#fff;text-shadow:0 0 18px #79efff}
+.concept-word small{display:-webkit-box;max-width:95%;overflow:hidden;color:#e8fbf8;font-size:12px;line-height:1.32;text-align:center;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.concept-specimen{display:grid;place-items:center;align-content:center;gap:12px;padding:22px;background:radial-gradient(circle at 50% 36%,#1d6472,#082c37 68%,#041820)}
+.concept-specimen i{font-size:clamp(64px,13vw,112px)}
+.concept-specimen small{font-size:14px;line-height:1.4}
+@media(max-width:900px){.science-story-grid.reading-mode{grid-template-columns:1fr}.reading-mode>img{position:relative;top:auto}}
