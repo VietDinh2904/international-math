@@ -6,7 +6,7 @@
   const GOLD_PER_HOUR=20;
   const MARINE_UNLOCKS={acropora:[12,2],anemone:[12,2],clownfish:[12,3],parrotfish:[12,3],shrimp:[12,4],crab:[12,4],clam:[12,5]};
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
-  const defaults=()=>({screen:"cockpit",labArea:"overview",scienceGrade:4,openWeek:0,openDay:0,selectedTerrain:12,selectedMicro:"",mathSeconds:0,awardedHours:0,robotLevel:1,cardCopies:{},lastSave:0});
+  const defaults=()=>({screen:"cockpit",labArea:"overview",scienceGrade:4,openWeek:0,openDay:0,selectedTerrain:12,selectedMicro:"",mathSeconds:0,awardedHours:0,robotLevel:1,cardCopies:{},rewardedMathQuestions:[],testUnlockAll:true,testGrantApplied:false,lastSave:0});
   let state=load(STORE,defaults()),adventure=load(ADVENTURE_STORE,{science:{completedByWeek:{}},researchCards:[]}),lastActivity=Date.now(),timerHandle=0;
 
   function load(key,fallback){try{return{...fallback,...(JSON.parse(localStorage.getItem(key)||"null")||{})}}catch{return{...fallback}}}
@@ -22,21 +22,42 @@
     const marine=(window.AquariumDemo?.species||[]).map(item=>({...item,icon:"≈",image:"assets/coral-specimen-atlas-v1.png",unlock:MARINE_UNLOCKS[item.id]||[12,5],collection:"aquatic",clue:item.fact,success:`${item.role}. Depth ${item.depth}. Food: ${item.food}.`,homes:[12]}));
     return [...land,...marine];
   }
-  function specimenUnlocked(item){return Array.isArray(item.unlock)&&isComplete(item.unlock[0],item.unlock[1])}
+  function specimenUnlocked(item){return state.testUnlockAll||(Array.isArray(item.unlock)&&isComplete(item.unlock[0],item.unlock[1]))}
   function gold(){return Number(window.AquariumDemo?.getState?.().gold)||0}
-  function addGold(amount,reason){window.AquariumDemo?.addResources?.({gold:amount,reason});toast(`+${amount} Gold · ${reason}`)}
+  function updateLegacyResources(earned=false){
+    const pill=document.getElementById("legacyMathResources"),value=document.getElementById("legacyMathGold");
+    if(value)value.textContent=String(gold());
+    if(pill&&earned){pill.classList.remove("earned");void pill.offsetWidth;pill.classList.add("earned");setTimeout(()=>pill.classList.remove("earned"),1200)}
+  }
+  function addGold(amount,reason){window.AquariumDemo?.addResources?.({gold:amount,reason});updateLegacyResources(true);toast(`+${amount} Gold · ${reason}`)}
   function spendGold(amount){return window.AquariumDemo?.spendGold?.(amount,"robot-upgrade")||false}
   function timeText(seconds){const hours=Math.floor(seconds/3600),minutes=Math.floor(seconds%3600/60),secs=seconds%60;return hours?`${hours}h ${String(minutes).padStart(2,"0")}m`:`${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`}
-  function scienceStats(){const cards=specimens(),open=cards.filter(specimenUnlocked).length;return{open,total:cards.length,lessons:Object.keys(allWeeks()).length}}
+  function scienceCompletedCount(){return Object.values(adventure.science?.completedByWeek||{}).reduce((sum,days)=>sum+new Set((Array.isArray(days)?days:[]).map(Number)).size,0)}
+  function scienceStats(){const cards=specimens(),open=cards.filter(specimenUnlocked).length,lessons=Object.keys(allWeeks()).length;return{open,total:cards.length,lessons,completed:scienceCompletedCount(),totalReadings:lessons*5}}
 
   const root=document.createElement("div");root.id="unifiedWorldRoot";root.className="unified-world-root";document.body.appendChild(root);
   const mathReturn=document.createElement("button");mathReturn.id="unifiedMathReturn";mathReturn.className="unified-math-return";mathReturn.textContent="← Math World";mathReturn.hidden=true;document.body.appendChild(mathReturn);
   document.body.classList.add("unified-shell-on");
 
+  window.registerAdventureMathCorrect=questionKey=>{
+    const key=String(questionKey||"");
+    state.rewardedMathQuestions=Array.isArray(state.rewardedMathQuestions)?state.rewardedMathQuestions:[];
+    if(!key||state.rewardedMathQuestions.includes(key))return{gold:0,duplicate:true};
+    state.rewardedMathQuestions.push(key);save();addGold(1,"First correct answer");
+    return{gold:1,duplicate:false};
+  };
+
+  if(!state.testGrantApplied){
+    const grant=10000-gold();
+    if(grant)window.AquariumDemo?.addResources?.({gold:grant,reason:"Temporary test balance"});
+    state.testGrantApplied=true;save();
+  }
+
   function shell(content,{back=false,title="Learning Worlds"}={}){
     const stats=scienceStats();
+    const activityResource=state.screen==="science"?`<span><i>✓</i><b>${stats.completed}/${stats.totalReadings}</b><small>Readings</small></span>`:`<span><i>◷</i><b>${timeText(state.mathSeconds)}</b><small>Math study</small></span>`;
     root.hidden=false;
-    root.innerHTML=`<header class="uw-topbar"><button class="uw-brand" data-go="cockpit"><span>M</span><b>International Math</b></button><div class="uw-location"><small>ORBITAL LEARNING STATION</small><strong>${esc(title)}</strong></div><div class="uw-resources"><span><i>●</i><b>${gold()}</b><small>Gold</small></span><span><i>◈</i><b>${stats.open}/${stats.total}</b><small>Life cards</small></span><span><i>◷</i><b>${timeText(state.mathSeconds)}</b><small>Math study</small></span></div>${back?'<button class="uw-back" data-back>← Back</button>':''}</header><main class="uw-view">${content}</main><div class="uw-toast" id="uwToast" hidden></div>`;
+    root.innerHTML=`<header class="uw-topbar"><button class="uw-brand" data-go="cockpit"><span>M</span><b>International Math</b></button><div class="uw-location"><small>ORBITAL LEARNING STATION</small><strong>${esc(title)}</strong></div><div class="uw-resources"><span><i>●</i><b>${gold()}</b><small>Gold${state.testUnlockAll?" · TEST":""}</small></span><span><i>◈</i><b>${stats.open}/${stats.total}</b><small>Life cards${state.testUnlockAll?" · TEST":""}</small></span>${activityResource}</div>${back?'<button class="uw-back" data-back>← Back</button>':''}</header><main class="uw-view">${content}</main><div class="uw-toast" id="uwToast" hidden></div>`;
     bindCommon();
   }
   function bindCommon(){
@@ -141,6 +162,7 @@
   }
   function openLegacyMath(target){
     lastActivity=Date.now();document.body.classList.add("unified-legacy-math");root.hidden=true;mathReturn.hidden=false;
+    updateLegacyResources();
     document.getElementById("menuPractice")?.click();
     setTimeout(()=>{if(target==="papers"){location.hash="library";document.getElementById("library")?.scrollIntoView({block:"start"})}else{location.hash="practice";document.getElementById("practice")?.scrollIntoView({block:"start"});if(target==="test")document.getElementById("testModeButton")?.click()}},60);
   }

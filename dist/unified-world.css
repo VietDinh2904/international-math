@@ -21,3 +21,50 @@
 .life-card.locked .life-card-art,.life-record.locked .record-art{background:#07141d!important}
 .record-buy{width:100%;margin-top:12px;padding:13px;border:1px solid #ffe06d;border-radius:11px;background:#2d2818;color:#ffe27a;font-weight:950;cursor:pointer}
 .unified-math-return{position:fixed;z-index:10100;left:18px;top:82px;padding:12px 18px;border:2px solid #fff;border-radius:14px;background:#0b5d73;color:#fff;box-shadow:0 12px 35px #0008,0 0 0 4px #62e7ed2b;font-weight:950;cursor:pointer}.unified-math-return:hover{background:#0d7991;transform:translateY(-2px)}.unified-math-return[hidden]{display:none}
+
+/* Math rewards stay visible beside the activity controls. */
+.legacy-math-resources{display:none}
+.unified-shell-on.unified-legacy-math .legacy-math-resources{display:grid;grid-template-columns:auto auto;grid-template-areas:"coin value" "coin rule";align-items:center;gap:0 7px;margin-left:auto;padding:7px 12px;border:2px solid var(--ink,#26242b);border-radius:11px;background:#fff4c7;color:var(--ink,#26242b);box-shadow:3px 3px 0 var(--ink,#26242b)}
+.unified-shell-on.unified-legacy-math .legacy-math-resources>span{grid-area:coin;color:#cf8c00;font-size:22px;filter:drop-shadow(0 1px 0 #fff)}
+.unified-shell-on.unified-legacy-math .legacy-math-resources>b{grid-area:value;font-size:16px;line-height:1}
+.unified-shell-on.unified-legacy-math .legacy-math-resources>small{grid-area:rule;font-size:8px;font-weight:900;letter-spacing:.02em;white-space:nowrap}
+.unified-shell-on.unified-legacy-math .legacy-math-resources.earned{animation:gold-earned 1.2s ease}
+.unified-shell-on.unified-legacy-math .reset-practice-button{margin-left:0}
+@keyframes gold-earned{0%,100%{transform:scale(1)}35%{transform:scale(1.12);background:#ffe071;box-shadow:3px 3px 0 var(--ink,#26242b),0 0 25px #ffc400}}
+
+/* Science uses a larger, calmer reading scale and a friendlier editorial hierarchy. */
+.uw-lab-home,.uw-panel,.lesson-reader{font-family:"Trebuchet MS","Segoe UI",sans-serif}
+.uw-lab-home .lab-nav button,.uw-panel .lab-nav button{font-size:13px;letter-spacing:.01em}
+.uw-room-title>span,.panel-heading>div>span,.terrain-heading span{font-size:16px;line-height:1.55}
+.lab-area-grid small,.panel-heading p,.terrain-heading p,.lesson-reader header p{font-size:11px}
+.lab-area-grid b{font-size:25px}
+.lab-area-grid span{font-size:14px;line-height:1.55}
+.science-week-tile small{font-size:10px}
+.science-week-tile strong{font-size:20px;line-height:1.25}
+.science-week-tile em{font-size:12px}
+.week-hero p{font-size:12px}
+.week-hero span{font-size:15px;line-height:1.5}
+.day-path small{font-size:10px}
+.day-path strong{font-size:21px}
+.day-path em{font-size:12px}
+.week-card-rule span{font-size:14px;line-height:1.5}
+.lesson-reader header span{font-size:17px;line-height:1.5}
+.lesson-columns section>small{font-size:11px}
+.lesson-columns p{font-size:17px;line-height:1.75}
+.vocab-card b{font-size:17px}
+.vocab-card span{font-size:15px}
+.vocab-card em{font-size:13px;line-height:1.45}
+.life-card small{font-size:9px}
+.life-card strong{font-size:19px}
+.life-card em{font-size:11px;line-height:1.35}
+.terrain-layout>aside small{font-size:9px}
+.terrain-layout>aside b{font-size:16px;line-height:1.15}
+.terrain-layout>aside em{font-size:10px;line-height:1.35}
+.micro-card-tray strong{font-size:16px}
+.micro-card-tray small{font-size:10px;line-height:1.35}
+.microscope-stage section p{font-size:16px;line-height:1.65}
+.microscope-stage section>b{font-size:13px;line-height:1.5}
+.depth-creature small{font-size:11px}
+.uw-resources small{font-size:9px}
+
+@media(max-width:900px){.unified-shell-on.unified-legacy-math .legacy-math-resources>small{display:none}.unified-shell-on.unified-legacy-math .legacy-math-resources{grid-template-areas:"coin value";padding:7px 9px}.unified-shell-on.unified-legacy-math .desktop-bar nav{display:none}}
