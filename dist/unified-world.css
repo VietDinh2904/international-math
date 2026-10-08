@@ -16,5 +16,7 @@
 .bubble{left:var(--x);bottom:var(--y)}
 .unified-shell-on.unified-legacy-math .quest-race,.unified-shell-on.unified-legacy-math .return-adventure-button,.unified-shell-on.unified-legacy-math .race-feedback,.unified-shell-on.unified-legacy-math .race-dialog{display:none!important}
 .unified-shell-on.unified-legacy-math .practice-shell{padding-top:20px}
+.unified-shell-on.unified-legacy-math{color:var(--ink,#26242b);background:var(--cream,#f7efe7)}
+.unified-shell-on.unified-legacy-math>main,.unified-shell-on.unified-legacy-math .practice-shell,.unified-shell-on.unified-legacy-math .exam-panel,.unified-shell-on.unified-legacy-math .question-card,.unified-shell-on.unified-legacy-math .quote-card,.unified-shell-on.unified-legacy-math .question-board,.unified-shell-on.unified-legacy-math .browser-window{color:var(--ink,#26242b)}
 .life-card.locked .life-card-art,.life-record.locked .record-art{background:#07141d!important}
 .record-buy{width:100%;margin-top:12px;padding:13px;border:1px solid #ffe06d;border-radius:11px;background:#2d2818;color:#ffe27a;font-weight:950;cursor:pointer}
