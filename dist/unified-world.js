@@ -245,8 +245,9 @@
   }
   function renderLesson(){
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
-    const reading=expandedScienceReading(week,day);
-    shell(`<article class="lesson-reader"><header><img src="${esc(day.image||week.hero)}" alt="${esc(day.title)}"><div><p>SCIENCE LAB · GRADE ${reading.grade} · WEEK ${week.number} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.guideLine||day.short)}</span><b class="reading-length">${reading.count} words · target about ${reading.target}</b></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-BASED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY IN CONTEXT</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span><em>${esc(word.example||"")}</em></div>`).join("")}</section><section class="reward-card"><small>SCIENCE CARD OUTPUT</small><b>${esc(day.reward||day.short)}</b><span>${isComplete(week.number,day.day)?"✓ Already created":"Complete all five activities to create this card."}</span></section></aside></div></article>`,{back:true,title:`Science Reading · Day ${day.day}`});
+    const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=day.image||week.hero,cardName=day.reward||day.short;
+    const lessonCard=learned?`<div class="lesson-model-art revealed"><img src="${esc(illustration)}" alt="Illustration for ${esc(cardName)}"><i>✓ LEARNED</i></div><b>${esc(cardName)}</b><span>The lesson is complete, so its illustration is displayed directly on this card.</span>`:`<div class="lesson-model-art locked" aria-label="Locked lesson illustration"><i>🔒</i><strong>ILLUSTRATION LOCKED</strong></div><b>${esc(cardName)}</b><span>Finish the reading and all five activities. The lesson illustration will then appear here automatically.</span>`;
+    shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>SCIENCE LAB · GRADE ${reading.grade} · WEEK ${week.number} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.guideLine||day.short)}</span><b class="reading-length">${reading.count} words · target about ${reading.target}</b></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-BASED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY IN CONTEXT</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span><em>${esc(word.example||"")}</em></div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>LESSON ILLUSTRATION CARD</small>${lessonCard}</section></aside></div></article>`,{back:true,title:`Science Reading · Day ${day.day}`});
     bindScienceExercise(week,day);
   }
   function completeLesson(week,day){
@@ -255,7 +256,7 @@
     adventure.researchCards=Array.isArray(adventure.researchCards)?adventure.researchCards:[];
     const id=`science-card-${week.number}-${day.day}`;
     if(!adventure.researchCards.some(card=>card.id===id))adventure.researchCards.push({id,name:day.reward||day.short,type:"science",rarity:Number(day.day)===5?"rare":"common",image:day.image||week.hero,lesson:day.story,week:week.number,day:day.day});
-    saveAdventure();renderLesson();toast(`Science card created: ${day.reward||day.short}`);
+    saveAdventure();renderLesson();toast(`Lesson illustration revealed: ${day.reward||day.short}`);
   }
 
   function renderCards(){
