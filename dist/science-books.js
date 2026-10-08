@@ -40,8 +40,9 @@
         words:terms,
         questions:makeQuestions(meta,i,terms)
       });
+      if(meta.newTerrain)days[i+1].questions.push(mcq("Which action best applies this evidence to a newly discovered habitat?",["Compare the habitat conditions with the organism's needs before placement.","Release every organism without checking conditions.","Ignore water, temperature, food and shelter."],0,"A new terrain must be evaluated before organisms are introduced.","Use evidence about both the habitat and the organism.","Check conditions before placement."));
     }
-    return {number:meta.number,title:meta.title,subtitle:`Grade ${meta.grade} · Big Idea ${meta.bigIdea} · Week ${meta.bookWeek}${meta.review?" · Unit Review":""}`,guide:meta.guide,hero:meta.background,days,source:{grade:meta.grade,bigIdea:meta.bigIdea,bookWeek:meta.bookWeek,pages:meta.pages},overview:meta.facts};
+    return {number:meta.number,title:meta.title,subtitle:`Grade ${meta.grade} · Big Idea ${meta.bigIdea} · Week ${meta.bookWeek}${meta.review?" · Unit Review":""}`,guide:meta.guide,hero:meta.background,days,source:{grade:meta.grade,bigIdea:meta.bigIdea,bookWeek:meta.bookWeek,pages:meta.pages,newTerrain:!!meta.newTerrain},overview:meta.facts};
   }
 
   const g5BodyTerms=[
@@ -141,7 +142,9 @@
     {number:36,grade:6,bigIdea:2,bookWeek:5,pages:"62-65",review:true,title:"What determines whether a species survives change?",answer:"Survival depends on the speed of change, available variation, flexible behavior, habitat protection and the fit between adaptations and conditions.",background:"assets/science-winter-review-v1.png",guide:"Gaia",reward:"Survival Review",context:"This chapter review compares extinction, crocodiles, polar bears and human adaptability.",dayTitles:commonReviewTitles,dayShort:commonShort,icons:commonIcons,guideLines:commonGuides,terms:g6SurvivalTerms,facts:["Habitat loss is a major driver of modern extinction.","Generalized crocodile adaptations allow many foods and habitats.","Specialized polar bear adaptations create strong dependence on sea ice.","Human diets, bipedalism and technology support wide distribution.","Conservation protects the habitats and time species need to survive change."]}
   ];
 
+  const NEW_TERRAIN_WEEKS=new Set([27,28,29,32,33,34,35]);
   metas.forEach(meta=>{
+    meta.newTerrain=NEW_TERRAIN_WEEKS.has(meta.number);
     expansion.weeks[meta.number]=makeWeek(meta);
     expansion.habitats[meta.number]={name:`${meta.title.replace(/\?$/,"")} Hologram`,region:`Grade ${meta.grade} · Big Idea ${meta.bigIdea}`,zone:meta.review?"Review archive · hands-on station":"Five-day chapter field site",background:meta.background,accent:meta.grade===5?"#59dfbb":"#92a7ff"};
   });
@@ -172,11 +175,11 @@
     layer.setAttribute("aria-label",book.title);
     layer.style.setProperty("--book-color",book.color);
     layer.style.setProperty("--book-dark",book.dark);
-    layer.innerHTML=`<article class="science-book-open"><button class="science-book-close" aria-label="Close ${esc(book.title)}">×</button><header><small>INFINITY LIBRARY · GRADE ${book.grade}</small><h2>${esc(book.title)}</h2><p>10 weeks · 2 chapters · choose a chapter hologram</p></header><div class="science-chapter-spread">${book.chapters.map(chapter=>`<button class="science-chapter-page" data-chapter="${chapter.number}" style="--chapter-bg:url('${chapter.background}')"><span>CHAPTER ${chapter.number}</span><strong>${esc(chapter.title)}</strong><p>${esc(chapter.bigIdea)}</p><b>5 weeks · Open hologram →</b></button>`).join("")}</div></article>`;
+    layer.innerHTML=`<article class="science-book-open grade4-style-book"><button class="science-book-close" aria-label="Close ${esc(book.title)}">×</button><header><small>INFINITY LIBRARY · DAILY SCIENCE GRADE ${book.grade}</small><h2>${esc(book.title)}</h2><p>Choose a week exactly as you do in Grade 4. A gold star marks a new terrain and an advanced evidence question.</p></header><div class="book-week-chapters">${book.chapters.map(chapter=>`<section class="book-week-chapter"><div class="book-chapter-heading" style="--chapter-bg:url('${chapter.background}')"><span>CHAPTER ${chapter.number}</span><h3>${esc(chapter.title)}</h3><p>${esc(chapter.bigIdea)}</p></div><div class="book-week-grid">${chapter.weeks.map((siteWeek,index)=>{const week=(allWeeks||expansion.weeks)[siteWeek],terrain=!!week.source?.newTerrain;return`<article class="science-week-card book-library-week ${terrain?"new-terrain":""}" style="--week-image:url('${week.hero}')"><div class="week-card-art"></div><div class="week-card-copy"><p class="science-kicker">${terrain?"★ NEW TERRAIN · ADVANCED":"WEEK "+(index+1)}</p><h2>${esc(week.title)}</h2><p>${esc(week.subtitle)}</p><small>${week.days.length-1} reading days · ${week.days.slice(1).reduce((sum,day)=>sum+day.questions.length,0)} questions</small><button data-book-week="${siteWeek}">Open research →</button></div></article>`}).join("")}</div></section>`).join("")}</div></article>`;
     document.body.appendChild(layer);
     layer.querySelector(".science-book-close").onclick=()=>closeLayer(layer);
     layer.onclick=event=>{if(event.target===layer)closeLayer(layer)};
-    layer.querySelectorAll("[data-chapter]").forEach(button=>button.onclick=()=>openChapter(root,book,book.chapters.find(ch=>ch.number===Number(button.dataset.chapter)),layer));
+    layer.querySelectorAll("[data-book-week]").forEach(button=>button.onclick=()=>{const target=root.querySelector(`[data-week="${button.dataset.bookWeek}"]`);if(target){closeLayer(layer);target.click()}});
   }
 
   function openChapter(root,book,chapter,bookLayer){

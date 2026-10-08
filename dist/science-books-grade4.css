@@ -1,0 +1,20 @@
+.grade4-style-book{width:min(1320px,97vw)}
+.book-week-chapters{display:grid;gap:28px}
+.book-week-chapter{padding:16px;border:1px solid #ffffff2f;border-radius:23px;background:#061622c9}
+.book-chapter-heading{position:relative;min-height:150px;overflow:hidden;padding:24px;border-radius:17px;background:linear-gradient(90deg,#041522eb,#04152278),var(--chapter-bg) center/cover}
+.book-chapter-heading span{color:var(--book-color);font-weight:900;letter-spacing:.17em}
+.book-chapter-heading h3{margin:7px 0;font:900 clamp(28px,4vw,48px)/1 Georgia,serif}
+.book-chapter-heading p{max-width:720px;margin:0;color:#e1efec;line-height:1.55}
+.book-week-grid{display:grid;grid-template-columns:repeat(5,minmax(175px,1fr));gap:12px;margin-top:13px}
+.book-library-week{position:relative;min-height:355px;overflow:hidden;border:1px solid #a9e9df99;border-radius:18px;background:#0b2732}
+.book-library-week .week-card-art{height:142px;background:linear-gradient(0deg,#0b2732,transparent 60%),var(--week-image) center/cover}
+.book-library-week .week-card-copy{padding:14px}
+.book-library-week h2{margin:5px 0!important;font-size:22px!important;line-height:1!important}
+.book-library-week p:not(.science-kicker){min-height:42px;color:#bfdbd7;font-size:11px}
+.book-library-week small{display:block;color:#88cfc4;font-size:10px}
+.book-library-week button{width:100%;margin-top:12px;padding:10px;border:0;border-radius:10px;background:var(--book-color);color:#04211e;font-weight:900;cursor:pointer}
+.book-library-week.new-terrain{border:2px solid #ffd45a;box-shadow:0 0 22px #ffc63e55}
+.book-library-week.new-terrain .science-kicker{color:#ffd75e}
+.book-library-week.new-terrain:after{content:"★";position:absolute;right:12px;top:12px;display:grid;place-items:center;width:38px;aspect-ratio:1;border-radius:50%;background:#ffd24e;color:#3d2600;font-size:22px;box-shadow:0 0 22px #ffd24e}
+@media(max-width:1100px){.book-week-grid{grid-template-columns:repeat(2,minmax(220px,1fr))}}
+@media(max-width:620px){.book-week-grid{grid-template-columns:1fr}.book-library-week{min-height:310px}}
