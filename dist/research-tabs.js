@@ -5,13 +5,13 @@
 
   function guideMarkup(){
     const resources=[
-      ["●","Gold","New Math answers and completed Arcade games","Buy ordinary plants, animals and habitat items"],
-      ["⚡","Energy","A new Math answer solved correctly for the first time","Power the Engine Room and maintain advanced habitats"],
-      ["◆","Knowledge Gems","Finish Science investigations; forge 5 crystal fragments","Unlock rare terrain, extinct-life archives and future worlds"],
-      ["💧","Water","Pass 5 Science checks at Rain Kingdom","Water crops and tune habitat moisture"],
-      ["▰","Soil","Pass 5 Science checks during an Earth terrain survey","Prepare the correct root zone; soil cannot be bought with Gold"],
-      ["🌰","Seeds","Find them in Science lessons or harvest mature plants","Sow the crop row and continue a plant life cycle"],
-      ["✦","Fertilizer","Study decomposition and nutrient cycling","Return nutrients to soil; too much can harm roots and water"]
+      ["gold","●","Gold","New Math answers and completed Arcade games","Buy ordinary plants, animals and habitat items"],
+      ["energy","⚡","Energy","A new Math answer solved correctly for the first time","Power the Engine Room and maintain advanced habitats"],
+      ["gems","◆","Knowledge Gems","Finish Science investigations; forge 5 crystal fragments","Unlock rare terrain, extinct-life archives and future worlds"],
+      ["water","💧","Water","Pass 5 Science checks at Rain Kingdom","Water crops and tune habitat moisture"],
+      ["soil","▰","Soil","Pass 5 Science checks during an Earth terrain survey","Prepare the correct root zone; soil cannot be bought with Gold"],
+      ["seeds","🌰","Seeds","Find them in Science lessons or harvest mature plants","Sow the crop row and continue a plant life cycle"],
+      ["fertilizer","✦","Fertilizer","Study decomposition and nutrient cycling","Return nutrients to soil; too much can harm roots and water"]
     ];
     const routes=[
       ["Terrain card","Garden · Terrain Console","Creates the matching land model on the right side of the Garden"],
@@ -31,7 +31,7 @@
       ["Living Room / Aquarium","LOCKED","Aquatic specimens remain stored until the full depth habitat opens."],
       ["Outside / Earth Defence","LOCKED","Reserved for the future Protect Earth route."]
     ];
-    return `<section class="game-logic-guide"><header><p>PLAYER GUIDE · ONE CONSISTENT LOOP</p><h2>Learn → earn → store → build</h2><span>Every reward has one source and one destination. Locked systems stay visible but cannot be used early.</span></header><div class="logic-flow" aria-label="Main game flow"><article><b>1</b><strong>Learn</strong><span>Read Science or Math and answer questions.</span></article><i>›</i><article><b>2</b><strong>Earn</strong><span>Receive the resource tied to that learning action.</span></article><i>›</i><article><b>3</b><strong>Store</strong><span>Cards and objects enter the correct Storage tab.</span></article><i>›</i><article><b>4</b><strong>Build</strong><span>Use them only in a compatible unlocked room.</span></article></div><section class="logic-guide-section"><h3>Where every resource comes from</h3><div class="logic-resource-grid">${resources.map(([icon,name,source,use])=>`<article><i>${icon}</i><div><strong>${esc(name)}</strong><small>COLLECT</small><p>${esc(source)}</p><small>USE</small><p>${esc(use)}</p></div></article>`).join("")}</div></section><section class="logic-guide-section"><h3>Where every card goes</h3><div class="logic-route-table">${routes.map(([card,destination,rule])=>`<article><strong>${esc(card)}</strong><b>${esc(destination)}</b><span>${esc(rule)}</span></article>`).join("")}</div></section><section class="logic-guide-section"><h3>Room connection map</h3><div class="logic-room-grid">${rooms.map(([room,status,text])=>`<article class="${status==="LOCKED"?"is-locked":""}"><span>${status}</span><strong>${esc(room)}</strong><p>${esc(text)}</p></article>`).join("")}</div></section><aside class="logic-rule-note"><strong>No duplicate reward rule</strong><span>A specific Math question awards Gold and Energy only the first time it is solved correctly. Replaying is allowed for practice, but it does not mint the same reward again.</span></aside></section>`;
+    return `<section class="game-logic-guide"><header><p>PLAYER GUIDE · ONE CONSISTENT LOOP</p><h2>Learn → earn → store → build</h2><span>Every reward has one source and one destination. Locked systems stay visible but cannot be used early.</span></header><div class="logic-flow" aria-label="Main game flow"><article><b>1</b><strong>Learn</strong><span>Read Science or Math and answer questions.</span></article><i>›</i><article><b>2</b><strong>Earn</strong><span>Receive the resource tied to that learning action.</span></article><i>›</i><article><b>3</b><strong>Store</strong><span>Cards and objects enter the correct Storage tab.</span></article><i>›</i><article><b>4</b><strong>Build</strong><span>Use them only in a compatible unlocked room.</span></article></div><section class="logic-guide-section"><h3>Where every resource comes from</h3><p class="logic-tap-hint">Tap any resource to open its animated hologram and follow the numbered path.</p><div class="logic-resource-grid">${resources.map(([kind,icon,name,source,use])=>`<button type="button" data-guide-resource="${kind}" aria-label="Open ${esc(name)} hologram guide"><i>${icon}</i><div><strong>${esc(name)}</strong><small>COLLECT</small><p>${esc(source)}</p><small>USE</small><p>${esc(use)}</p><em>OPEN HOLOGRAM GUIDE →</em></div></button>`).join("")}</div></section><section class="logic-guide-section"><h3>Where every card goes</h3><div class="logic-route-table">${routes.map(([card,destination,rule])=>`<article><strong>${esc(card)}</strong><b>${esc(destination)}</b><span>${esc(rule)}</span></article>`).join("")}</div></section><section class="logic-guide-section"><h3>Room connection map</h3><div class="logic-room-grid">${rooms.map(([room,status,text])=>`<article class="${status==="LOCKED"?"is-locked":""}"><span>${status}</span><strong>${esc(room)}</strong><p>${esc(text)}</p></article>`).join("")}</div></section><aside class="logic-rule-note"><strong>No duplicate reward rule</strong><span>A specific Math question awards Gold and Energy only the first time it is solved correctly. Replaying is allowed for practice, but it does not mint the same reward again.</span></aside></section>`;
   }
 
   function mathMarkup(){
@@ -63,6 +63,7 @@
       root.classList.toggle("showing-embedded-math",tab==="math");
     };
     nav.querySelectorAll("button").forEach(button=>button.onclick=()=>activate(button.dataset.researchTab));
+    guide.querySelectorAll("[data-guide-resource]").forEach(button=>button.onclick=()=>window.openAdventureResourceGuide?.(button.dataset.guideResource));
     activate(current);
   }
 
