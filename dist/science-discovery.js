@@ -264,6 +264,14 @@
   weeks[11]={number:11,title:"Is it safe to eat moldy food?",subtitle:"Food Fungi & Safety Laboratory",guide:"Miko",hero:"assets/science-mold-growth-v1.png",days:week11,overview:["Mold grows with hidden hyphae and airborne spores","Food structure changes contamination risk","Controlled yeast fermentation makes bread rise","Penicillium led to penicillin","Evidence-based food-safety report"]};
   realisticLessonImages[11]=[null,"assets/science-mold-growth-v1.png","assets/science-mold-hidden-risk-v1.png","assets/science-mold-yeast-fermentation-v1.png","assets/science-mold-penicillin-v1.png","assets/science-mold-food-safety-review-v1.png"];
   vocabularySheets[11]=[null,"assets/science-mold-growth-v1.png","assets/science-mold-hidden-risk-v1.png","assets/science-mold-yeast-fermentation-v1.png","assets/science-mold-penicillin-v1.png","assets/science-mold-food-safety-review-v1.png"];
+  Object.assign(weeks[1],{source:{grade:4,bigIdea:1,bookWeek:1,pages:"8–13"}});
+  Object.assign(weeks[2],{source:{grade:4,bigIdea:1,bookWeek:2,pages:"14–19"}});
+  Object.assign(weeks[3],{source:{grade:4,bigIdea:1,bookWeek:3,pages:"20–25"}});
+  Object.assign(weeks[4],{source:{grade:4,bigIdea:1,bookWeek:4,pages:"26–31"}});
+  Object.assign(weeks[8],{source:{grade:4,bigIdea:2,bookWeek:1,pages:"38–43"}});
+  Object.assign(weeks[9],{source:{grade:4,bigIdea:2,bookWeek:2,pages:"44–49"}});
+  Object.assign(weeks[10],{source:{grade:4,bigIdea:2,bookWeek:3,pages:"50–55"}});
+  Object.assign(weeks[11],{source:{grade:4,bigIdea:2,bookWeek:4,pages:"56–61"}});
   const expansion=window.ScienceExpansion||{weeks:{},habitats:{}};
   Object.entries(expansion.weeks||{}).forEach(([number,week])=>{
     weeks[number]=week;
