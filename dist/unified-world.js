@@ -240,7 +240,7 @@
   }
   function worldPins(origin=""){
     const text=String(origin).toLowerCase(),pins=[];
-    if(/worldwide|global|cultivated worldwide/.test(text))return[[19,35],[51,28],[73,40],[84,69],[30,66]];
+    if(/worldwide|global|cultivated worldwide|human and animal microbiomes|human mouth|intestines of humans/.test(text))return[[19,35],[51,28],[73,40],[84,69],[30,66]];
     if(/north america|mexico|united states|canada/.test(text))pins.push([20,38]);
     if(/south america|amazon|andes/.test(text))pins.push([30,67]);
     if(/europe|mediterranean/.test(text))pins.push([51,31]);
