@@ -17,6 +17,12 @@
     },
     bios:{
       "Cao Lỗ":"Nhân vật được truyền thống lịch sử gắn với An Dương Vương, thành Cổ Loa và kĩ thuật nỏ. Năm sinh, năm mất và nhiều chi tiết cuộc đời chưa xác định; khi học cần tách truyền thuyết khỏi bằng chứng khảo cổ.",
+      "Ngô Quyền":"Ngô Quyền (898–944) quê ở Đường Lâm, là tướng và con rể của Dương Đình Nghệ. Sau khi Kiều Công Tiễn giết Dương Đình Nghệ và cầu cứu Nam Hán, ông tiến quân ra Bắc, tổ chức trận địa cọc trên sông Bạch Đằng và đánh bại quân Nam Hán năm 938. Năm 939, Ngô Quyền xưng vương, đóng đô ở Cổ Loa và xây dựng một chính quyền tự chủ. Việc ông bỏ chức Tiết độ sứ cho thấy đất nước không còn tự xem mình là một đơn vị hành chính lệ thuộc phương Bắc. Ông mất năm 944; chiến thắng Bạch Đằng và việc dựng nền tự chủ là di sản lớn nhất của ông.",
+      "Dương Như Ngọc":"Dương Như Ngọc được một số nguồn và gia phả nhắc đến như hoàng hậu của Ngô Quyền và là con gái của Dương Đình Nghệ. Tuy nhiên, tên gọi và quan hệ của bà với Dương Tam Kha không được các nguồn ghi hoàn toàn giống nhau. Vì vậy hồ sơ này chỉ dùng bà để thể hiện mối liên hệ giữa họ Dương và họ Ngô, đồng thời ghi rõ phần còn chưa chắc chắn thay vì coi mọi chi tiết là kết luận cuối cùng.",
+      "Dương Tam Kha":"Dương Tam Kha là nhân vật nắm quyền sau khi Ngô Quyền mất, xưng là Dương Bình Vương trong khoảng 945–950. Sử cũ ghi ông gạt người kế vị của họ Ngô để tự lập, nhưng vẫn nuôi Ngô Xương Văn. Năm 950, Ngô Xương Văn giành lại quyền và không giết Dương Tam Kha mà giáng ông xuống làm Chương Dương công. Quan hệ chính xác giữa Dương Tam Kha và Dương hậu có cách chép khác nhau, nên sơ đồ không khẳng định một quan hệ huyết thống duy nhất.",
+      "Ngô Xương Ngập":"Ngô Xương Ngập là con trưởng của Ngô Quyền. Khi Dương Tam Kha nắm quyền, ông phải lánh về vùng Nam Sách. Năm 951, ông được em là Ngô Xương Văn đón về cùng trị nước; hai người thường được gọi chung là Hậu Ngô Vương. Ông xưng Thiên Sách Vương và mất năm 954.",
+      "Ngô Xương Văn":"Ngô Xương Văn là con của Ngô Quyền, được Dương Tam Kha nuôi làm con. Năm 950, khi được sai đi đánh dẹp, ông cùng các tướng quay lại giành quyền, xưng Nam Tấn Vương và khôi phục ngôi vua cho họ Ngô. Sau đó ông đón anh là Ngô Xương Ngập về cùng trị nước. Ông mất năm 965 trong một cuộc đi dẹp loạn; sau đó quyền lực trung ương suy yếu và đất nước bước vào thời kì Mười hai sứ quân.",
+      "Ngô Xương Xí":"Ngô Xương Xí là con của Ngô Xương Ngập. Sau khi Ngô Xương Văn mất năm 965, ông lui về giữ vùng Bình Kiều và trở thành một trong các sứ quân. Tư liệu về cuộc đời và niên đại của ông không đầy đủ; vai trò chính cần nhớ là mắt xích nối thời Hậu Ngô Vương với giai đoạn Mười hai sứ quân.",
       "Dương Đình Nghệ":"Một hào trưởng và tướng lĩnh đầu thế kỉ X, xây dựng lực lượng ở Ái Châu rồi giành lại quyền tự chủ năm 931. Ông là cha vợ của Ngô Quyền và tạo nền lực lượng cho thắng lợi Bạch Đằng sau đó.",
       "Kiều Công Hãn":"Một tướng thời Ngô, về sau là một trong các thế lực cát cứ trong giai đoạn thường gọi là loạn Mười hai sứ quân. Tư liệu về năm sinh và nhiều chi tiết đời ông còn thiếu.",
       "Nguyễn Bặc":"Công thần giúp Đinh Bộ Lĩnh dẹp các thế lực cát cứ và xây dựng triều Đinh. Ông giữ vị trí cao trong triều, chống lại Lê Hoàn sau biến động năm 979 và bị giết.",
@@ -62,6 +68,20 @@
       {period:"le-trung-hung",q:"Trong thời Lê Trung hưng, bên cạnh vua Lê còn có những trung tâm quyền lực nào?",options:["Các phủ chúa","Các công ty hiện đại","Các thuộc địa La Mã"],correct:0,reward:"court-robe"},
       {period:"tay-son",q:"Quang Trung chỉ huy chiến thắng nào vào đầu xuân 1789?",options:["Ngọc Hồi – Đống Đa","Chi Lăng","Như Nguyệt"],correct:0,reward:"spear-shield"},
       {period:"nguyen",q:"Kinh đô của nhà Nguyễn đặt ở đâu?",options:["Cổ Loa","Huế","Hoa Lư"],correct:1,reward:"nguyen-seal"}
+    ],
+    curriculumQuestions:[
+      {topic:"van-lang-au-lac",title:"Bài 5 · Văn Lang, Âu Lạc",period:"van-lang-au-lac",q:"Tư liệu nào là bằng chứng khảo cổ giúp tìm hiểu nhà nước Âu Lạc?",options:["Thành Cổ Loa và mũi tên đồng","Ảnh chụp vệ tinh thời hiện đại","Nhật kí của An Dương Vương"],correct:0,reward:"bronze-arrow"},
+      {topic:"phu-nam",title:"Bài 6 · Vương quốc Phù Nam",period:"",q:"Di chỉ nào thường được dùng để tìm hiểu hoạt động giao thương của cư dân Phù Nam?",options:["Óc Eo","Hoàng thành Thăng Long","Văn Miếu – Quốc Tử Giám"],correct:0,reward:"oc-eo-beads"},
+      {topic:"champa",title:"Bài 7 · Vương quốc Chăm-pa",period:"",q:"Công trình nào là dấu ấn kiến trúc tiêu biểu của văn hóa Chăm-pa?",options:["Tháp Chăm","Nhà sàn Tây Bắc","Địa đạo Củ Chi"],correct:0,reward:"champa-relief"},
+      {topic:"bac-thuoc",title:"Bài 8 · Đấu tranh thời Bắc thuộc",period:"ngo",q:"Mốc nào gắn với chiến thắng Bạch Đằng của Ngô Quyền?",options:["Năm 40","Năm 542","Năm 938"],correct:2,reward:"bach-dang-stake"},
+      {topic:"ly",title:"Bài 9 · Triều Lý và Thăng Long",period:"ly",q:"Năm 1010, Lý Công Uẩn quyết định việc gì?",options:["Dời đô từ Hoa Lư ra Đại La","Đặt kinh đô ở Cổ Loa","Mở chiến dịch Điện Biên Phủ"],correct:0,reward:"chieu-doi-do"},
+      {topic:"tran",title:"Bài 10 · Triều Trần và Mông–Nguyên",period:"tran",q:"Quân dân nhà Trần đã ba lần kháng chiến chống lực lượng xâm lược nào?",options:["Mông–Nguyên","Nam Hán","Thanh"],correct:0,reward:"ly-tran-jar"},
+      {topic:"lam-son",title:"Bài 12 · Lam Sơn và Hậu Lê",period:"le-so",q:"Ai là người lãnh đạo khởi nghĩa Lam Sơn?",options:["Lê Lợi","Lý Công Uẩn","Ngô Quyền"],correct:0,reward:"lam-son-sword"},
+      {topic:"nguyen",title:"Bài 13 · Triều Nguyễn",period:"nguyen",q:"Kinh đô của triều Nguyễn được đặt ở đâu?",options:["Huế","Cổ Loa","Thăng Long"],correct:0,reward:"nguyen-seal"},
+      {topic:"august-1945",title:"Bài 14 · Cách mạng tháng Tám 1945",period:"",q:"Cách mạng tháng Tám năm 1945 đã đưa tới sự kiện trọng đại nào?",options:["Nước Việt Nam Dân chủ Cộng hòa ra đời","Nhà Lý dời đô","Nhà Trần được thành lập"],correct:0,reward:"declaration-1945"},
+      {topic:"dien-bien-1954",title:"Bài 15 · Điện Biên Phủ 1954",period:"",q:"Chiến dịch Điện Biên Phủ kết thúc thắng lợi vào năm nào?",options:["1945","1954","1975"],correct:1,reward:"cargo-bicycle-1954"},
+      {topic:"hcm-1975",title:"Bài 16 · Chiến dịch Hồ Chí Minh 1975",period:"",q:"Chiến dịch Hồ Chí Minh gắn với mốc thời gian nào?",options:["Mùa xuân năm 1975","Mùa thu năm 1945","Mùa đông năm 1954"],correct:0,reward:"tank-390"},
+      {topic:"doi-moi",title:"Bài 17 · Đất nước Đổi mới",period:"",q:"Công cuộc Đổi mới ở Việt Nam được khởi xướng vào năm nào?",options:["1975","1986","2000"],correct:1,reward:"ration-coupon"}
     ]
   };
 })();
