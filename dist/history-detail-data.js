@@ -1,0 +1,67 @@
+(()=>{
+  "use strict";
+  window.HistoryDetailData={
+    identities:{
+      "van-lang-au-lac":{country:"Văn Lang · Âu Lạc",capital:"Phong Châu · Cổ Loa",emblem:"Trống đồng và hoa văn chim Lạc",flag:"Chưa có tư liệu xác nhận quốc kỳ chuẩn hóa",note:"Biểu trưng khảo cổ, không phải quốc huy hiện đại."},
+      ngo:{country:"Quốc gia tự chủ thời Ngô",capital:"Cổ Loa",emblem:"Chưa xác định triều huy chính thức",flag:"Chưa có tư liệu xác nhận quốc kỳ chuẩn hóa",note:"Không tự tạo cờ hoặc quốc huy khi chưa có hiện vật đối chứng."},
+      dinh:{country:"Đại Cồ Việt",capital:"Hoa Lư",emblem:"Triều ấn và nghi trượng được mô tả theo sử liệu",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Quốc hiệu Đại Cồ Việt được đặt năm 968."},
+      "tien-le":{country:"Đại Cồ Việt",capital:"Hoa Lư",emblem:"Triều ấn · nghi trượng",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Kế tục quốc hiệu từ nhà Đinh."},
+      ly:{country:"Đại Cồ Việt → Đại Việt",capital:"Thăng Long",emblem:"Rồng thời Lý · triều ấn",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Đại Việt là quốc hiệu từ năm 1054."},
+      tran:{country:"Đại Việt",capital:"Thăng Long",emblem:"Rồng thời Trần · triều ấn",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Biểu trưng mỹ thuật không được trình bày như quốc huy."},
+      ho:{country:"Đại Ngu",capital:"Tây Đô",emblem:"Dấu ấn triều đình chưa đủ để gọi là quốc huy",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Quốc hiệu Đại Ngu được dùng trong thời nhà Hồ."},
+      "le-so":{country:"Đại Việt",capital:"Đông Kinh",emblem:"Triều ấn · rồng thời Lê",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Dùng quốc hiệu và hiện vật xác định thay cho cờ phục dựng tùy ý."},
+      mac:{country:"Đại Việt",capital:"Thăng Long",emblem:"Triều ấn nhà Mạc",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Giai đoạn Nam – Bắc triều cần đọc song song nhiều tuyến quyền lực."},
+      "le-trung-hung":{country:"Đại Việt",capital:"Thăng Long",emblem:"Triều ấn Lê · phủ chúa Trịnh/Nguyễn",flag:"Chưa có quốc kỳ theo nghĩa hiện đại",note:"Vua Lê và các phủ chúa là những lớp quyền lực khác nhau."},
+      "tay-son":{country:"Đại Việt",capital:"Phú Xuân",emblem:"Triều ấn Tây Sơn",flag:"Quân kỳ có nhiều mô tả; chưa dùng một mẫu như quốc kỳ chuẩn",note:"Không đồng nhất quân kỳ với quốc kỳ hiện đại."},
+      nguyen:{country:"Việt Nam · Đại Nam",capital:"Huế",emblem:"Kim bảo · ngọc tỷ · triều ấn",flag:"Có nhiều loại cờ theo nghi lễ và giai đoạn",note:"Cần ghi rõ niên đại từng lá cờ, không dùng một mẫu cho toàn triều."}
+    },
+    bios:{
+      "Cao Lỗ":"Nhân vật được truyền thống lịch sử gắn với An Dương Vương, thành Cổ Loa và kĩ thuật nỏ. Năm sinh, năm mất và nhiều chi tiết cuộc đời chưa xác định; khi học cần tách truyền thuyết khỏi bằng chứng khảo cổ.",
+      "Dương Đình Nghệ":"Một hào trưởng và tướng lĩnh đầu thế kỉ X, xây dựng lực lượng ở Ái Châu rồi giành lại quyền tự chủ năm 931. Ông là cha vợ của Ngô Quyền và tạo nền lực lượng cho thắng lợi Bạch Đằng sau đó.",
+      "Kiều Công Hãn":"Một tướng thời Ngô, về sau là một trong các thế lực cát cứ trong giai đoạn thường gọi là loạn Mười hai sứ quân. Tư liệu về năm sinh và nhiều chi tiết đời ông còn thiếu.",
+      "Nguyễn Bặc":"Công thần giúp Đinh Bộ Lĩnh dẹp các thế lực cát cứ và xây dựng triều Đinh. Ông giữ vị trí cao trong triều, chống lại Lê Hoàn sau biến động năm 979 và bị giết.",
+      "Đinh Điền":"Tướng lĩnh thân cận của Đinh Bộ Lĩnh trong quá trình thống nhất đất nước. Sau khi Đinh Tiên Hoàng mất, ông tham gia lực lượng phản đối Lê Hoàn; năm sinh chưa rõ.",
+      "Khuông Việt":"Thiền sư Ngô Chân Lưu, được triều Đinh phong danh hiệu Khuông Việt Đại sư. Ông tham gia cố vấn chính trị và ngoại giao trong buổi đầu nhà nước độc lập.",
+      "Đỗ Pháp Thuận":"Thiền sư và nhà ngoại giao thời Tiền Lê, từng giúp tiếp sứ nhà Tống. Bài thơ đáp sứ thường được nhắc như một suy ngẫm sớm về việc trị nước và hòa bình.",
+      "Lý Thường Kiệt":"Danh tướng thời Lý, chỉ huy chiến dịch sang Ung–Khâm–Liêm và phòng tuyến sông Như Nguyệt. Ông nổi bật ở khả năng tổ chức quân sự và chủ động bảo vệ biên giới Đại Việt.",
+      "Tô Hiến Thành":"Đại thần thời Lý, từng phụ chính và được sử sách ca ngợi vì giữ phép công trong việc chọn người kế nhiệm. Ông cũng tham gia quân sự và quản lí triều chính.",
+      "Ỷ Lan":"Từ một người phụ nữ dân gian trở thành Nguyên phi rồi Hoàng thái hậu nhà Lý. Bà nhiều lần tham gia điều hành triều chính, quan tâm nông nghiệp và hoạt động Phật giáo.",
+      "Trần Thủ Độ":"Nhân vật chủ chốt trong việc chuyển giao quyền lực từ nhà Lý sang nhà Trần và tổ chức bộ máy triều Trần. Ông có vai trò lớn trong chuẩn bị cuộc kháng chiến năm 1258, nhưng các biện pháp chính trị của ông cũng gây nhiều tranh luận.",
+      "Trần Hưng Đạo":"Tên thật Trần Quốc Tuấn, Quốc công Tiết chế chỉ huy quân Đại Việt trong các cuộc kháng chiến chống Mông–Nguyên. Ông để lại Hịch tướng sĩ và tư tưởng quân sự gắn với đoàn kết, chuẩn bị lâu dài.",
+      "Trần Quang Khải":"Hoàng thân, đại thần và danh tướng nhà Trần. Ông góp phần chỉ huy phản công năm 1285, đồng thời để lại thơ văn thể hiện niềm tự hào về đất nước.",
+      "Phạm Ngũ Lão":"Danh tướng xuất thân bình dân, phục vụ dưới quyền Trần Hưng Đạo và có nhiều chiến công. Ông cũng là tác giả thơ chữ Hán, tiêu biểu là Thuật hoài.",
+      "Hồ Nguyên Trừng":"Con Hồ Quý Ly, tướng và nhà kĩ thuật quân sự gắn với việc chế tạo súng thần cơ và phòng thủ nhà Hồ. Sau khi sang Trung Quốc, ông viết Nam Ông mộng lục, ghi lại nhiều câu chuyện về Đại Việt.",
+      "Đỗ Mãn":"Tướng lĩnh nhà Hồ tham gia tổ chức quân đội và kháng chiến chống Minh. Tư liệu tiểu sử còn hạn chế nên không xác định chắc năm sinh, năm mất.",
+      "Nguyễn Trãi":"Nhà chính trị, nhà văn hóa và quân sư quan trọng của khởi nghĩa Lam Sơn. Ông tham gia soạn thảo văn thư, viết Bình Ngô đại cáo và để lại nhiều tác phẩm về nhân nghĩa, đất nước, con người.",
+      "Lê Lai":"Tướng Lam Sơn nổi tiếng với việc dẫn quân đánh giải vây năm 1418 và hy sinh. Câu chuyện về ông thể hiện sự hi sinh trong giai đoạn đầu rất khó khăn của cuộc khởi nghĩa.",
+      "Nguyễn Xí":"Tham gia nghĩa quân Lam Sơn từ sớm, có vai trò trong nhiều trận đánh và sau đó trở thành đại thần nhà Lê. Ông góp phần ổn định triều chính trong biến động năm 1460.",
+      "Lương Thế Vinh":"Trạng nguyên, quan văn và nhà toán học thời Lê Thánh Tông. Tác phẩm Đại thành toán pháp hệ thống nhiều bài toán thực hành; các truyện “Trạng Lường” cần được ghi rõ là giai thoại dân gian.",
+      "Nguyễn Bỉnh Khiêm":"Trạng nguyên, nhà giáo và nhà thơ thế kỉ XVI, thường được gọi là Trạng Trình. Sau khi rời quan trường, ông dạy học và có ảnh hưởng lớn đến nhiều thế hệ trí thức.",
+      "Giáp Hải":"Đỗ Trạng nguyên thời Mạc và làm quan nhiều năm. Ông tham gia ngoại giao, nổi tiếng với bài thơ đáp sứ và hoạt động bảo vệ vị thế triều đình.",
+      "Nguyễn Hoàng":"Vị chúa Nguyễn đầu tiên, vào trấn thủ Thuận Hóa từ năm 1558. Ông đặt nền cho chính quyền họ Nguyễn ở Đàng Trong và mở rộng hoạt động về phía nam.",
+      "Đào Duy Từ":"Nhà quân sự, nhà thơ và mưu sĩ của chúa Nguyễn Phúc Nguyên. Ông góp phần xây dựng hệ thống lũy phòng thủ ở Quảng Bình và tổ chức bộ máy Đàng Trong.",
+      "Lê Quý Đôn":"Nhà bác học thế kỉ XVIII với trước tác rộng về lịch sử, địa lí, kinh tế, văn học và triết học. Những ghi chép của ông là nguồn tư liệu quan trọng để tìm hiểu xã hội Đại Việt đương thời.",
+      "Bùi Thị Xuân":"Nữ tướng Tây Sơn, nổi tiếng về tài võ nghệ và chỉ huy tượng binh. Nhiều chi tiết đời bà được truyền kể khác nhau; mốc năm sinh chưa được xác định chắc chắn.",
+      "Ngô Thì Nhậm":"Quan văn, nhà ngoại giao và học giả cuối thế kỉ XVIII. Ông góp phần vào chính sách ngoại giao sau chiến thắng năm 1789 và tham gia phát triển tư tưởng Phật giáo Trúc Lâm.",
+      "Trần Quang Diệu":"Một trong các tướng lĩnh chủ chốt của Tây Sơn, chỉ huy nhiều chiến dịch trong giai đoạn nội chiến cuối thế kỉ XVIII. Năm sinh của ông thường chỉ được ước đoán.",
+      "Nguyễn Công Trứ":"Quan lại, nhà thơ và người tổ chức khẩn hoang dưới triều Nguyễn. Ông có công lập các vùng Kim Sơn, Tiền Hải và để lại thơ ca thể hiện cá tính mạnh mẽ.",
+      "Cao Bá Quát":"Nhà thơ và nhà giáo nổi tiếng về tài chữ, tư tưởng phê phán và khí phách. Ông tham gia cuộc nổi dậy Mỹ Lương rồi mất năm 1855.",
+      "Trương Định":"Lãnh tụ kháng Pháp ở Nam Bộ, tiếp tục tổ chức lực lượng sau Hòa ước 1862. Ông được nhân dân suy tôn là Bình Tây Đại nguyên soái.",
+      "Nguyễn Tri Phương":"Danh tướng triều Nguyễn, từng chỉ huy phòng thủ Đà Nẵng, Gia Định và Hà Nội trước quân Pháp. Ông bị thương khi thành Hà Nội thất thủ năm 1873 và mất sau đó."
+    },
+    questions:[
+      {period:"van-lang-au-lac",q:"Bằng chứng nào giúp tìm hiểu Âu Lạc ngoài truyền thuyết?",options:["Thành Cổ Loa và mũi tên đồng","Ảnh vệ tinh hiện đại","Nhật kí của vua Hùng"],correct:0,reward:"bronze-arrow"},
+      {period:"ngo",q:"Ngô Quyền đã tận dụng yếu tố tự nhiên nào ở Bạch Đằng năm 938?",options:["Gió mùa trên núi","Thủy triều trên sông","Băng tuyết"],correct:1,reward:"bach-dang-stake"},
+      {period:"dinh",q:"Kinh đô của nhà Đinh đặt ở đâu?",options:["Thăng Long","Phú Xuân","Hoa Lư"],correct:2,reward:"dong-son-drum"},
+      {period:"tien-le",q:"Cuộc kháng chiến chống Tống do Lê Đại Hành chỉ huy diễn ra năm nào?",options:["981","1077","1288"],correct:0,reward:"spear-shield"},
+      {period:"ly",q:"Sự kiện nổi bật năm 1010 là gì?",options:["Lập nhà Nguyễn","Dời đô ra Thăng Long","Mở đầu nhà Trần"],correct:1,reward:"chieu-doi-do"},
+      {period:"tran",q:"Nhà Trần ba lần kháng chiến chống đội quân nào?",options:["Mông – Nguyên","Xiêm","Thanh"],correct:0,reward:"ly-tran-jar"},
+      {period:"ho",q:"Quốc hiệu dưới nhà Hồ là gì?",options:["Đại Nam","Đại Ngu","Văn Lang"],correct:1,reward:"spear-shield"},
+      {period:"le-so",q:"Nguyễn Trãi gắn với cuộc khởi nghĩa nào?",options:["Tây Sơn","Lam Sơn","Hai Bà Trưng"],correct:1,reward:"lam-son-sword"},
+      {period:"mac",q:"Nhà Mạc tồn tại ở Thăng Long trong bối cảnh lịch sử nào?",options:["Nam – Bắc triều","Bắc thuộc lần thứ nhất","Thời Văn Lang"],correct:0,reward:"hong-duc-map"},
+      {period:"le-trung-hung",q:"Trong thời Lê Trung hưng, bên cạnh vua Lê còn có những trung tâm quyền lực nào?",options:["Các phủ chúa","Các công ty hiện đại","Các thuộc địa La Mã"],correct:0,reward:"court-robe"},
+      {period:"tay-son",q:"Quang Trung chỉ huy chiến thắng nào vào đầu xuân 1789?",options:["Ngọc Hồi – Đống Đa","Chi Lăng","Như Nguyệt"],correct:0,reward:"spear-shield"},
+      {period:"nguyen",q:"Kinh đô của nhà Nguyễn đặt ở đâu?",options:["Cổ Loa","Huế","Hoa Lư"],correct:1,reward:"nguyen-seal"}
+    ]
+  };
+})();
