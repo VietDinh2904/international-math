@@ -9,7 +9,7 @@
         overview:"Giai đoạn dựng nước sớm được tìm hiểu qua truyền thuyết, thư tịch về sau và bằng chứng khảo cổ như trống đồng, thành Cổ Loa, mũi tên đồng. Cần phân biệt phần đã được khảo cổ xác nhận với chi tiết mang tính truyền thuyết.",
         places:[[22,34,"Phong Châu"],[48,44,"Cổ Loa"],[72,62,"Lưu vực sông Hồng"]],battle:"Cổ Loa · thành đất nhiều vòng, hào nước và dấu tích mũi tên đồng",
         kings:[
-          king("hung-vuong","Các vua Hùng","theo truyền thống: thời Văn Lang","Hùng Vương","không xác định",null,"Gắn với truyền thống dựng nước Văn Lang; không có niên đại riêng chắc chắn cho từng vua."),
+          king("hung-vuong","18 đời Hùng Vương","theo truyền thống: thời Văn Lang","Hùng Vương","không xác định",null,"Theo truyền thống có 18 đời Hùng Vương; không có niên đại riêng chắc chắn cho từng đời."),
           king("an-duong-vuong","An Dương Vương","khoảng thế kỉ III TCN","Thục Phán An Dương Vương","không xác định",null,"Gắn với nước Âu Lạc và kinh đô Cổ Loa; nhiều chi tiết về nỏ thần thuộc truyền thuyết.")
         ],
         figures:[figure("Cao Lỗ","không xác định","Tướng được nhắc trong truyền thống Âu Lạc","Gắn với việc xây thành Cổ Loa và kĩ thuật nỏ; thông tin tiểu sử cụ thể chưa được xác định chắc chắn.","TRUYỀN THUYẾT · KHẢO CỔ")]
