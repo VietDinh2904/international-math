@@ -42,7 +42,7 @@
       });
       if(meta.newTerrain)days[i+1].questions.push(mcq("Which action best applies this evidence to a newly discovered habitat?",["Compare the habitat conditions with the organism's needs before placement.","Release every organism without checking conditions.","Ignore water, temperature, food and shelter."],0,"A new terrain must be evaluated before organisms are introduced.","Use evidence about both the habitat and the organism.","Check conditions before placement."));
     }
-    return {number:meta.number,title:meta.title,subtitle:`Grade ${meta.grade} · Big Idea ${meta.bigIdea} · Week ${meta.bookWeek}${meta.review?" · Unit Review":""}`,guide:meta.guide,hero:meta.background,days,source:{grade:meta.grade,bigIdea:meta.bigIdea,bookWeek:meta.bookWeek,pages:meta.pages,newTerrain:!!meta.newTerrain},overview:meta.facts};
+    return {number:meta.number,title:meta.title,subtitle:`Grade ${meta.grade} · Big Idea ${meta.bigIdea} · Week ${meta.bookWeek}${meta.review?" · Unit Review":""}`,guide:meta.guide,hero:meta.background,days,source:{grade:meta.grade,bigIdea:meta.bigIdea,bookWeek:meta.bookWeek,pages:meta.pages,newTerrain:!!meta.newTerrain,review:!!meta.review},overview:meta.facts};
   }
 
   const g5BodyTerms=[
@@ -229,7 +229,7 @@
   function bindWeeks(weeks){
     allWeeks=weeks;
     Object.values(weeks).forEach(week=>{
-      if(!bookWeekNumbers.has(Number(week.number)))week.source={...(week.source||{}),grade:4};
+      if(!bookWeekNumbers.has(Number(week.number))&&!week.source?.grade)week.source={...(week.source||{}),grade:4};
       const background=weekBackgrounds[week.number];
       if(!background)return;
       week.hero=background;
