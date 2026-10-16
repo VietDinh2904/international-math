@@ -141,12 +141,20 @@
   function seededShuffle(items,seed){const list=items.map((value,index)=>({value,index}));let n=Number(seed)||1;for(let i=list.length-1;i>0;i--){n=(n*9301+49297)%233280;const j=Math.floor(n/233280*(i+1));[list[i],list[j]]=[list[j],list[i]]}return list}
   function randomizeQuestion(question,seed){const shuffled=seededShuffle(question.choices||[],seed);return{...question,choices:shuffled.map(item=>item.value),right:shuffled.findIndex(item=>item.index===Number(question.right||0))}}
   function lessonExercises(week,day){
-    const fact=week.overview?.[day.day-1]||day.guideLine||day.story,words=(day.words||[]).slice(0,3),sourceQuestions=(day.questions||[]).filter(question=>Array.isArray(question.choices)&&question.choices.length>=2),seed=(Number(week.number)||1)*100+(Number(day.day)||1)*10;
-    const fallback={type:"mcq",prompt:"Which statement best explains today's reading?",choices:[fact,"The reading gives no scientific evidence.","Only the picture is important."],right:0,why:fact};
-    const mcq=randomizeQuestion(sourceQuestions[0]||fallback,seed+1);
-    const vocabulary=words[0]||{en:"evidence",meaning:"information used to support an explanation"},otherMeanings=words.slice(1).map(word=>word.meaning),gap=randomizeQuestion({type:"gap",prompt:"Choose the word meaning that completes the sentence.",statement:`${vocabulary.en} means _____.`,choices:[vocabulary.meaning,...otherMeanings,"a detail unrelated to the lesson"].slice(0,4),right:0,why:`${vocabulary.en} means ${vocabulary.meaning}.`},seed+2);
-    const secondSource=sourceQuestions[1]||{type:"mcq",prompt:`Which evidence helps answer “${week.title}”?`,choices:[fact,"A statement unrelated to the reading","A guess with no evidence"],right:0,why:fact};
-    return[mcq,gap,randomizeQuestion(secondSource,seed+3)];
+    const fact=week.overview?.[day.day-1]||day.guideLine||day.story,words=(day.words||[]).slice(0,3),seed=(Number(week.number)||1)*100+(Number(day.day)||1)*10;
+    const normalize=(question,index)=>{
+      if(question.type==="truefalse")return{type:"mcq",prompt:"True or false?",statement:question.statement,choices:["True","False"],right:question.booleanAnswer?0:1,why:question.why};
+      if(question.type==="matching"){
+        const pair=question.pairs?.[0],choices=(question.pairs||[]).map(item=>item.right);
+        return pair?{type:"mcq",prompt:`Which description matches “${pair.left}”?`,choices,right:0,why:question.why}:null;
+      }
+      if(!Array.isArray(question.choices)||question.choices.length<2)return null;
+      return{...question,statement:question.statement||question.gapPrompt||""};
+    };
+    const sourceQuestions=(day.questions||[]).map(normalize).filter(Boolean);
+    const vocabularyQuestions=words.map((item,index)=>({type:"mcq",prompt:`According to today's vocabulary, what does “${item.en}” mean?`,choices:[item.meaning,...words.filter((_,other)=>other!==index).map(word=>word.meaning)],right:0,why:`${item.en} means ${item.meaning}.`}));
+    const fallback={type:"mcq",prompt:"Which statement comes directly from today's reading?",choices:[fact,"Only the illustration matters.","The reading does not explain the topic."],right:0,why:fact};
+    return[...sourceQuestions,...vocabularyQuestions,fallback].slice(0,5).map((question,index)=>randomizeQuestion(question,seed+index+1));
   }
   function scienceExerciseKey(week,day,index){return`science:${week.number}:${day.day}:${index+1}`}
   function scienceAnswerCorrect(exercise,answer){
@@ -249,7 +257,7 @@
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
     const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=day.image||week.hero;
     const goldCard=`<div class="lesson-gold-reward"><i>●</i><b>${learned?"LESSON COMPLETE":"5 GOLD / CORRECT ANSWER"}</b><span>${learned?"Your gold is ready for the Card Draw.":"Answer all three questions. Gold is awarded only once per question."}</span>${learned?'<button data-open-gacha>Open Card Draw →</button>':""}</div>`;
-    shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · BOOK WEEK ${week.source?.bookWeek||week.number} · LESSON ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.guideLine||day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-ALIGNED PARAPHRASE</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY TO LEARN</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span><em>${esc(word.example||"")}</em></div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Lesson ${day.day}`});
+    shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · BOOK WEEK ${week.source?.bookWeek||week.number} · LESSON ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.guideLine||day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED LESSON</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY TO LEARN</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span><em>${esc(word.example||"")}</em></div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Lesson ${day.day}`});
     bindScienceExercise(week,day);
     root.querySelector("[data-open-gacha]")?.addEventListener("click",()=>{state.labArea="gacha";state.openWeek=state.openDay=0;save();renderGacha()});
   }
