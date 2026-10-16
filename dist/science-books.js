@@ -34,7 +34,7 @@
         icon:meta.icons[i],
         reward:`${meta.reward} ${i+1}`,
         rewardIcon:i===4?"💎":["🗺️","🔬","🧪","📊"][i],
-        story:`${meta.context} ${meta.facts[i]}`,
+        story:`${meta.facts[i]} ${terms.map(term=>`${term.en} means ${term.meaning}`).join("; ")}. This evidence belongs to the book's investigation of “${meta.title}” and supports this weekly explanation: ${meta.answer}`,
         guide:meta.guide,
         guideLine:meta.guideLines[i],
         words:terms,
