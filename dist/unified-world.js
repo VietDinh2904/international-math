@@ -128,6 +128,99 @@
   function addGold(amount,reason){window.AquariumDemo?.addResources?.({gold:amount,reason});updateLegacyResources(true);toast(`${amount>0?"+":""}${amount} Gold · ${reason}`)}
   function spendGold(amount,reason="Science card draw"){return window.AquariumDemo?.spendGold?.(amount,reason)||false}
   function timeText(seconds){const hours=Math.floor(seconds/3600),minutes=Math.floor(seconds%3600/60),secs=seconds%60;return hours?`${hours}h ${String(minutes).padStart(2,"0")}m`:`${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`}
+  const SCIENCE_TITLE_VISUALS={
+    "Why do beavers build dams?":["water","🦫","🪵"],
+    "Why do some plants have fruit?":["life","🌸","🍎"],
+    "Do all bees make honey?":["life","🐝","🍯"],
+    "Where do animals get food in the winter?":["ice","🦌","🌰"],
+    "Why does garbage smell?":["life","🗑️","🦠"],
+    "How do bacteria create cavities?":["body","🦷","🦠"],
+    "Are all germs bad?":["body","🦠","🛡️"],
+    "Is it safe to eat moldy food?":["life","🍞","🍄"],
+    "How was the Grand Canyon formed?":["earth","🏜️","🌊"],
+    "Do glaciers really move?":["ice","🧊","🏔️"],
+    "What makes a volcano erupt?":["earth","🌋","🔥"],
+    "What causes earthquakes?":["earth","🏙️","〰️"],
+    "What's the difference between a rock and a mineral?":["geology","🪨","💎"],
+    "Where do rocks come from?":["geology","🔄","🪨"],
+    "Are some rocks valuable?":["geology","⛏️","💎"],
+    "Do all rocks come from Earth?":["space","☄️","🪨"],
+    "How do toasters work?":["tech","🍞","🔥"],
+    "What lights a digital clock?":["tech","⏰","💡"],
+    "How do hearing aids help people hear?":["tech","👂","🔊"],
+    "How do electric cars work?":["tech","🚗","⚡"],
+    "Why do some building entrances have ramps?":["force","♿","📐"],
+    "What's the difference between a nail and a screw?":["force","🔩","📌"],
+    "How do elevators work?":["force","🛗","⚙️"],
+    "How does a wheelbarrow make work easier?":["force","🛞","🏗️"],
+    "Why are bones hard and muscles soft?":["body","🦴","💪"],
+    "Why does skin wrinkle in the bathtub?":["body","🖐️","🛁"],
+    "What happens if you swallow gum?":["body","🫧","🫃"],
+    "How do people give blood without running out of it?":["body","🩸","❤️"],
+    "Why do earthworms like dirt?":["life","🪱","🌱"],
+    "Why do pandas eat plants but polar bears eat meat?":["life","🐼","🐻‍❄️"],
+    "Is the lion really the king of the jungle?":["life","🦁","🌾"],
+    "How can so many different plants live in the rainforest?":["life","🌴","🌺"],
+    "Do we really drink the same water that dinosaurs did?":["water","🦕","💧"],
+    "Why don't rivers and lakes soak into the ground?":["water","🏞️","💧"],
+    "What makes deserts so dry?":["earth","🏜️","☀️"],
+    "Can we run out of water?":["water","🚰","⚠️"],
+    "Why do we weigh more on Earth than on the moon?":["space","🌍","🌙"],
+    "What causes ocean tides?":["space","🌙","🌊"],
+    "Why are planets round?":["space","🪐","⭕"],
+    "Why don't planets crash into each other?":["space","🪐","↻"],
+    "How does a thermometer work?":["tech","🌡️","🔥"],
+    "How does a microwave oven cook food?":["tech","📡","🍲"],
+    "What causes hurricanes?":["weather","🌀","🌊"],
+    "How does a thermos work?":["tech","♨️","🧊"],
+    "What puts the fizz in soda?":["chem","🥤","🫧"],
+    "Why does metal rust?":["chem","🔧","🟠"],
+    "Why do batteries die?":["tech","🔋","⚡"],
+    "Why can't you light a match more than once?":["chem","🔥","🧪"],
+    "Can horses and zebras have babies together?":["life","🐴","🦓"],
+    "Why are some people left-handed?":["body","✋","🧬"],
+    "How can corn be yellow, white or blue?":["life","🌽","🧬"],
+    "Are identical twins exactly alike?":["body","👯","🧬"],
+    "What causes a species to become extinct?":["life","🦴","☄️"],
+    "How have crocodiles survived for millions of years?":["life","🐊","⏳"],
+    "If the ice cap melts, why can't polar bears just adapt?":["ice","🐻‍❄️","🧊"],
+    "Would humans survive if there was another ice age?":["ice","🧑","🔥"],
+    "What causes the weather?":["weather","🌦️","🌬️"],
+    "Why don't hurricanes happen at the equator?":["weather","🌀","🌍"],
+    "Why are the North and South Poles so cold?":["ice","🌍","❄️"],
+    "Are the seasons reversed on the other side of the world?":["space","🌎","🍂"],
+    "Why do the continents look like they fit together?":["earth","🧩","🌍"],
+    "How do scientists know what is inside Earth?":["earth","🌍","📡"],
+    "What happens when two continents collide?":["earth","⛰️","↔️"],
+    "What will Earth's surface look like in the future?":["earth","🌍","⏩"],
+    "What do atoms look like?":["chem","⚛️","🔬"],
+    "What is the periodic table?":["chem","🧪","▦"],
+    "What is water made of?":["chem","💧","⚛️"],
+    "How are living things different from nonliving things?":["life","🌱","🪨"],
+    "How do windmills make electricity?":["tech","🌬️","⚡"],
+    "What makes popcorn pop?":["chem","🍿","♨️"],
+    "What makes fireflies glow?":["life","✨","🪲"],
+    "How do fireworks work?":["chem","🎆","🧪"]
+  };
+  const SCIENCE_SCENE_THEMES={
+    earth:["#3a170d","#f07a35","#ffd26d"],geology:["#24180f","#b96b42","#f5d79a"],ice:["#07283c","#4da9d9","#dff9ff"],water:["#032a43","#087f9f","#77ecff"],space:["#080b2a","#4e2b91","#e4c7ff"],tech:["#061d31","#087f8c","#56f3df"],force:["#1f1837","#7954bd","#ffc868"],body:["#381334","#b3366e","#ffb0ca"],life:["#092e24","#238a56","#c8f27d"],weather:["#132b46","#477fa8","#d7efff"],chem:["#17153e","#5e4fc3","#7ff5e9"]
+  };
+  function scienceSceneArt(scene,accent){
+    if(scene==="space")return`<g fill="none" stroke="${accent}" stroke-width="4" opacity=".58"><ellipse cx="400" cy="250" rx="310" ry="118"/><ellipse cx="400" cy="250" rx="190" ry="205" transform="rotate(28 400 250)"/></g><g fill="#fff" opacity=".7"><circle cx="115" cy="95" r="4"/><circle cx="675" cy="82" r="6"/><circle cx="708" cy="365" r="4"/><circle cx="180" cy="405" r="5"/></g>`;
+    if(scene==="water")return`<path d="M0 330 Q100 270 200 330T400 330T600 330T800 330V500H0Z" fill="#04253f" opacity=".72"/><path d="M0 350 Q100 290 200 350T400 350T600 350T800 350" fill="none" stroke="${accent}" stroke-width="12" opacity=".62"/>`;
+    if(scene==="ice")return`<path d="M0 370 145 175 245 300 360 105 525 330 640 205 800 375V500H0Z" fill="#dff9ff" opacity=".28"/><path d="M0 395 210 330 390 380 585 305 800 370V500H0Z" fill="#a9e7ff" opacity=".3"/>`;
+    if(scene==="earth"||scene==="geology")return`<path d="M0 355 135 245 250 330 375 175 520 325 660 230 800 350V500H0Z" fill="#200f0b" opacity=".65"/><path d="M0 400 Q170 335 330 395T800 365V500H0Z" fill="${accent}" opacity=".2"/>`;
+    if(scene==="weather")return`<g fill="#fff" opacity=".2"><ellipse cx="230" cy="185" rx="145" ry="58"/><ellipse cx="575" cy="300" rx="180" ry="66"/></g><path d="M55 360 Q220 290 390 360T745 330" fill="none" stroke="${accent}" stroke-width="10" opacity=".45"/>`;
+    if(scene==="life")return`<g fill="none" stroke="${accent}" stroke-width="7" opacity=".38"><path d="M400 500Q390 330 500 135M405 380Q275 300 185 190M435 305Q570 275 665 185"/><ellipse cx="194" cy="185" rx="70" ry="34" transform="rotate(35 194 185)"/><ellipse cx="512" cy="128" rx="75" ry="34" transform="rotate(-30 512 128)"/><ellipse cx="666" cy="183" rx="68" ry="30" transform="rotate(-40 666 183)"/></g>`;
+    if(scene==="body")return`<g fill="none" stroke="${accent}" stroke-width="5" opacity=".42"><path d="M90 370C180 120 350 450 430 205S650 400 760 120"/><circle cx="90" cy="370" r="18"/><circle cx="430" cy="205" r="18"/><circle cx="760" cy="120" r="18"/></g>`;
+    if(scene==="tech"||scene==="force")return`<g fill="none" stroke="${accent}" stroke-width="5" opacity=".42"><path d="M40 380H180V265H320V345H475V170H640V260H770"/><circle cx="180" cy="265" r="12" fill="${accent}"/><circle cx="475" cy="170" r="12" fill="${accent}"/><circle cx="640" cy="260" r="12" fill="${accent}"/></g>`;
+    return`<g fill="none" stroke="${accent}" stroke-width="5" opacity=".4"><path d="M110 350 260 210 400 350 555 175 710 330"/><circle cx="260" cy="210" r="28"/><circle cx="400" cy="350" r="20"/><circle cx="555" cy="175" r="34"/></g>`;
+  }
+  function scienceHero(week){
+    const spec=SCIENCE_TITLE_VISUALS[week?.title]||["tech","🔬","✨"],scene=spec[0],colors=SCIENCE_SCENE_THEMES[scene]||SCIENCE_SCENE_THEMES.tech,grade=Number(week?.source?.grade)||4,bookWeek=Number(week?.source?.bookWeek)||1;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${colors[0]}"/><stop offset=".58" stop-color="${colors[1]}"/><stop offset="1" stop-color="#06131e"/></linearGradient><radialGradient id="halo"><stop stop-color="${colors[2]}" stop-opacity=".65"/><stop offset="1" stop-color="${colors[2]}" stop-opacity="0"/></radialGradient><filter id="shadow"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-opacity=".45"/></filter></defs><rect width="800" height="500" rx="36" fill="url(#bg)"/><circle cx="645" cy="120" r="220" fill="url(#halo)"/>${scienceSceneArt(scene,colors[2])}<g filter="url(#shadow)"><circle cx="285" cy="245" r="145" fill="#04141d" fill-opacity=".64" stroke="${colors[2]}" stroke-width="4"/><text x="285" y="305" text-anchor="middle" font-family="Segoe UI Emoji,Apple Color Emoji,sans-serif" font-size="180">${spec[1]}</text><circle cx="575" cy="290" r="88" fill="#071722" fill-opacity=".76" stroke="#fff" stroke-opacity=".38" stroke-width="3"/><text x="575" y="335" text-anchor="middle" font-family="Segoe UI Emoji,Apple Color Emoji,sans-serif" font-size="105">${spec[2]}</text></g><g font-family="Arial,sans-serif" fill="#fff"><text x="42" y="58" font-size="20" font-weight="800" letter-spacing="5" opacity=".82">GRADE ${grade} · WEEK ${bookWeek}</text><text x="42" y="465" font-size="15" font-weight="700" letter-spacing="4" opacity=".72">VISUAL SCIENCE FILE</text></g></svg>`;
+    return`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
   function sourceWeeks(){return Object.values(allWeeks()).filter(week=>week.source?.grade&&week.source?.bookWeek&&!week.source?.review).sort((a,b)=>Number(a.source.grade)-Number(b.source.grade)||Number(a.source.bigIdea)-Number(b.source.bigIdea)||Number(a.source.bookWeek)-Number(b.source.bookWeek))}
   function scienceCompletedCount(){const valid=new Set(sourceWeeks().map(week=>String(week.number)));return Object.entries(adventure.science?.completedByWeek||{}).reduce((sum,[week,days])=>sum+(valid.has(String(week))?new Set((Array.isArray(days)?days:[]).map(Number).filter(day=>day>=1&&day<=4)).size:0),0)}
   function scienceStats(){const cards=encyclopediaCards(),open=cards.filter(encyclopediaCardOwned).length,lessons=sourceWeeks().length;return{open,total:cards.length,lessons,completed:scienceCompletedCount(),totalReadings:lessons*4}}
@@ -227,7 +320,7 @@
   function renderScienceBooks(){
     const weeks=sourceWeeks();
     const grade=Number(state.scienceGrade)||4,filtered=weeks.filter(week=>Number(week.source.grade)===grade);
-    shell(`<section class="uw-panel science-library"><div class="panel-backdrop" style="--panel-image:url('assets/living-room-infinity-library-v1.png')"></div>${labNav("books")}<header class="panel-heading"><div><p>SCIENCE LAB · READING ARCHIVE</p><h1>Daily Science Books</h1><span>72 book-aligned weeks across Grades 4, 5 and 6. Each topic is paraphrased into four learning days; all 18 separate Unit Review weeks are removed.</span></div><div class="grade-tabs">${[4,5,6].map(number=>`<button class="${grade===number?"active":""}" data-grade="${number}">Grade ${number}</button>`).join("")}</div></header><div class="science-week-grid">${filtered.map(week=>{const done=Math.min(4,weekProgress(week.number));return`<button class="science-week-tile" data-week="${week.number}" style="--week-image:url('${esc(week.hero)}')"><span class="week-photo"></span><div><small>GRADE ${grade} · BIG IDEA ${week.source?.bigIdea} · WEEK ${week.source?.bookWeek||week.number}</small><strong>${esc(week.title)}</strong><em>${done}/4 lessons complete · book-based reading</em><i><b style="width:${done*25}%"></b></i></div></button>`}).join("")}</div></section>`,{back:true,title:`Science Lab · Grade ${grade}`});
+    shell(`<section class="uw-panel science-library"><div class="panel-backdrop" style="--panel-image:url('assets/living-room-infinity-library-v1.png')"></div>${labNav("books")}<header class="panel-heading"><div><p>SCIENCE LAB · READING ARCHIVE</p><h1>Daily Science Books</h1><span>72 book-aligned weeks across Grades 4, 5 and 6. Each topic is paraphrased into four learning days; all 18 separate Unit Review weeks are removed.</span></div><div class="grade-tabs">${[4,5,6].map(number=>`<button class="${grade===number?"active":""}" data-grade="${number}">Grade ${number}</button>`).join("")}</div></header><div class="science-week-grid">${filtered.map(week=>{const done=Math.min(4,weekProgress(week.number)),hero=scienceHero(week);return`<button class="science-week-tile" data-week="${week.number}" style="--week-image:url('${esc(hero)}')"><span class="week-photo" role="img" aria-label="Illustration for ${esc(week.title)}"></span><div><small>GRADE ${grade} · BIG IDEA ${week.source?.bigIdea} · WEEK ${week.source?.bookWeek||week.number}</small><strong>${esc(week.title)}</strong><em>${done}/4 lessons complete · book-based reading</em><i><b style="width:${done*25}%"></b></i></div></button>`}).join("")}</div></section>`,{back:true,title:`Science Lab · Grade ${grade}`});
     bindLabNav();
     root.querySelectorAll("[data-grade]").forEach(button=>button.onclick=()=>{state.scienceGrade=Number(button.dataset.grade);save();renderScienceBooks()});
     root.querySelectorAll("[data-week]").forEach(button=>button.onclick=()=>{state.openWeek=Number(button.dataset.week);save();renderWeek()});
@@ -235,7 +328,7 @@
   function renderWeek(){
     const week=allWeeks()[state.openWeek];if(!week){state.openWeek=0;return renderScienceBooks()}
     const bookDays=week.days.slice(1).filter(day=>Number(day.day)<5),done=bookDays.filter(day=>isComplete(week.number,day.day)).length;
-    shell(`<section class="uw-panel week-reader" style="--hero:url('${esc(week.hero)}')"><div class="week-hero"><div><p>${esc(week.subtitle)}</p><h1>${esc(week.title)}</h1><span>${esc(week.overview?.slice(0,4).join(" · ")||"")}</span></div><b>${done}/4<br><small>LESSONS COMPLETE</small></b></div><div class="day-path">${bookDays.map(day=>`<button data-day="${day.day}" class="${isComplete(week.number,day.day)?"complete":""}"><span>${isComplete(week.number,day.day)?"✓":day.day}</span><div><small>LESSON ${day.day} · ${esc(day.short)}</small><strong>${esc(day.title)}</strong><em>${isComplete(week.number,day.day)?"Completed · gold saved":"Read and answer questions to earn gold"}</em></div></button>`).join("")}</div><aside class="week-card-rule"><b>DAILY SCIENCE FORMAT</b><span>Four learning days only. The separate end-of-week summary is removed. Every correct question gives 5 Gold for the Card Draw.</span></aside></section>`,{back:true,title:`Science · Grade ${scienceGrade(week)} · Book Week ${week.source?.bookWeek||week.number}`});
+    shell(`<section class="uw-panel week-reader" style="--hero:url('${esc(scienceHero(week))}')"><div class="week-hero"><div><p>${esc(week.subtitle)}</p><h1>${esc(week.title)}</h1><span>${esc(week.overview?.slice(0,4).join(" · ")||"")}</span></div><b>${done}/4<br><small>LESSONS COMPLETE</small></b></div><div class="day-path">${bookDays.map(day=>`<button data-day="${day.day}" class="${isComplete(week.number,day.day)?"complete":""}"><span>${isComplete(week.number,day.day)?"✓":day.day}</span><div><small>LESSON ${day.day} · ${esc(day.short)}</small><strong>${esc(day.title)}</strong><em>${isComplete(week.number,day.day)?"Completed · gold saved":"Read and answer questions to earn gold"}</em></div></button>`).join("")}</div><aside class="week-card-rule"><b>DAILY SCIENCE FORMAT</b><span>Four learning days only. The separate end-of-week summary is removed. Every correct question gives 5 Gold for the Card Draw.</span></aside></section>`,{back:true,title:`Science · Grade ${scienceGrade(week)} · Book Week ${week.source?.bookWeek||week.number}`});
     root.querySelectorAll("[data-day]").forEach(button=>button.onclick=()=>{state.openDay=Number(button.dataset.day);save();renderLesson()});
   }
   function scienceExerciseMarkup(week,day){
@@ -255,7 +348,7 @@
   }
   function renderLesson(){
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
-    const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=day.image||week.hero,exerciseCount=lessonExercises(week,day).length;
+    const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=Number(week.number)>=100?scienceHero(week):(day.image||scienceHero(week)),exerciseCount=lessonExercises(week,day).length;
     const goldCard=`<div class="lesson-gold-reward"><i>●</i><b>${learned?"LESSON COMPLETE":"5 GOLD / CORRECT ANSWER"}</b><span>${learned?"Your gold is ready for the Card Draw.":`Answer all ${exerciseCount} questions. Gold is awarded only once per question.`}</span>${learned?'<button data-open-gacha>Open Card Draw →</button>':""}</div>`;
     shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · BOOK WEEK ${week.source?.bookWeek||week.number} · LESSON ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.guideLine||day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED LESSON</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY TO LEARN</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span><em>${esc(word.example||"")}</em></div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Lesson ${day.day}`});
     bindScienceExercise(week,day);
