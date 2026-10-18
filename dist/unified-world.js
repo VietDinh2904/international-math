@@ -216,11 +216,62 @@
     if(scene==="tech"||scene==="force")return`<g fill="none" stroke="${accent}" stroke-width="5" opacity=".42"><path d="M40 380H180V265H320V345H475V170H640V260H770"/><circle cx="180" cy="265" r="12" fill="${accent}"/><circle cx="475" cy="170" r="12" fill="${accent}"/><circle cx="640" cy="260" r="12" fill="${accent}"/></g>`;
     return`<g fill="none" stroke="${accent}" stroke-width="5" opacity=".4"><path d="M110 350 260 210 400 350 555 175 710 330"/><circle cx="260" cy="210" r="28"/><circle cx="400" cy="350" r="20"/><circle cx="555" cy="175" r="34"/></g>`;
   }
-  function scienceHero(week){
+  function scienceVectorHero(week){
     const spec=SCIENCE_TITLE_VISUALS[week?.title]||["tech","🔬","✨"],scene=spec[0],colors=SCIENCE_SCENE_THEMES[scene]||SCIENCE_SCENE_THEMES.tech,grade=Number(week?.source?.grade)||4,bookWeek=Number(week?.source?.bookWeek)||1;
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${colors[0]}"/><stop offset=".58" stop-color="${colors[1]}"/><stop offset="1" stop-color="#06131e"/></linearGradient><radialGradient id="halo"><stop stop-color="${colors[2]}" stop-opacity=".65"/><stop offset="1" stop-color="${colors[2]}" stop-opacity="0"/></radialGradient><filter id="shadow"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-opacity=".45"/></filter></defs><rect width="800" height="500" rx="36" fill="url(#bg)"/><circle cx="645" cy="120" r="220" fill="url(#halo)"/>${scienceSceneArt(scene,colors[2])}<g filter="url(#shadow)"><circle cx="285" cy="245" r="145" fill="#04141d" fill-opacity=".64" stroke="${colors[2]}" stroke-width="4"/><text x="285" y="305" text-anchor="middle" font-family="Segoe UI Emoji,Apple Color Emoji,sans-serif" font-size="180">${spec[1]}</text><circle cx="575" cy="290" r="88" fill="#071722" fill-opacity=".76" stroke="#fff" stroke-opacity=".38" stroke-width="3"/><text x="575" y="335" text-anchor="middle" font-family="Segoe UI Emoji,Apple Color Emoji,sans-serif" font-size="105">${spec[2]}</text></g><g font-family="Arial,sans-serif" fill="#fff"><text x="42" y="58" font-size="20" font-weight="800" letter-spacing="5" opacity=".82">GRADE ${grade} · WEEK ${bookWeek}</text><text x="42" y="465" font-size="15" font-weight="700" letter-spacing="4" opacity=".72">VISUAL SCIENCE FILE</text></g></svg>`;
     return`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
   }
+  const SCIENCE_REALISTIC_HEROES={
+    "How was the Grand Canyon formed?":"assets/science-realistic/g4-bi3-w1-grand-canyon.webp",
+    "Do glaciers really move?":"assets/science-realistic/g4-bi3-w2-glacier.webp",
+    "What makes a volcano erupt?":"assets/science-realistic/g4-bi3-w3-volcano.webp",
+    "What causes earthquakes?":"assets/science-realistic/g4-bi3-w4-earthquake.webp",
+    "What's the difference between a rock and a mineral?":"assets/science-realistic/g4-bi4-w1-rock-mineral.webp",
+    "Where do rocks come from?":"assets/science-realistic/g4-bi4-w2-rock-cycle.webp",
+    "Are some rocks valuable?":"assets/science-realistic/g4-bi4-w3-valuable-rocks.webp",
+    "Do all rocks come from Earth?":"assets/science-realistic/g4-bi4-w4-space-rocks.webp",
+    "How do toasters work?":"assets/science-realistic/g4-bi5-w1-toaster.webp",
+    "What lights a digital clock?":"assets/science-realistic/g4-bi5-w2-digital-clock.webp",
+    "How do hearing aids help people hear?":"assets/science-realistic/g4-bi5-w3-hearing-aid.webp",
+    "How do electric cars work?":"assets/science-realistic/g4-bi5-w4-electric-car.webp",
+    "Why do some building entrances have ramps?":"assets/science-realistic/g4-bi6-w1-ramp.webp",
+    "What's the difference between a nail and a screw?":"assets/science-realistic/g4-bi6-w2-nail-screw.webp",
+    "How do elevators work?":"assets/science-realistic/g4-bi6-w3-elevator.webp",
+    "How does a wheelbarrow make work easier?":"assets/science-realistic/g4-bi6-w4-wheelbarrow.webp",
+    "Do we really drink the same water that dinosaurs did?":"assets/science-realistic/g5-bi3-w1-dinosaur-water.webp",
+    "Why don't rivers and lakes soak into the ground?":"assets/science-realistic/g5-bi3-w2-rivers-lakes.webp",
+    "What makes deserts so dry?":"assets/science-realistic/g5-bi3-w3-desert-dry.webp",
+    "Can we run out of water?":"assets/science-realistic/g5-bi3-w4-water-scarcity.webp",
+    "Why do we weigh more on Earth than on the moon?":"assets/science-realistic/g5-bi4-w1-earth-moon-weight.webp",
+    "What causes ocean tides?":"assets/science-realistic/g5-bi4-w2-ocean-tides.webp",
+    "Why are planets round?":"assets/science-realistic/g5-bi4-w3-planets-round.webp",
+    "Why don't planets crash into each other?":"assets/science-realistic/g5-bi4-w4-planet-orbits.webp",
+    "How does a thermometer work?":"assets/science-realistic/g5-bi5-w1-thermometer.webp",
+    "How does a microwave oven cook food?":"assets/science-realistic/g5-bi5-w2-microwave.webp",
+    "What causes hurricanes?":"assets/science-realistic/g5-bi5-w3-hurricane.webp",
+    "How does a thermos work?":"assets/science-realistic/g5-bi5-w4-thermos.webp",
+    "What puts the fizz in soda?":"assets/science-realistic/g5-bi6-w1-soda-fizz.webp",
+    "Why does metal rust?":"assets/science-realistic/g5-bi6-w2-metal-rust.webp",
+    "Why do batteries die?":"assets/science-realistic/g5-bi6-w3-batteries-die.webp",
+    "Why can't you light a match more than once?":"assets/science-realistic/g5-bi6-w4-match-once.webp",
+    "What causes the weather?":"assets/science-realistic/g6-bi3-w1-weather.webp",
+    "Why don't hurricanes happen at the equator?":"assets/science-realistic/g6-bi3-w2-equator-hurricanes.webp",
+    "Why are the North and South Poles so cold?":"assets/science-realistic/g6-bi3-w3-cold-poles.webp",
+    "Are the seasons reversed on the other side of the world?":"assets/science-realistic/g6-bi3-w4-reversed-seasons.webp",
+    "Why do the continents look like they fit together?":"assets/science-realistic/g6-bi4-w1-continent-fit.webp",
+    "How do scientists know what is inside Earth?":"assets/science-realistic/g6-bi4-w2-earth-interior.webp",
+    "What happens when two continents collide?":"assets/science-realistic/g6-bi4-w3-continent-collision.webp",
+    "What will Earth's surface look like in the future?":"assets/science-realistic/g6-bi4-w4-future-earth.webp",
+    "What do atoms look like?":"assets/science-realistic/g6-bi5-w1-atoms.webp",
+    "What is the periodic table?":"assets/science-realistic/g6-bi5-w2-periodic-table.webp",
+    "What is water made of?":"assets/science-realistic/g6-bi5-w3-water-molecules.webp",
+    "How are living things different from nonliving things?":"assets/science-realistic/g6-bi5-w4-living-nonliving.webp",
+    "How do windmills make electricity?":"assets/science-realistic/g6-bi6-w1-windmill-electricity.webp",
+    "What makes popcorn pop?":"assets/science-realistic/g6-bi6-w2-popcorn.webp",
+    "What makes fireflies glow?":"assets/science-realistic/g6-bi6-w3-firefly-glow.webp",
+    "How do fireworks work?":"assets/science-realistic/g6-bi6-w4-fireworks.webp"
+  };
+  function scienceHero(week){return SCIENCE_REALISTIC_HEROES[week?.title]||week?.hero||"assets/science-earth-lab-v1.png"}
   function sourceWeeks(){return Object.values(allWeeks()).filter(week=>week.source?.grade&&week.source?.bookWeek&&!week.source?.review).sort((a,b)=>Number(a.source.grade)-Number(b.source.grade)||Number(a.source.bigIdea)-Number(b.source.bigIdea)||Number(a.source.bookWeek)-Number(b.source.bookWeek))}
   function scienceCompletedCount(){const valid=new Set(sourceWeeks().map(week=>String(week.number)));return Object.entries(adventure.science?.completedByWeek||{}).reduce((sum,[week,days])=>sum+(valid.has(String(week))?new Set((Array.isArray(days)?days:[]).map(Number).filter(day=>day>=1&&day<=4)).size:0),0)}
   function scienceStats(){const cards=encyclopediaCards(),open=cards.filter(encyclopediaCardOwned).length,lessons=sourceWeeks().length;return{open,total:cards.length,lessons,completed:scienceCompletedCount(),totalReadings:lessons*4}}
