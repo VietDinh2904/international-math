@@ -339,12 +339,12 @@
     const terms=[];
     const addTerm=term=>{term=String(term||"").trim();if(term&&text.toLowerCase().includes(term.toLowerCase())&&!terms.some(item=>item.toLowerCase()===term.toLowerCase()))terms.push(term)};
     (day.words||[]).slice(0,3).forEach(word=>addTerm(word.en));
-    (text.match(/\b(?:\d+(?:\.\d+)?(?:st|nd|rd|th)?|[A-Z][a-z]{3,})\b/g)||[]).forEach(addTerm);
+    (text.match(/\b(?:\d+(?:\.\d+)?(?:st|nd|rd|th)?|[A-Z][a-z]{3,})\b/g)||[]).filter(term=>!stop.has(term.toLowerCase())).forEach(addTerm);
     (text.match(/\b[a-zA-Z][a-zA-Z'-]{6,}\b/g)||[]).filter(term=>!stop.has(term.toLowerCase())).sort((a,b)=>b.length-a.length).forEach(addTerm);
     (text.match(/\b[a-zA-Z][a-zA-Z'-]{3,}\b/g)||[]).filter(term=>!stop.has(term.toLowerCase())).forEach(addTerm);
     const selected=terms.map(term=>{const sentence=sentences.find(item=>item.toLowerCase().includes(term.toLowerCase()));return sentence?{term,sentence}:null}).filter(Boolean).slice(0,5);
     const questions=selected.map(({term,sentence},index)=>{
-      const escaped=term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),match=sentence.match(new RegExp(escaped,"i")),answer=match?.[0]||term,statement=sentence.replace(new RegExp(escaped,"i"),"_____");
+      const escaped=term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),suffix=term.includes(" ")?escaped:term.toLowerCase().endsWith("y")?`(?:${escaped}|${escaped.slice(0,-1)}ies)`:term.toLowerCase().endsWith("s")?escaped:`(?:${escaped}|${escaped}s|${escaped}es)`,pattern=new RegExp(`\\b${suffix}\\b`,"i"),match=sentence.match(pattern),answer=match?.[0]||term,statement=sentence.replace(pattern,"_____");
       let distractors=terms.filter(item=>item.toLowerCase()!==term.toLowerCase()&&!sentence.toLowerCase().includes(item.toLowerCase())).slice(index,index+2);
       if(distractors.length<2)distractors=[...distractors,...terms.filter(item=>item.toLowerCase()!==term.toLowerCase()&&!distractors.includes(item))].slice(0,2);
       return{type:"mcq",prompt:index%2?"Choose the missing word or phrase from the book.":"Complete this sentence from the book.",statement,choices:[answer,...distractors],right:0,why:sentence};
