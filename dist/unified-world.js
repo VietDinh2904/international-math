@@ -222,6 +222,14 @@
     return`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
   }
   const SCIENCE_REALISTIC_HEROES={
+    "Why do beavers build dams?":"assets/science-realistic/g4-bi1-w1-beaver-dam-v2.webp",
+    "Why do some plants have fruit?":"assets/science-realistic/g4-bi1-w2-fruit-v2.webp",
+    "Do all bees make honey?":"assets/science-realistic/g4-bi1-w3-bees-honey-v2.webp",
+    "Where do animals get food in the winter?":"assets/science-realistic/g4-bi1-w4-winter-food-v2.webp",
+    "Why does garbage smell?":"assets/science-realistic/g4-bi2-w1-garbage-smell-v2.webp",
+    "How do bacteria create cavities?":"assets/science-realistic/g4-bi2-w2-cavities-v2.webp",
+    "Are all germs bad?":"assets/science-realistic/g4-bi2-w3-germs-v2.webp",
+    "Is it safe to eat moldy food?":"assets/science-realistic/g4-bi2-w4-moldy-food-v2.webp",
     "How was the Grand Canyon formed?":"assets/science-realistic/g4-bi3-w1-grand-canyon.webp",
     "Do glaciers really move?":"assets/science-realistic/g4-bi3-w2-glacier.webp",
     "What makes a volcano erupt?":"assets/science-realistic/g4-bi3-w3-volcano.webp",
@@ -238,6 +246,14 @@
     "What's the difference between a nail and a screw?":"assets/science-realistic/g4-bi6-w2-nail-screw.webp",
     "How do elevators work?":"assets/science-realistic/g4-bi6-w3-elevator.webp",
     "How does a wheelbarrow make work easier?":"assets/science-realistic/g4-bi6-w4-wheelbarrow.webp",
+    "Why are bones hard and muscles soft?":"assets/science-realistic/g5-bi1-w1-bone-muscle-v2.webp",
+    "Why does skin wrinkle in the bathtub?":"assets/science-realistic/g5-bi1-w2-wrinkled-skin-v2.webp",
+    "What happens if you swallow gum?":"assets/science-realistic/g5-bi1-w3-swallowed-gum-v2.webp",
+    "How do people give blood without running out of it?":"assets/science-realistic/g5-bi1-w4-blood-donation-v2.webp",
+    "Why do earthworms like dirt?":"assets/science-realistic/g5-bi2-w1-earthworms-soil-v2.webp",
+    "Why do pandas eat plants but polar bears eat meat?":"assets/science-realistic/g5-bi2-w2-panda-polar-diet-v2.webp",
+    "Is the lion really the king of the jungle?":"assets/science-realistic/g5-bi2-w3-lion-savanna-v2.webp",
+    "How can so many different plants live in the rainforest?":"assets/science-realistic/g5-bi2-w4-rainforest-plants-v2.webp",
     "Do we really drink the same water that dinosaurs did?":"assets/science-realistic/g5-bi3-w1-dinosaur-water.webp",
     "Why don't rivers and lakes soak into the ground?":"assets/science-realistic/g5-bi3-w2-rivers-lakes.webp",
     "What makes deserts so dry?":"assets/science-realistic/g5-bi3-w3-desert-dry.webp",
@@ -254,6 +270,14 @@
     "Why does metal rust?":"assets/science-realistic/g5-bi6-w2-metal-rust.webp",
     "Why do batteries die?":"assets/science-realistic/g5-bi6-w3-batteries-die.webp",
     "Why can't you light a match more than once?":"assets/science-realistic/g5-bi6-w4-match-once.webp",
+    "Can horses and zebras have babies together?":"assets/science-realistic/g6-bi1-w1-horse-zebra-hybrid-v2.webp",
+    "Why are some people left-handed?":"assets/science-realistic/g6-bi1-w2-left-handed-v2.webp",
+    "How can corn be yellow, white or blue?":"assets/science-realistic/g6-bi1-w3-corn-colors-v2.webp",
+    "Are identical twins exactly alike?":"assets/science-realistic/g6-bi1-w4-identical-twins-v2.webp",
+    "What causes a species to become extinct?":"assets/science-realistic/g6-bi2-w1-extinction-v2.webp",
+    "How have crocodiles survived for millions of years?":"assets/science-realistic/g6-bi2-w2-crocodile-survival-v2.webp",
+    "If the ice cap melts, why can't polar bears just adapt?":"assets/science-realistic/g6-bi2-w3-polar-bear-adapt-v2.webp",
+    "Would humans survive if there was another ice age?":"assets/science-realistic/g6-bi2-w4-humans-ice-age-v2.webp",
     "What causes the weather?":"assets/science-realistic/g6-bi3-w1-weather.webp",
     "Why don't hurricanes happen at the equator?":"assets/science-realistic/g6-bi3-w2-equator-hurricanes.webp",
     "Why are the North and South Poles so cold?":"assets/science-realistic/g6-bi3-w3-cold-poles.webp",
@@ -400,7 +424,7 @@
   }
   function renderLesson(){
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
-    const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=Number(week.number)>=100?scienceHero(week):(day.image||scienceHero(week)),exerciseCount=lessonExercises(week,day).length;
+    const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=scienceHero(week),exerciseCount=lessonExercises(week,day).length;
     const goldCard=`<div class="lesson-gold-reward"><i>●</i><b>${learned?"LESSON COMPLETE":"5 GOLD / CORRECT ANSWER"}</b><span>${learned?"Your gold is ready for the Card Draw.":`Answer all ${exerciseCount} questions. Gold is awarded only once per question.`}</span>${learned?'<button data-open-gacha>Open Card Draw →</button>':""}</div>`;
     shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · WEEK ${scienceCurriculumWeek(week)} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY TO LEARN</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span>${word.example?`<em>${esc(word.example)}</em>`:""}</div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Week ${scienceCurriculumWeek(week)} · Day ${day.day}`});
     bindScienceExercise(week,day);
