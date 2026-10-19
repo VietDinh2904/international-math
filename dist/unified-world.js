@@ -332,13 +332,14 @@
     return"✦";
   }
   const VOCABULARY_ILLUSTRATIONS={
-    solstice:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"0%",label:"Earth tilted toward the Sun during a solstice"},
-    equinox:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"50%",label:"Earth divided into equal day and night during an equinox"},
-    axis:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"100%",label:"Earth's tilted imaginary axis through the poles"}
+    solstice:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"0%",size:"300% auto",label:"Earth tilted toward the Sun during a solstice"},
+    equinox:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"50%",size:"300% auto",label:"Earth divided into equal day and night during an equinox"},
+    axis:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"100%",size:"300% auto",label:"Earth's tilted imaginary axis through the poles"},
+    hemisphere:{image:"assets/vocabulary/g6-w12-hemisphere-v1.png",position:"50%",size:"cover",label:"Earth divided at the equator into two hemispheres"}
   };
   function vocabularyIllustration(word,fallback,index){
     const exact=VOCABULARY_ILLUSTRATIONS[String(word?.en||"").trim().toLowerCase()];
-    return exact?{exact:true,label:exact.label,style:`--vocab-image:url('${exact.image}');--vocab-position:${exact.position};--vocab-size:300% auto`}:{exact:false,label:`Topic illustration for ${word?.en||"science vocabulary"}`,style:`--vocab-image:url('${fallback}');--vocab-position:${18+index*31}%;--vocab-size:cover`};
+    return exact?{exact:true,label:exact.label,style:`--vocab-image:url('${exact.image}');--vocab-position:${exact.position};--vocab-size:${exact.size}`}:{exact:false,label:`Topic illustration for ${word?.en||"science vocabulary"}`,style:`--vocab-image:url('${fallback}');--vocab-position:${18+index*31}%;--vocab-size:cover`};
   }
   function seededShuffle(items,seed){const list=items.map((value,index)=>({value,index}));let n=Number(seed)||1;for(let i=list.length-1;i>0;i--){n=(n*9301+49297)%233280;const j=Math.floor(n/233280*(i+1));[list[i],list[j]]=[list[j],list[i]]}return list}
   function randomizeQuestion(question,seed){const shuffled=seededShuffle(question.choices||[],seed);return{...question,choices:shuffled.map(item=>item.value),right:shuffled.findIndex(item=>item.index===Number(question.right||0))}}
