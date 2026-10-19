@@ -245,3 +245,38 @@
 @media(max-width:1050px){.storybook-mindmap{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:auto;padding:22px}.demo-connectors,.demo-doodle{display:none}.demo-center{position:relative;top:auto;left:auto;grid-column:1/-1;width:min(420px,90%);min-height:200px;margin:10px auto 22px;transform:none}.demo-branch,.demo-branch.branch-1,.demo-branch.branch-2,.demo-branch.branch-3,.demo-branch.branch-4,.demo-branch.branch-5,.demo-branch.branch-6{position:relative;inset:auto;width:auto;min-width:0}.mindmap-demo-page>header{align-items:start;flex-direction:column}}
 @media(max-width:680px){.mindmap-demo-page{padding:0 8px}.mindmap-demo-page>header{padding:20px 16px}.mindmap-demo-page>header h1{font-size:44px}.storybook-mindmap{grid-template-columns:1fr;padding:16px}.demo-center{grid-column:auto;width:92%}.demo-branch{grid-template-columns:52px 1fr}.demo-branch>i{width:50px}.demo-branch>b{font-size:18px}.demo-note{align-items:start;flex-direction:column}.demo-branch-modal>header{align-items:start;flex-direction:column}.demo-branch-modal h2{font-size:36px}}
 .mindmap-demo-page,.demo-branch-modal{font-family:"Trebuchet MS",Arial,sans-serif}.mindmap-demo-page>header h1,.demo-center b,.demo-branch>b,.demo-branch-modal h2{font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif}.mindmap-demo-page>header h1{font-size:clamp(42px,5vw,64px);line-height:.96}
+
+/* Book reading experience: one blurred Week atmosphere, exact-text visuals, and vocabulary flipcards. */
+.lesson-reader{position:relative;isolation:isolate;background:#041420}
+.lesson-reader:before{content:"";position:fixed;z-index:-2;inset:72px -24px -24px;background:var(--lesson-bg) center/cover no-repeat;filter:blur(13px) saturate(.78);transform:scale(1.06)}
+.lesson-reader:after{content:"";position:fixed;z-index:-1;inset:72px 0 0;background:linear-gradient(115deg,#03141de8,#062531d9 48%,#07151ee6),radial-gradient(circle at 72% 18%,#4edbc52b,transparent 34%)}
+.lesson-reader>header,.lesson-reader>.lesson-columns{position:relative;z-index:1}
+.lesson-columns section{background:#071c2be8;backdrop-filter:blur(11px)}
+.expanded-reading p{text-align:justify;text-justify:inter-word;hyphens:auto}
+.reading-visual-sequence>header{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:14px}
+.reading-visual-sequence>header small{color:#72e8de;font-size:9px;font-weight:950;letter-spacing:.15em}
+.reading-visual-sequence>header h2{margin:5px 0 0}
+.reading-visual-sequence>header>span{padding:7px 10px;border:1px solid #ffe06d69;border-radius:999px;color:#ffe06d;font-size:10px;font-weight:900;white-space:nowrap}
+.reading-visual-sequence>div{display:grid;gap:11px}
+.reading-visual-sequence figure{display:grid;grid-template-columns:minmax(145px,34%) 1fr;min-height:145px;margin:0;overflow:hidden;border:1px solid #7ce9e35c;border-radius:15px;background:#061823}
+.reading-visual-sequence figure>div{position:relative;min-height:145px;background:linear-gradient(#00131b12,#00131b73),var(--scene-image) var(--scene-position) center/cover no-repeat}
+.reading-visual-sequence figure>div>b{position:absolute;top:10px;left:10px;display:grid;place-items:center;width:33px;aspect-ratio:1;border:2px solid #fff;border-radius:50%;background:#092a36dc;color:#ffe06d;font:950 15px/1 Georgia,serif}
+.reading-visual-sequence figcaption{padding:14px}
+.reading-visual-sequence figcaption small{color:#72e8de;font-size:8px;font-weight:950;letter-spacing:.14em}
+.reading-visual-sequence figcaption p{margin:5px 0 0!important;color:#dce9ec!important;font-size:13px!important;line-height:1.55!important;text-align:justify;text-justify:inter-word}
+.vocab-help{margin:8px 0 12px!important;color:#bcd3d8!important;font-size:12px!important;line-height:1.45!important}
+.vocab-flashcard-grid{display:grid;gap:12px}
+.vocab-flashcard{height:245px;padding:0;border:0;border-radius:16px;background:transparent;color:#fff;cursor:pointer;perspective:1100px;text-align:left}
+.vocab-flashcard-inner{position:relative;display:block;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.75,.25,1);transform-style:preserve-3d}
+.vocab-flashcard.flipped .vocab-flashcard-inner{transform:rotateY(180deg)}
+.vocab-face{position:absolute;inset:0;display:flex;box-sizing:border-box;flex-direction:column;overflow:hidden;border:1px solid #72e8de8c;border-radius:16px;backface-visibility:hidden;box-shadow:0 14px 30px #0007}
+.vocab-front{padding:18px;background:linear-gradient(145deg,#123b48,#071b27)}
+.vocab-front>small{color:#72e8de;font-size:9px;font-weight:950;letter-spacing:.13em;text-transform:uppercase}
+.vocab-front>b{margin:10px 0 2px;color:#ffe06d;font:900 29px/1 Georgia,serif;overflow-wrap:anywhere}
+.vocab-front>i{color:#9bcbd4;font-size:13px;font-style:normal}
+.vocab-front>span{margin-top:14px;color:#f1f7f8;font-size:15px;line-height:1.45}
+.vocab-face>em{margin-top:auto;color:#9fc2c9;font-size:10px;font-style:normal;font-weight:800}
+.vocab-back{align-items:center;justify-content:center;padding:18px;background:linear-gradient(#00131b42,#00131bd1),var(--vocab-image) var(--vocab-position) center/cover no-repeat;text-align:center;transform:rotateY(180deg)}
+.vocab-back>i{display:grid;place-items:center;width:92px;aspect-ratio:1;border:2px solid #fff;border-radius:50%;background:#061923c7;color:#ffe06d;font:900 48px/1 Georgia,serif;box-shadow:0 0 35px #5debd583}
+.vocab-back>em{width:100%;color:#fff;text-shadow:0 2px 8px #000}
+@media(max-width:720px){.reading-visual-sequence>header{align-items:start;flex-direction:column}.reading-visual-sequence figure{grid-template-columns:1fr}.reading-visual-sequence figure>div{min-height:190px}.vocab-flashcard{height:225px}}

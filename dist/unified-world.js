@@ -307,25 +307,51 @@
     const grade=scienceGrade(week),text=String(day.story||"").trim().replace(/\s+/g," ");
     return{text,count:countWords(text),target:readingTarget(grade),grade,source:week.source?`Evan-Moor Daily Science Grade ${grade} · Week ${scienceCurriculumWeek(week)} · Day ${day.day}${day.bookPage?` · page ${day.bookPage}`:""}`:"Daily Science · book-sourced reading",sourceUrl:`https://evan-moor.com/daily-science-grade-${grade}-teachers-edition-print`};
   }
+  function readingSentences(text){return String(text||"").match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(sentence=>sentence.trim()).filter(Boolean)||[]}
+  function readingVisualPanels(text){
+    const sentences=readingSentences(text);if(!sentences.length)return[];
+    const size=Math.ceil(sentences.length/3),panels=[];
+    for(let index=0;index<3;index+=1){const group=sentences.slice(index*size,(index+1)*size);if(group.length)panels.push(group.join(" "))}
+    return panels;
+  }
+  function pronunciationGuide(term){
+    const special={axis:"AK-sis",equinox:"EE-kwuh-noks",solstice:"SOL-stis",photosynthesis:"foh-toh-SIN-thuh-sis",ecosystem:"EE-koh-sis-tuhm",organism:"OR-guh-niz-uhm",microorganism:"MY-kroh-OR-guh-niz-uhm",habitat:"HAB-ih-tat",erosion:"ih-ROH-zhuhn",pollination:"pol-uh-NAY-shuhn",decomposer:"dee-kuhm-POH-zer",hibernation:"hy-ber-NAY-shuhn",migration:"my-GRAY-shuhn",hemisphere:"HEM-ih-sfeer"};
+    const key=String(term||"").trim().toLowerCase();if(special[key])return special[key];
+    return key.split(/\s+/).map(word=>word.replace(/tion\b/g,"-shun").replace(/sion\b/g,"-zhun").replace(/ph/g,"f").replace(/([aeiouy])([^aeiouy\W]{2,})(?=[aeiouy])/g,"$1-$2")).join(" ");
+  }
+  function vocabularyVisual(word){
+    const value=`${word?.en||""} ${word?.meaning||""}`.toLowerCase();
+    if(/sun|solar|light|heat|temperature|season/.test(value))return"☀";
+    if(/earth|planet|orbit|axis|moon|space/.test(value))return"◉";
+    if(/water|ocean|river|rain|wet|liquid/.test(value))return"≈";
+    if(/plant|tree|leaf|flower|seed|root|forest/.test(value))return"♧";
+    if(/animal|bird|fish|insect|bee|organism|living/.test(value))return"◇";
+    if(/rock|mineral|soil|crust|volcano|earthquake/.test(value))return"△";
+    if(/energy|electric|force|motion|speed|wave/.test(value))return"ϟ";
+    if(/cell|bacteria|virus|fung|micro|tissue|organ/.test(value))return"◎";
+    return"✦";
+  }
   function seededShuffle(items,seed){const list=items.map((value,index)=>({value,index}));let n=Number(seed)||1;for(let i=list.length-1;i>0;i--){n=(n*9301+49297)%233280;const j=Math.floor(n/233280*(i+1));[list[i],list[j]]=[list[j],list[i]]}return list}
   function randomizeQuestion(question,seed){const shuffled=seededShuffle(question.choices||[],seed);return{...question,choices:shuffled.map(item=>item.value),right:shuffled.findIndex(item=>item.index===Number(question.right||0))}}
   function lessonExercises(week,day){
-    const fact=week.overview?.[day.day-1]||day.guideLine||day.story,words=(day.words||[]).slice(0,3),seed=(Number(week.number)||1)*100+(Number(day.day)||1)*10;
-    const normalize=(question,index)=>{
-      if(question.type==="truefalse")return{type:"mcq",prompt:"True or false?",statement:question.statement,choices:["True","False"],right:question.booleanAnswer?0:1,why:question.why};
-      if(question.type==="matching"){
-        const pair=question.pairs?.[0],choices=(question.pairs||[]).map(item=>item.right);
-        return pair?{type:"mcq",prompt:`Which description matches “${pair.left}”?`,choices,right:0,why:question.why}:null;
-      }
-      if(!Array.isArray(question.choices)||question.choices.length<2)return null;
-      return{...question,statement:question.statement||question.gapPrompt||""};
-    };
-    const sourceQuestions=(day.questions||[]).map(normalize).filter(Boolean);
-    const vocabularyQuestions=words.map((item,index)=>({type:"mcq",prompt:`According to today's vocabulary, what does “${item.en}” mean?`,choices:[item.meaning,...words.filter((_,other)=>other!==index).map(word=>word.meaning)],right:0,why:`${item.en} means ${item.meaning}.`}));
-    const fallback={type:"mcq",prompt:"Which statement comes directly from today's reading?",choices:[fact,"Only the illustration matters.","The reading does not explain the topic."],right:0,why:fact};
-    return[...sourceQuestions,...vocabularyQuestions,fallback].slice(0,5).map((question,index)=>randomizeQuestion(question,seed+index+1));
+    const text=String(day.story||"").trim(),sentences=readingSentences(text),seed=(Number(week.number)||1)*100+(Number(day.day)||1)*10;
+    const stop=new Set(["about","after","again","because","before","between","could","earth","every","first","from","have","into","known","other","over","same","some","their","there","these","they","this","through","today","toward","using","when","where","which","while","with","would"]);
+    const terms=[];
+    const addTerm=term=>{term=String(term||"").trim();if(term&&text.toLowerCase().includes(term.toLowerCase())&&!terms.some(item=>item.toLowerCase()===term.toLowerCase()))terms.push(term)};
+    (day.words||[]).slice(0,3).forEach(word=>addTerm(word.en));
+    (text.match(/\b(?:\d+(?:\.\d+)?(?:st|nd|rd|th)?|[A-Z][a-z]{3,})\b/g)||[]).forEach(addTerm);
+    (text.match(/\b[a-zA-Z][a-zA-Z'-]{6,}\b/g)||[]).filter(term=>!stop.has(term.toLowerCase())).sort((a,b)=>b.length-a.length).forEach(addTerm);
+    (text.match(/\b[a-zA-Z][a-zA-Z'-]{3,}\b/g)||[]).filter(term=>!stop.has(term.toLowerCase())).forEach(addTerm);
+    const selected=terms.map(term=>{const sentence=sentences.find(item=>item.toLowerCase().includes(term.toLowerCase()));return sentence?{term,sentence}:null}).filter(Boolean).slice(0,5);
+    const questions=selected.map(({term,sentence},index)=>{
+      const escaped=term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),match=sentence.match(new RegExp(escaped,"i")),answer=match?.[0]||term,statement=sentence.replace(new RegExp(escaped,"i"),"_____");
+      let distractors=terms.filter(item=>item.toLowerCase()!==term.toLowerCase()&&!sentence.toLowerCase().includes(item.toLowerCase())).slice(index,index+2);
+      if(distractors.length<2)distractors=[...distractors,...terms.filter(item=>item.toLowerCase()!==term.toLowerCase()&&!distractors.includes(item))].slice(0,2);
+      return{type:"mcq",prompt:index%2?"Choose the missing word or phrase from the book.":"Complete this sentence from the book.",statement,choices:[answer,...distractors],right:0,why:sentence};
+    });
+    return questions.slice(0,5).map((question,index)=>randomizeQuestion(question,seed+index+1));
   }
-  function scienceExerciseKey(week,day,index){return`science:${week.number}:${day.day}:${index+1}`}
+  function scienceExerciseKey(week,day,index){return`science:book-v2:${week.number}:${day.day}:${index+1}`}
   function scienceAnswerCorrect(exercise,answer){
     if(exercise.type==="truefalse")return answer===exercise.answer;
     if(exercise.type==="matching")return Array.isArray(answer)&&exercise.pairs.every((pair,index)=>answer[index]===pair.right);
@@ -425,9 +451,13 @@
   function renderLesson(){
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
     const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=scienceHero(week),exerciseCount=lessonExercises(week,day).length;
+    const visualPanels=readingVisualPanels(reading.text);
+    const visualSequence=`<section class="reading-visual-sequence"><header><div><small>VISUAL EXPLANATION · THE WHOLE READING</small><h2>See the idea unfold</h2></div><span>${visualPanels.length} connected scenes</span></header><div>${visualPanels.map((panel,index)=>`<figure style="--scene-image:url('${esc(illustration)}');--scene-position:${20+index*30}%"><div role="img" aria-label="Scene ${index+1} illustrating ${esc(day.title)}"><b>${index+1}</b></div><figcaption><small>PART ${index+1}</small><p>${esc(panel)}</p></figcaption></figure>`).join("")}</div></section>`;
+    const vocabulary=`<section class="vocab-card"><small>VOCABULARY TO LEARN · FLIPCARDS</small><p class="vocab-help">Tap a card to flip between the word and its illustration.</p><div class="vocab-flashcard-grid">${(day.words||[]).map((word,index)=>`<button class="vocab-flashcard" data-vocab-flashcard aria-pressed="false" style="--vocab-image:url('${esc(illustration)}');--vocab-position:${18+index*31}%"><span class="vocab-flashcard-inner"><span class="vocab-face vocab-front"><small>${esc(word.pos||"science term")}</small><b>${esc(word.en)}</b><i>/${esc(pronunciationGuide(word.en))}/</i><span>${esc(word.meaning)}</span><em>Tap to see the illustration ↻</em></span><span class="vocab-face vocab-back" role="img" aria-label="Illustration for ${esc(word.en)}"><i>${vocabularyVisual(word)}</i><em>Tap to see the word ↻</em></span></span></button>`).join("")}</div></section>`;
     const goldCard=`<div class="lesson-gold-reward"><i>●</i><b>${learned?"LESSON COMPLETE":"5 GOLD / CORRECT ANSWER"}</b><span>${learned?"Your gold is ready for the Card Draw.":`Answer all ${exerciseCount} questions. Gold is awarded only once per question.`}</span>${learned?'<button data-open-gacha>Open Card Draw →</button>':""}</div>`;
-    shell(`<article class="lesson-reader"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · WEEK ${scienceCurriculumWeek(week)} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside><section class="vocab-card"><small>VOCABULARY TO LEARN</small>${(day.words||[]).map(word=>`<div><b>${esc(word.en)}</b><span>${esc(word.meaning)}</span>${word.example?`<em>${esc(word.example)}</em>`:""}</div>`).join("")}</section><section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Week ${scienceCurriculumWeek(week)} · Day ${day.day}`});
+    shell(`<article class="lesson-reader" style="--lesson-bg:url('${esc(illustration)}')"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · WEEK ${scienceCurriculumWeek(week)} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${visualSequence}${scienceExerciseMarkup(week,day)}</main><aside>${vocabulary}<section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Week ${scienceCurriculumWeek(week)} · Day ${day.day}`});
     bindScienceExercise(week,day);
+    root.querySelectorAll("[data-vocab-flashcard]").forEach(card=>card.addEventListener("click",()=>{const flipped=card.classList.toggle("flipped");card.setAttribute("aria-pressed",String(flipped))}));
     root.querySelector("[data-open-gacha]")?.addEventListener("click",()=>{state.labArea="gacha";state.openWeek=state.openDay=0;save();renderGacha()});
   }
   function completeLesson(week,day){

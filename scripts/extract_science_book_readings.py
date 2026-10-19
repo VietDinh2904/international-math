@@ -115,6 +115,7 @@ def write_javascript(
       day.short=`Day ${{dayNumber}}`;
       day.guideLine="";
       day.bookPage=entry.page;
+      day.questions=[];
       (day.words||[]).forEach(word=>{{word.example=""}});
     }}
   }});
