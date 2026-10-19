@@ -312,27 +312,30 @@
     const key=String(term||"").trim().toLowerCase();if(special[key])return special[key];
     return key.split(/\s+/).map(word=>word.replace(/tion\b/g,"-shun").replace(/sion\b/g,"-zhun").replace(/ph/g,"f").replace(/([aeiouy])([^aeiouy\W]{2,})(?=[aeiouy])/g,"$1-$2")).join(" ");
   }
-  function vocabularyVisual(word){
-    const value=`${word?.en||""} ${word?.meaning||""}`.toLowerCase();
-    if(/sun|solar|light|heat|temperature|season/.test(value))return"☀";
-    if(/earth|planet|orbit|axis|moon|space/.test(value))return"◉";
-    if(/water|ocean|river|rain|wet|liquid/.test(value))return"≈";
-    if(/plant|tree|leaf|flower|seed|root|forest/.test(value))return"♧";
-    if(/animal|bird|fish|insect|bee|organism|living/.test(value))return"◇";
-    if(/rock|mineral|soil|crust|volcano|earthquake/.test(value))return"△";
-    if(/energy|electric|force|motion|speed|wave/.test(value))return"ϟ";
-    if(/cell|bacteria|virus|fung|micro|tissue|organ/.test(value))return"◎";
-    return"✦";
-  }
   const VOCABULARY_ILLUSTRATIONS={
+    "coriolis effect":{image:"assets/vocabulary/g6-w10-equator-cyclone-v1.webp",position:"0%",size:"auto 100%",label:"A tropical storm path curving across a rotating Earth"},
+    equator:{image:"assets/vocabulary/g6-w10-equator-cyclone-v1.webp",position:"33.333%",size:"auto 100%",label:"The equator encircling Earth's widest middle"},
+    "tropical cyclone":{image:"assets/vocabulary/g6-w10-equator-cyclone-v1.webp",position:"66.667%",size:"auto 100%",label:"An organized rotating tropical cyclone viewed from above"},
+    latitude:{image:"assets/vocabulary/g6-w10-equator-cyclone-v1.webp",position:"100%",size:"auto 100%",label:"Lines of latitude crossing a spherical Earth"},
+    "solar energy":{image:"assets/vocabulary/g6-w11-polar-terms-v1.webp",position:"0%",size:"auto 100%",label:"Solar energy traveling from the Sun toward Earth"},
+    albedo:{image:"assets/vocabulary/g6-w11-polar-terms-v1.webp",position:"33.333%",size:"auto 100%",label:"Sunlight reflecting from bright polar snow and sea ice"},
+    curvature:{image:"assets/vocabulary/g6-w11-polar-terms-v1.webp",position:"66.667%",size:"auto 100%",label:"The curved surface of Earth seen from space"},
+    horizon:{image:"assets/vocabulary/g6-w11-polar-terms-v1.webp",position:"100%",size:"auto 100%",label:"The distant line where the polar ocean meets the sky"},
     solstice:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"0%",size:"300% auto",label:"Earth tilted toward the Sun during a solstice"},
     equinox:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"50%",size:"300% auto",label:"Earth divided into equal day and night during an equinox"},
     axis:{image:"assets/vocabulary/g6-w12-solstice-equinox-axis-v1.png",position:"100%",size:"300% auto",label:"Earth's tilted imaginary axis through the poles"},
     hemisphere:{image:"assets/vocabulary/g6-w12-hemisphere-v1.png",position:"50%",size:"cover",label:"Earth divided at the equator into two hemispheres"}
   };
-  function vocabularyIllustration(word,fallback,index){
+  function vocabularyIllustration(word,fallback,index,day){
     const exact=VOCABULARY_ILLUSTRATIONS[String(word?.en||"").trim().toLowerCase()];
-    return exact?{exact:true,label:exact.label,style:`--vocab-image:url('${exact.image}');--vocab-position:${exact.position};--vocab-size:${exact.size}`}:{exact:false,label:`Topic illustration for ${word?.en||"science vocabulary"}`,style:`--vocab-image:url('${fallback}');--vocab-position:${18+index*31}%;--vocab-size:cover`};
+    if(exact)return{exact:true,label:exact.label,style:`--vocab-image:url('${exact.image}');--vocab-position:${exact.position};--vocab-size:${exact.size}`};
+    const dayImage=String(day?.vocabImage||fallback||"");
+    const dailyAtlas=/science-vocab-w\d+d\d+-v\d+\.png$/i.test(dayImage);
+    if(dailyAtlas){
+      const positions=["0%","50%","100%"];
+      return{exact:true,label:`Illustration of ${word?.en||"science vocabulary"}: ${word?.meaning||""}`,style:`--vocab-image:url('${dayImage}');--vocab-position:${positions[index]||"50%"};--vocab-size:300% auto`};
+    }
+    return{exact:false,label:`Lesson photograph related to ${word?.en||"science vocabulary"}`,style:`--vocab-image:url('${dayImage}');--vocab-position:${18+index*31}%;--vocab-size:cover`};
   }
   function lessonExercises(week,day){return Array.isArray(day?.bookQuestionGroups)?day.bookQuestionGroups:[]}
   function scienceExerciseKey(week,day,index){return`science:book-v3:${week.number}:${day.day}:${index+1}`}
@@ -432,7 +435,7 @@
   function renderLesson(){
     const week=allWeeks()[state.openWeek],day=week?.days?.[state.openDay];if(!day){state.openDay=0;return renderWeek()}
     const reading=expandedScienceReading(week,day),learned=isComplete(week.number,day.day),illustration=scienceHero(week),exerciseCount=lessonExercises(week,day).length;
-    const vocabulary=`<section class="vocab-card"><small>VOCABULARY TO LEARN · FLIPCARDS</small><p class="vocab-help">Tap a card to flip between the word and its illustration.</p><div class="vocab-flashcard-grid">${(day.words||[]).map((word,index)=>{const visual=vocabularyIllustration(word,illustration,index);return`<button class="vocab-flashcard ${visual.exact?"exact-visual":""}" data-vocab-flashcard aria-pressed="false" style="${visual.style}"><span class="vocab-flashcard-inner"><span class="vocab-face vocab-front"><small>${esc(word.pos||"science term")}</small><b>${esc(word.en)}</b><i>/${esc(pronunciationGuide(word.en))}/</i><span>${esc(word.meaning)}</span><em>Tap to see the illustration ↻</em></span><span class="vocab-face vocab-back" role="img" aria-label="${esc(visual.label)}">${visual.exact?"":`<i>${vocabularyVisual(word)}</i>`}<em>Tap to see the word ↻</em></span></span></button>`}).join("")}</div></section>`;
+    const vocabulary=`<section class="vocab-card"><small>VOCABULARY TO LEARN · FLIPCARDS</small><p class="vocab-help">Tap a card to flip between the word and its illustration.</p><div class="vocab-flashcard-grid">${(day.words||[]).map((word,index)=>{const visual=vocabularyIllustration(word,illustration,index,day);return`<button class="vocab-flashcard ${visual.exact?"exact-visual":""}" data-vocab-flashcard aria-pressed="false" style="${visual.style}"><span class="vocab-flashcard-inner"><span class="vocab-face vocab-front"><small>${esc(word.pos||"science term")}</small><b>${esc(word.en)}</b><i>/${esc(pronunciationGuide(word.en))}/</i><span>${esc(word.meaning)}</span><em>Tap to see the illustration ↻</em></span><span class="vocab-face vocab-back" role="img" aria-label="${esc(visual.label)}"><em>Tap to see the word ↻</em></span></span></button>`}).join("")}</div></section>`;
     const goldCard=`<div class="lesson-gold-reward"><i>●</i><b>${learned?"LESSON COMPLETE":"5 GOLD / REVIEWED GROUP"}</b><span>${learned?"Your gold is ready for the Card Draw.":`Answer and review all ${exerciseCount} book activity groups. Gold is awarded only once per group.`}</span>${learned?'<button data-open-gacha>Open Card Draw →</button>':""}</div>`;
     shell(`<article class="lesson-reader" style="--lesson-bg:url('${esc(illustration)}')"><header><img src="${esc(illustration)}" alt="${esc(day.title)}"><div><p>DAILY SCIENCE · GRADE ${reading.grade} · WEEK ${scienceCurriculumWeek(week)} · DAY ${day.day}</p><h1>${esc(day.title)}</h1><span>${esc(day.short)}</span><a class="reading-length reading-source-link" href="${esc(reading.sourceUrl)}" target="_blank" rel="noreferrer">SOURCE: ${esc(reading.source)} ↗</a></div></header><div class="lesson-columns"><main><section class="expanded-reading"><small>BOOK-SOURCED READING</small><h2>${esc(day.short)}</h2><p>${esc(reading.text)}</p></section>${scienceExerciseMarkup(week,day)}</main><aside>${vocabulary}<section class="reward-card ${learned?"unlocked":"locked"}"><small>SCIENCE REWARD</small>${goldCard}</section></aside></div></article>`,{back:true,title:`Science · Grade ${reading.grade} · Week ${scienceCurriculumWeek(week)} · Day ${day.day}`});
     bindScienceExercise(week,day);

@@ -101,6 +101,10 @@ def write_javascript(
   const readings={payload};
   const weeks=window.ScienceDiscovery?.weeks||window.ScienceExpansion?.weeks;
   if(!weeks)return;
+  const bookDayTitle=day=>{{
+    const terms=[...new Set((day.words||[]).map(word=>String(word?.en||"").trim()).filter(Boolean))].slice(0,2);
+    return terms.length?terms.map(term=>term.replace(/\\b\\w/g,letter=>letter.toUpperCase())).join(" & "):`Day ${{day.day}}`;
+  }};
   Object.values(weeks).forEach(week=>{{
     const source=week?.source;
     const grade=Number(source?.grade),bigIdea=Number(source?.bigIdea),bookWeek=Number(source?.bookWeek);
@@ -111,8 +115,7 @@ def write_javascript(
       const day=week.days?.[dayNumber],entry=readings[String(grade)]?.[String(curriculumWeek)]?.[String(dayNumber)];
       if(!day||!entry)continue;
       day.story=entry.text;
-      day.title=week.title;
-      day.short=`Day ${{dayNumber}}`;
+      day.title=bookDayTitle(day);
       day.guideLine="";
       day.bookPage=entry.page;
       day.questions=[];
