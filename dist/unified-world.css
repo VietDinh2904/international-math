@@ -263,7 +263,7 @@
 .vocab-face{position:absolute;inset:0;display:flex;box-sizing:border-box;flex-direction:column;overflow:hidden;border:1px solid #72e8de8c;border-radius:16px;backface-visibility:hidden;box-shadow:0 14px 30px #0007}
 .vocab-front{padding:18px;overflow-x:hidden;overflow-y:auto;background:linear-gradient(145deg,#123b48,#071b27);scrollbar-width:thin;scrollbar-color:#72e8de66 transparent}
 .vocab-front>small{color:#72e8de;font-size:9px;font-weight:950;letter-spacing:.13em;text-transform:uppercase}
-.vocab-front>b{margin:10px 0 2px;color:#ffe06d;font:900 clamp(20px,2vw,29px)/1.05 Georgia,serif;overflow-wrap:anywhere;hyphens:auto}
+.vocab-front>b{margin:10px 0 2px;padding-block:.06em .12em;color:#ffe06d;font:900 clamp(20px,2vw,29px)/1.18 Georgia,"Times New Roman",serif;overflow-wrap:anywhere;hyphens:auto}
 .vocab-front>i{color:#9bcbd4;font-size:13px;font-style:normal}
 .vocab-front>span{margin-top:12px;color:#f1f7f8;font-size:13px;line-height:1.42}
 .vocab-front>.vocab-definition{overflow-wrap:anywhere}
@@ -317,7 +317,7 @@
 .day-learning-grid>main,.day-learning-grid>aside{display:grid;gap:16px;min-width:0}
 .day-learning-grid section{box-sizing:border-box;padding:20px;border:1px solid #72e8de5c;border-radius:18px;background:#071c2bd6;backdrop-filter:blur(8px)}
 .day-learning-grid section>small{color:#72e8de;font-size:9px;font-weight:950;letter-spacing:.15em}
-.day-learning-grid h2,.day-learning-grid h3{margin:6px 0;font:900 27px/1.18 "Segoe Print","Bradley Hand","Comic Sans MS",cursive}
+.day-learning-grid h2,.day-learning-grid h3{margin:6px 0;padding:.08em 0 .18em;font:900 27px/1.28 "Segoe Print","Bradley Hand","Comic Sans MS",cursive;overflow:visible;overflow-wrap:anywhere}
 .day-learning-grid p{color:#d9e7ea;font-size:16px;line-height:1.75}
 .day-illustration{position:relative;height:330px;margin:0;overflow:hidden;border:1px solid #79e9e06b;border-radius:19px;background:#06131d}
 .day-illustration img{width:100%;height:100%;object-fit:cover}
@@ -326,7 +326,7 @@
 .day-illustration.exact-day-illustration:after{content:"DAY-SPECIFIC WATERCOLOR";position:absolute;top:13px;right:13px;padding:6px 9px;border:1px solid #ffffff55;border-radius:999px;background:#031722b8;color:#e9ffff;font:800 8px/1 Arial,sans-serif;letter-spacing:.12em;backdrop-filter:blur(7px)}
 .day-illustration figcaption{position:absolute;right:0;bottom:0;left:0;padding:44px 18px 14px;background:linear-gradient(transparent,#02131be8);color:#fff;font:800 14px/1.35 Georgia,serif}
 .week-day-chapter .expanded-reading p{text-align:justify;text-justify:inter-word;hyphens:auto}
-.week-long-reader .week-hero h1{font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-weight:900;line-height:1.08}
+.week-long-reader .week-hero h1{padding-block:.06em .14em;font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-weight:900;line-height:1.2;overflow:visible;overflow-wrap:anywhere}
 .week-long-reader .week-hero h1,.day-chapter-heading h2,.day-learning-grid h2,.day-learning-grid h3{color:#f6fbf8;background:linear-gradient(92deg,#fff7db 0%,#9ce7df 35%,#ffd27a 66%,#f5b8ca 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 0 #00151d) drop-shadow(0 4px 9px #00151dbd)}
 .week-day-chapter .vocab-flashcard-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 .week-day-chapter .vocab-flashcard{height:350px}
@@ -334,3 +334,91 @@
 .week-day-chapter .reward-card{background:linear-gradient(145deg,#102d39e8,#071b28e8)}
 @media(max-width:1050px){.day-learning-grid{grid-template-columns:1fr}.week-day-chapter .vocab-flashcard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.week-day-jump{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.week-long-reader{padding-inline:10px}.week-day-jump{grid-template-columns:1fr}.week-day-chapter{padding:14px;border-radius:18px}.day-chapter-heading{align-items:flex-start}.day-chapter-heading h2{font-size:27px}.day-illustration{height:230px}.week-day-chapter .vocab-flashcard-grid{grid-template-columns:1fr!important}.week-day-chapter .vocab-flashcard,.week-day-chapter .vocab-flashcard.vocab-wide{grid-column:span 1;height:340px}}
+
+/* Bilingual primary-science filters. */
+.science-filter-stack{display:grid;justify-items:end;gap:8px;max-width:620px}
+.science-filter-stack .grade-tabs{flex-wrap:wrap;justify-content:flex-end}
+.language-tabs{display:flex;gap:6px}
+.language-tabs button{padding:8px 13px;border:1px solid #ffd96d80;border-radius:999px;background:#071d2b;color:#d7e9ec;font-size:11px;font-weight:900;cursor:pointer}
+.language-tabs button.active{border-color:#ffd96d;background:#ffd96d;color:#132433}
+@media(max-width:720px){.science-filter-stack{justify-items:start;max-width:100%}.science-filter-stack .grade-tabs{justify-content:flex-start}}
+
+/* Watercolor field-journal identity: warm paper, botanical ink and painted accents. */
+.science-only-topbar{border-bottom:1px solid #b7895f66;background:linear-gradient(90deg,#f7f0e5f5,#fffaf1f2 55%,#efe4d6f5);color:#1f3d43;box-shadow:0 8px 26px #5b3c2526}
+.science-only-topbar .uw-brand span{border-color:#b46d55;background:linear-gradient(145deg,#dc8061,#b95548);color:#fff9ed;box-shadow:0 7px 18px #9c5b4b45}
+.science-only-topbar .uw-brand b,.science-only-topbar .uw-location strong{color:#193a42}
+.science-only-topbar .uw-location small{color:#a75548}
+.science-only-topbar .uw-resources>span{border-color:#b7895f57;background:#fffaf0d9;color:#26454b}
+.science-only-topbar .uw-resources i{color:#c5853f}
+.science-only-topbar .uw-back{border-color:#ae765a;background:#fff8ec;color:#28454a}
+.science-only-nav{border:1px solid #b7895f59;background:#fff9efcc;box-shadow:0 10px 24px #67472e20;backdrop-filter:blur(14px)}
+.science-only-nav button{color:#36565a}
+.science-only-nav button.active{background:linear-gradient(135deg,#c86955,#db9167);color:#fffdf4;box-shadow:none}
+.science-library{background:#f3eadf;color:#244249}
+.science-library .panel-backdrop{background:linear-gradient(90deg,#f8f1e9e8,#fbf6eee1),url("assets/watercolor-backgrounds/watercolor-science-library-v1.webp") center/cover;filter:saturate(.82) contrast(.96)}
+.science-library .panel-heading p{color:#a85849}
+.science-library .panel-heading h1{color:#173a42;text-shadow:0 2px #fff9ef}
+.science-library .panel-heading span{color:#51696b}
+.science-library .grade-tabs button{border-color:#a7795e80;background:#fffaf1d9;color:#365359;box-shadow:0 4px 12px #69452a15}
+.science-library .grade-tabs button.active{border-color:#c86751;background:linear-gradient(135deg,#d26f57,#e39a6b);color:#fffdf6}
+.science-library .language-tabs button{border-color:#a97c6091;background:#fffaf1db;color:#466064}
+.science-library .language-tabs button.active{border-color:#c89a48;background:#e3bd65;color:#2e4547}
+.science-library .science-week-tile{border:1px solid #aa7e5f66;background:#fffaf1e6;color:#203d43;box-shadow:0 13px 30px #60442f24;transition:transform .22s ease,box-shadow .22s ease}
+.science-library .science-week-tile:hover{transform:translateY(-4px);box-shadow:0 18px 38px #60442f38}
+.science-library .week-photo{background-image:linear-gradient(#fff0,#4b34243d),var(--week-image);filter:saturate(.88) sepia(.08)}
+.science-library .science-week-tile small{color:#a85849}
+.science-library .science-week-tile strong{color:#203c42}
+.science-library .science-week-tile em{color:#697879}
+.science-library .science-week-tile i{background:#d9c9b6}
+.science-library .science-week-tile i b{background:linear-gradient(90deg,#6e9275,#d29b48,#d66f58)}
+.week-long-reader{background:#efe6da;color:#233f45}
+.week-long-reader:before{background:linear-gradient(120deg,#f8f1e9c7,#fffaf2ad),var(--week-watercolor) center/cover fixed;filter:saturate(.9) contrast(.97)}
+.week-watercolor-layer{background:linear-gradient(115deg,#f8f1e9d1,#fffaf2b8 50%,#efe5d7c9),var(--week-watercolor) center/cover no-repeat;filter:saturate(.88) contrast(.96)}
+.week-long-reader>.week-hero{border-color:#ad7e5e66;background:linear-gradient(90deg,#fffaf1ed,#fffaf1aa),var(--week-watercolor) center/cover;color:#203c42;box-shadow:0 18px 45px #60442f2b}
+.week-long-reader .week-hero p{color:#a55749}
+.week-long-reader .week-hero span{color:#526a6d}
+.week-long-reader .week-hero>b{border-color:#b77954;background:#fff9eddf;color:#ad594b}
+.week-long-reader .week-hero h1,.week-long-reader .day-chapter-heading h2,.week-long-reader .day-learning-grid h2,.week-long-reader .day-learning-grid h3{background:none;color:#203d43;-webkit-text-fill-color:#203d43;filter:none;text-shadow:0 1px #fffaf2}
+.week-day-jump a{border-color:#ad7d5d66;background:#fffaf0e7;color:#28464b;box-shadow:0 8px 18px #60442f1f}
+.week-day-jump a>span{background:#6f9279;color:#fffdf6}
+.week-day-jump a.complete>span{background:#d28d58;color:#fffaf1}
+.week-day-jump b{color:#a55749}
+.week-day-jump small{color:#536d70}
+.week-day-chapter{border-color:#a97a5c61;background:#fffaf1e8;box-shadow:0 22px 56px #60442f30}
+.day-chapter-heading{border-bottom-color:#8c6c532b}
+.day-chapter-heading>span{background:linear-gradient(145deg,#77967c,#557863);color:#fffdf6}
+.day-chapter-heading small,.day-learning-grid section>small{color:#a45649}
+.day-chapter-heading p,.day-learning-grid p{color:#4b6669}
+.day-learning-grid section{border-color:#ab7d5e57;background:#fffaf1e8;box-shadow:0 10px 25px #60442f19}
+.day-illustration{border-color:#a97b5d73;background:#eadfce;box-shadow:0 12px 28px #60442f26}
+.day-illustration.exact-day-illustration:after{border-color:#fff7e68a;background:#3a4f43b8;color:#fffbed}
+.day-illustration figcaption{background:linear-gradient(transparent,#253d39db);color:#fffaf1}
+.week-day-chapter .expanded-reading p{color:#344f54}
+.week-long-reader .reading-source-link{border-color:#bd8d636b;background:#fff8eb;color:#8e5043}
+.week-long-reader .vocab-card{background:#f8efe2e8}
+.week-long-reader .vocab-help{color:#5f7476!important}
+.week-long-reader .vocab-face{border-color:#a97b5d80;box-shadow:0 13px 28px #60442f30}
+.week-long-reader .vocab-front{background:linear-gradient(145deg,#fffaf0,#efe2d2);color:#233f45}
+.week-long-reader .vocab-front>small{color:#a45649}
+.week-long-reader .vocab-front>b{color:#9f5647}
+.week-long-reader .vocab-front>i{color:#687d7e}
+.week-long-reader .vocab-front>span{color:#29464b}
+.week-long-reader .vocab-vietnamese{border-left-color:#c78f45;background:#ead9c15e;color:#6d4937!important}
+.week-long-reader .vocab-vietnamese>small{color:#8f5947}
+.week-long-reader .vocab-face>em{color:#6a7d7e}
+.week-long-reader .vocab-back{border-color:#a97b5d80}
+.week-long-reader .book-question{border-color:#ae806263;background:#fffaf1e8}
+.week-long-reader .book-question.correct{border-color:#6e9276;background:#edf2e8e8}
+.week-long-reader .book-question>small{color:#a45649}
+.week-long-reader .book-question-text{color:#29464b!important}
+.week-long-reader .book-question label{color:#5c7072}
+.week-long-reader .book-question textarea{border-color:#a97b5d77;background:#fffdf7;color:#29464b}
+.week-long-reader .book-answer{border-left-color:#c8894d;background:#efe2d2}
+.week-long-reader .book-answer small{color:#9f5647}
+.week-long-reader .book-answer p{color:#29464b!important}
+.week-long-reader .book-question-actions button,.week-long-reader [data-finish-science-day]{background:linear-gradient(90deg,#d77559,#e4aa61);color:#fffdf6}
+.week-long-reader .practice-gold-rule,.week-long-reader .week-card-rule{border-color:#b17d5b;background:#fff7e9df;color:#425d60}
+.week-long-reader .practice-gold-rule b,.week-long-reader .week-card-rule b{color:#a45649}
+.week-long-reader .reward-card{border-color:#ad7d5e5c!important;background:linear-gradient(145deg,#f1e4d4e8,#fff9eee8)!important;color:#29464b}
+.week-long-reader .lesson-gold-reward b{color:#a45649}
+.week-long-reader .lesson-gold-reward span{color:#5b7072}

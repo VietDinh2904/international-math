@@ -16,7 +16,8 @@ from pypdf import PdfReader
 
 
 HEADING_RE = re.compile(
-    r"B\s*i\s*g\s+I\s*d\s*e\s*a\s+(\d+)\s*:\s*W\s*e\s*e\s*k\s+(\d+)\s*[•·]\s*D\s*a\s*y\s+(\d+)",
+    r"(?:B\s*i\s*g\s+I\s*d\s*e\s*a|Big\s+Idea)\s+(\d+)\s*:\s*"
+    r"(?:W\s*e\s*e\s*k|Week)\s+(\d+)\s*[•·]\s*(?:D\s*a\s*y|Day)\s+(\d+)",
     re.IGNORECASE,
 )
 GROUP_RE = re.compile(r"(?<!\w)([A-D])\s*\.\s+|(?<!\w)(TALK)\s*:\s*", re.IGNORECASE)
@@ -133,7 +134,7 @@ def answer_entries(reader: PdfReader) -> dict[tuple[int, int, int], str]:
     first_candidate = max(0, len(reader.pages) - 32)
     pages = [page.extract_text() or "" for page in reader.pages[first_candidate:]]
     answer_start = next(
-        (index for index, text in enumerate(pages) if re.search(r"\bAnswer Key\b", text)),
+        (index for index, text in enumerate(pages) if re.search(r"\bAnswer Key\b", text, re.IGNORECASE)),
         None,
     )
     if answer_start is None:

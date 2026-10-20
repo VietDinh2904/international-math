@@ -2,3 +2,6 @@ tmp/
 .sites-runtime/
 .openai/*.tar.gz
 .research/open-source/
+scripts/__pycache__/
+scripts/.science-primary-vi-cache.json
+dist/assets/science-primary-week-atlases/
