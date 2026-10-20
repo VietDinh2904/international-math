@@ -275,6 +275,7 @@
 .book-question.correct{border-color:#48dc9d;background:#063125b8}
 .book-question>small{color:#72e8de;font-size:9px;font-weight:950;letter-spacing:.14em}
 .book-question-text{margin:10px 0 14px!important;color:#f1f7f8!important;font-size:16px!important;font-weight:750;line-height:1.65!important;text-align:left!important}
+.book-question-text br{display:block;content:"";margin-top:.34em}
 .book-question label{display:grid;gap:7px;color:#bcd4da;font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
 .book-question textarea{width:100%;min-height:96px;box-sizing:border-box;padding:13px;border:1px solid #72e8de80;border-radius:12px;resize:vertical;background:#0c3040;color:#fff;font:600 14px/1.5 inherit}
 .book-question textarea:focus{outline:2px solid #ffe06d;outline-offset:2px}
