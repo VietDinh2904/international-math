@@ -321,6 +321,9 @@
 .day-learning-grid p{color:#d9e7ea;font-size:16px;line-height:1.75}
 .day-illustration{position:relative;height:330px;margin:0;overflow:hidden;border:1px solid #79e9e06b;border-radius:19px;background:#06131d}
 .day-illustration img{width:100%;height:100%;object-fit:cover}
+.day-illustration-art{position:absolute;inset:0;background-image:var(--day-image);background-position:var(--day-position,center);background-size:var(--day-size,cover);background-repeat:no-repeat;transition:transform .45s ease}
+.day-illustration:hover .day-illustration-art{transform:scale(1.025)}
+.day-illustration.exact-day-illustration:after{content:"DAY-SPECIFIC WATERCOLOR";position:absolute;top:13px;right:13px;padding:6px 9px;border:1px solid #ffffff55;border-radius:999px;background:#031722b8;color:#e9ffff;font:800 8px/1 Arial,sans-serif;letter-spacing:.12em;backdrop-filter:blur(7px)}
 .day-illustration figcaption{position:absolute;right:0;bottom:0;left:0;padding:44px 18px 14px;background:linear-gradient(transparent,#02131be8);color:#fff;font:800 14px/1.35 Georgia,serif}
 .week-day-chapter .expanded-reading p{text-align:justify;text-justify:inter-word;hyphens:auto}
 .week-long-reader .week-hero h1{font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-weight:900;line-height:1.08}
