@@ -429,7 +429,192 @@
     shell(`<article class="uw-panel week-reader week-long-reader" style="--hero:url('${esc(hero)}');--week-watercolor:url('${esc(watercolor)}')"><div class="week-watercolor-layer" aria-hidden="true"></div><header class="week-hero"><div><p>GRADE ${scienceGrade(week)} · WEEK ${scienceCurriculumWeek(week)} · BIG IDEA ${week.source?.bigIdea}</p><h1>${esc(week.title)}</h1><span>${esc(week.overview?.slice(0,4).join(" · ")||"")}</span></div><b>${done}/4<br><small>DAYS COMPLETE</small></b></header><nav class="week-day-jump" aria-label="Jump to a day">${bookDays.map(day=>`<a href="#science-day-${day.day}" class="${isComplete(week.number,day.day)?"complete":""}"><span>${isComplete(week.number,day.day)?"✓":day.day}</span><b>Day ${day.day}</b><small>${esc(day.title)}</small></a>`).join("")}</nav>${chapters}<aside class="week-card-rule"><b>ONE CONTINUOUS WEEK</b><span>Day 1–4 are presented in one long lesson. Each reviewed book activity group gives 5 Gold once.</span></aside></article>`,{back:true,title:`Science · Grade ${scienceGrade(week)} · Week ${scienceCurriculumWeek(week)}`});
     bindScienceExercise(week);bindVocabularyCards();root.querySelectorAll("[data-open-gacha]").forEach(button=>button.onclick=()=>{state.labArea="gacha";state.openWeek=state.openDay=0;save();renderGacha()});
   }
-  function scienceVocabularyMarkup(week,day,illustration){return`<section class="vocab-card"><small>VOCABULARY TO LEARN · FLIPCARDS</small><p class="vocab-help">Tap a card to flip between the word and its illustration.</p><div class="vocab-flashcard-grid">${(day.words||[]).map((word,index)=>{const visual=vocabularyIllustration(word,illustration,index,day,week);return`<button class="vocab-flashcard ${visual.exact?"exact-visual":""}" data-vocab-flashcard aria-pressed="false" style="${visual.style}"><span class="vocab-flashcard-inner"><span class="vocab-face vocab-front"><small>${esc(word.pos||"science term")}</small><b>${esc(word.en)}</b><i>/${esc(pronunciationGuide(word.en))}/</i><span>${esc(word.meaning)}</span><em>Tap to see the illustration ↻</em></span><span class="vocab-face vocab-back" role="img" aria-label="${esc(visual.label)}"><em>Tap to see the word ↻</em></span></span></button>`}).join("")}</div></section>`}
+  const scienceVietnameseTerms=Object.fromEntries(`
+weathering|sự phong hóa
+erosion|sự xói mòn
+sediment|trầm tích
+uplift|sự nâng lên của vỏ Trái Đất
+glacier|sông băng
+moraine|đồi băng tích
+meltwater|nước băng tan
+valley|thung lũng
+magma|mác-ma
+lava|dung nham
+vent|miệng phun
+pressure|áp suất
+fault|đứt gãy địa chất
+seismic wave|sóng địa chấn
+focus|chấn tiêu
+seismometer|máy đo địa chấn
+mineral|khoáng vật
+rock|đá
+hardness|độ cứng
+luster|ánh khoáng
+igneous|đá mắc-ma
+sedimentary|đá trầm tích
+metamorphic|đá biến chất
+rock cycle|chu trình đá
+ore|quặng
+extract|khai thác
+fossil fuel|nhiên liệu hóa thạch
+conserve|bảo tồn; tiết kiệm
+meteor|sao băng
+meteorite|thiên thạch
+asteroid|tiểu hành tinh
+lunar|thuộc Mặt Trăng
+circuit|mạch điện
+current|dòng điện
+resistance|điện trở
+thermal energy|nhiệt năng
+digital|kỹ thuật số
+display|màn hình hiển thị
+diode|đi-ốt
+oscillator|bộ dao động
+microphone|micrô
+amplify|khuếch đại
+frequency|tần số
+speaker|loa
+electric motor|động cơ điện
+electromagnet|nam châm điện
+controller|bộ điều khiển
+mechanical energy|cơ năng
+inclined plane|mặt phẳng nghiêng
+work|công
+force|lực
+mechanical advantage|lợi về lực
+wedge|cái nêm
+screw|đinh vít
+thread|ren vít
+friction|ma sát
+pulley|ròng rọc
+counterweight|đối trọng
+cable|dây cáp
+brake|phanh
+lever|đòn bẩy
+fulcrum|điểm tựa
+wheel and axle|bánh xe và trục
+load|vật tải
+evaporation|sự bay hơi
+condensation|sự ngưng tụ
+precipitation|giáng thủy
+water cycle|vòng tuần hoàn nước
+infiltration|sự thấm nước
+permeable|có tính thấm
+water table|mực nước ngầm
+groundwater|nước ngầm
+desert|sa mạc
+rain shadow|vùng khuất mưa
+humidity|độ ẩm
+adaptation|sự thích nghi
+freshwater|nước ngọt
+watershed|lưu vực
+conservation|sự bảo tồn
+treatment|sự xử lý
+mass|khối lượng
+weight|trọng lượng
+gravity|trọng lực
+newton|niutơn
+tide|thủy triều
+tidal bulge|bầu thủy triều
+spring tide|triều cường
+neap tide|triều kém
+sphere|hình cầu
+center of mass|khối tâm
+rotation|sự tự quay
+equator|xích đạo
+orbit|quỹ đạo
+inertia|quán tính
+elliptical|có dạng elip
+solar system|Hệ Mặt Trời
+temperature|nhiệt độ
+expand|nở ra
+calibrate|hiệu chuẩn
+sensor|cảm biến
+microwave|sóng vi ba
+molecule|phân tử
+conduction|sự dẫn nhiệt
+hurricane|bão cuồng phong
+low pressure|áp suất thấp
+condense|ngưng tụ
+storm surge|nước dâng do bão
+insulator|chất cách nhiệt
+convection|sự đối lưu
+radiation|sự bức xạ
+carbon dioxide|khí cacbon điôxít
+dissolve|hòa tan
+nucleation site|tâm tạo mầm
+rust|gỉ sắt
+oxidation|sự ôxi hóa
+corrosion|sự ăn mòn
+coating|lớp phủ
+electrode|điện cực
+electrolyte|chất điện phân
+chemical energy|hóa năng
+rechargeable|có thể sạc lại
+combustion|sự cháy
+reactant|chất phản ứng
+product|sản phẩm phản ứng
+activation energy|năng lượng hoạt hóa
+atmosphere|khí quyển
+air pressure|áp suất không khí
+front|frông khí quyển
+Coriolis effect|hiệu ứng Coriolis
+tropical cyclone|xoáy thuận nhiệt đới
+latitude|vĩ độ
+solar energy|năng lượng Mặt Trời
+albedo|suất phản chiếu
+curvature|độ cong
+horizon|đường chân trời
+axis|trục
+hemisphere|bán cầu
+solstice|điểm chí
+equinox|điểm phân
+continental drift|sự trôi dạt lục địa
+fossil|hóa thạch
+plate tectonics|kiến tạo mảng
+seafloor spreading|sự tách giãn đáy đại dương
+crust|vỏ Trái Đất
+mantle|lớp phủ
+core|lõi Trái Đất
+collision boundary|ranh giới va chạm
+subduction|sự hút chìm
+compression|sự nén ép
+mountain range|dãy núi
+GPS|hệ thống định vị toàn cầu
+rift|đới tách giãn
+converge|hội tụ
+supercontinent|siêu lục địa
+atom|nguyên tử
+nucleus|hạt nhân
+electron|electron
+orbital|obitan
+element|nguyên tố
+atomic number|số hiệu nguyên tử
+period|chu kỳ
+group|nhóm
+covalent bond|liên kết cộng hóa trị
+polar|phân cực
+solution|dung dịch
+cell|tế bào
+DNA|ADN
+metabolism|sự trao đổi chất
+organic compound|hợp chất hữu cơ
+kinetic energy|động năng
+turbine|tuabin
+generator|máy phát điện
+electromagnetic induction|cảm ứng điện từ
+hull|vỏ hạt
+water vapor|hơi nước
+bioluminescence|sự phát quang sinh học
+enzyme|enzym
+photon|photon ánh sáng
+propellant|chất đẩy
+fuse|ngòi nổ
+spectrum|quang phổ
+chemical reaction|phản ứng hóa học`.trim().split("\n").map(line=>{const split=line.indexOf("|");return[line.slice(0,split).toLowerCase(),line.slice(split+1)]}));
+  function vietnameseVocabularyMeaning(word){return String(word?.vi||scienceVietnameseTerms[String(word?.en||"").trim().toLowerCase()]||"Đang bổ sung nghĩa tiếng Việt").trim()}
+  function vocabularyCardIsWide(word){const term=String(word?.en||""),meaning=String(word?.meaning||""),vietnamese=vietnameseVocabularyMeaning(word);return term.length>17||meaning.length>82||vietnamese.length>44}
+  function scienceVocabularyMarkup(week,day,illustration){return`<section class="vocab-card"><small>VOCABULARY TO LEARN · FLIPCARDS</small><p class="vocab-help">Tap a card to flip between the word and its illustration.</p><div class="vocab-flashcard-grid">${(day.words||[]).map((word,index)=>{const visual=vocabularyIllustration(word,illustration,index,day,week),wide=vocabularyCardIsWide(word),vietnamese=vietnameseVocabularyMeaning(word);return`<button class="vocab-flashcard ${visual.exact?"exact-visual":""} ${wide?"vocab-wide":""}" data-vocab-flashcard aria-pressed="false" style="${visual.style}"><span class="vocab-flashcard-inner"><span class="vocab-face vocab-front"><small>${esc(word.pos||"science term")}</small><b>${esc(word.en)}</b><i>/${esc(pronunciationGuide(word.en))}/</i><span class="vocab-definition">${esc(word.meaning)}</span><span class="vocab-vietnamese"><small>NGHĨA TIẾNG VIỆT</small>${esc(vietnamese)}</span><em>Tap to see the illustration ↻</em></span><span class="vocab-face vocab-back" role="img" aria-label="${esc(visual.label)}"><em>Tap to see the word ↻</em></span></span></button>`}).join("")}</div></section>`}
   function bindVocabularyCards(){root.querySelectorAll("[data-vocab-flashcard]").forEach(card=>card.addEventListener("click",()=>{const flipped=card.classList.toggle("flipped");card.setAttribute("aria-pressed",String(flipped))}))}
   function scienceExerciseMarkup(week,day){
     state.scienceAnswers=state.scienceAnswers&&typeof state.scienceAnswers==="object"?state.scienceAnswers:{};state.scienceExerciseFeedback=state.scienceExerciseFeedback&&typeof state.scienceExerciseFeedback==="object"?state.scienceExerciseFeedback:{};state.scienceResponses=state.scienceResponses&&typeof state.scienceResponses==="object"?state.scienceResponses:{};
