@@ -453,7 +453,9 @@
 .day-study-layout h2,.day-study-layout h3{margin:7px 0 12px;padding:0;color:#263f43!important;background:none!important;font-family:Georgia,"Times New Roman",serif!important;font-style:normal!important;font-weight:800!important;line-height:1.18!important;-webkit-text-fill-color:#263f43!important;filter:none!important;text-shadow:none!important}
 .day-study-layout p{color:#405b5e;font-size:16px;line-height:1.72}
 .day-reading-column .day-illustration{height:clamp(260px,34vw,460px);border-radius:20px}
-.day-reading-column .expanded-reading p{font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.45vw,21px);line-height:1.85;text-align:justify}
+.day-reading-column .expanded-reading{display:block;width:100%;min-width:0;height:auto!important;min-height:max-content;max-height:none!important;overflow:visible!important;align-self:stretch}
+.day-reading-column .expanded-reading h3{display:block;width:100%;max-width:none;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.day-reading-column .expanded-reading p{display:block;width:100%;max-width:none;height:auto;max-height:none;overflow:visible;white-space:normal;overflow-wrap:anywhere;word-break:normal;font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.45vw,21px);line-height:1.85;text-align:justify}
 .day-reading-column .vocab-flashcard-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 .day-reading-column .vocab-flashcard{height:330px}
 .day-reading-column .vocab-front>b{font-family:Georgia,"Times New Roman",serif}
