@@ -368,28 +368,33 @@
     }
     return{exact:false,label:`Lesson photograph related to ${word?.en||"science vocabulary"}`,style:`--vocab-image:url('${dayImage}');--vocab-position:${18+index*31}%;--vocab-size:cover`};
   }
-  function lessonExercises(week,day){return Array.isArray(day?.bookQuestionGroups)?day.bookQuestionGroups:[]}
+  function lessonExercises(week,day){
+    const groups=Array.isArray(day?.bookQuestionGroups)?day.bookQuestionGroups:[];
+    return groups.map(group=>/H ot rock rises from Earth’s t hrough cracks in Earth’s/i.test(String(group?.prompt||""))?{...group,prompt:"Use vocabulary words to complete the sentences. 1. Hot rock rises from Earth’s _____ through cracks in Earth’s _____. 2. Earth’s _____ is hard and brittle, while the _____ is soft and hot.",answer:"1. mantle, crust 2. crust, mantle"}:group);
+  }
   function scienceExerciseKey(week,day,index){return`science:book-v3:${week.number}:${day.day}:${index+1}`}
   let scienceBookWords;
   function cleanBookText(text){
-    const instructionWords="answer check choose circle color complete compare contrast cross describe discuss draw explain fill identify label list look match name number read select show summarize underline use what when where which who why write tree trees mushroom mushrooms ramp swing ladder trail lifting being person place plant plants animal animals".split(" ");
+    const instructionWords="answer check choose circle color complete compare contrast cross describe discuss draw explain fill identify label list look match name number read select show summarize underline use what when where which who why write tree trees mushroom mushrooms ramp swing ladder trail lifting being person place plant plants animal animals hot through earth mantle crust rises cracks hard brittle soft both other every some many most little these those their there this that then than while with without into onto from between around during under over after before because enough another".split(" ");
     if(!scienceBookWords){
       scienceBookWords=new Set(instructionWords);
       Object.values(allWeeks()).forEach(week=>(week.days||[]).filter(Boolean).forEach(day=>{
-        [day.title,day.short,day.story,...(day.words||[]).flatMap(word=>[word.en,word.meaning])].forEach(value=>String(value||"").toLowerCase().match(/[a-z]+/g)?.forEach(word=>scienceBookWords.add(word)));
+        [day.title,day.short,day.story,...(day.words||[]).flatMap(word=>[word.en,word.meaning]),...(day.bookQuestionGroups||[]).flatMap(group=>[group.prompt,group.answer])].forEach(value=>String(value||"").toLowerCase().match(/[a-z]+/g)?.forEach(word=>scienceBookWords.add(word)));
       }));
     }
     let result=String(text||"").replace(/\u00ad/g,"").replace(/\s+/g," ").trim();
-    const neverJoin=new Set(["a","i","s","t","d","m","re","ve","ll"]);
-    result=result.replace(/\b([A-Z])\s+([a-z]{2,})\b/g,(whole,left,right)=>instructionWords.includes((left+right).toLowerCase())?`${left}${right}`:whole);
-    for(let pass=0;pass<3;pass+=1){
-      result=result.replace(/\b((?![A-D]\b)[A-Za-z]{1,8})\s+([a-z]{2,})\b/g,(whole,left,right)=>{
-        const combined=(left+right).toLowerCase(),leftLower=left.toLowerCase();
-        const uppercaseArtifact=/^[A-Z]$/.test(left)&&instructionWords.includes(combined);
-        const knownArtifact=instructionWords.includes(combined);
-        const brokenWord=!neverJoin.has(leftLower)&&!scienceBookWords.has(leftLower)&&scienceBookWords.has(combined);
-        return uppercaseArtifact||knownArtifact||brokenWord?`${left}${right}`:whole;
-      });
+    const neverJoin=new Set(["a","i"]),shortWords=new Set("am an as at be by do go he if in is it me my no of on or so to up us we".split(" "));
+    result=result.replace(/\b([A-Za-z])\s+([a-z])\b/g,(whole,left,right)=>shortWords.has((left+right).toLowerCase())?left+right:whole);
+    for(let pass=0;pass<4;pass+=1){
+      const pieces=result.match(/[A-Za-z]+(?:[’'][A-Za-z]+)?|[^A-Za-z]+/g)||[],isWord=value=>/^[A-Za-z]+(?:[’'][A-Za-z]+)?$/.test(value||"");let changed=false;
+      for(let index=0;index+2<pieces.length;index+=1){
+        const left=pieces[index],gap=pieces[index+1],right=pieces[index+2];if(!isWord(left)||!/^\s+$/.test(gap)||!isWord(right))continue;
+        const leftLower=left.toLowerCase(),combined=(left+right).toLowerCase(),base=combined.replace(/[’']s$/i,"");
+        const known=instructionWords.includes(base)||scienceBookWords.has(base),looksBroken=!neverJoin.has(leftLower)&&left.length<=8;
+        if(!known||!looksBroken)continue;
+        pieces.splice(index,3,left+right);changed=true;index=Math.max(-1,index-2);
+      }
+      result=pieces.join("");if(!changed)break;
     }
     return result.replace(/\br\b(?=\s+[A-Za-z])/g,"□").replace(/\s+([,.;:?])/g,"$1");
   }
@@ -674,6 +679,12 @@ chemical reaction|phản ứng hóa học`.trim().split("\n").map(line=>{const s
     if(numbered.filter(Boolean).length)return numbered.filter(Boolean);
     return source.split(/\s*[,;]\s*/).map(value=>value.trim()).filter(Boolean);
   }
+  function scienceFillParts(prompt){
+    const text=cleanBookText(prompt),numbered=text.match(/\s1\.\s/);if(!numbered)return{body:text,display:text,inlineBank:[]};
+    const intro=text.slice(0,numbered.index).trim(),body=text.slice(numbered.index).trim(),sentenceEnd=Math.max(intro.lastIndexOf("."),intro.lastIndexOf("?"),intro.lastIndexOf("!")),instruction=sentenceEnd>=0?intro.slice(0,sentenceEnd+1).trim():intro,tail=sentenceEnd>=0?intro.slice(sentenceEnd+1).trim():"";
+    const inlineBank=(tail.match(/_{3,}/g)||[]).length>=1?(tail.match(/[A-Za-z][A-Za-z’'-]*/g)||[]):[];
+    return{body,display:inlineBank.length?`${instruction} ${body}`.trim():text,inlineBank};
+  }
   function scienceChoiceParts(prompt){
     const text=cleanBookText(prompt),boxed=text.split(/\s*□\s*/);
     if(boxed.length>=3)return{lead:boxed[0],options:boxed.slice(1).map(value=>value.trim()).filter(Boolean)};
@@ -687,13 +698,13 @@ chemical reaction|phản ứng hóa học`.trim().split("\n").map(line=>{const s
     if(/true or false/i.test(text)&&scienceNumberedItems(text).length)return"truefalse";
     if(/(?:number|put).*(?:steps|events|correct order)|in the correct order/i.test(text)&&/^\s*\d+(?:\s*,\s*\d+){1,}/.test(solution))return"order";
     if(scienceChoiceParts(text).options.length>=2)return/check all|each statement that is true/i.test(text)?"multi":"choice";
-    if((text.match(/_{3,}/g)||[]).length&&scienceAnswerValues(solution).length)return"fill";
+    if((scienceFillParts(text).body.match(/_{3,}/g)||[]).length&&scienceAnswerValues(solution).length)return"fill";
     return"written";
   }
   function scienceInteractiveState(key){state.scienceInteractiveResponses=state.scienceInteractiveResponses&&typeof state.scienceInteractiveResponses==="object"?state.scienceInteractiveResponses:{};return state.scienceInteractiveResponses[key]&&typeof state.scienceInteractiveResponses[key]==="object"?state.scienceInteractiveResponses[key]:{}}
   function scienceInteractiveResponse(mode,saved,prompt){
     if(mode==="truefalse"){const values=saved.values||{},needed=scienceNumberedItems(prompt).length;return needed&&Object.keys(values).length===needed?Object.keys(values).sort((a,b)=>Number(a)-Number(b)).map(slot=>`${Number(slot)+1}. ${values[slot]}`).join(" · "):""}
-    if(mode==="fill"){const values=saved.values||{},needed=(cleanBookText(prompt).match(/_{3,}/g)||[]).length,entries=Object.keys(values).sort((a,b)=>Number(a)-Number(b)).map(slot=>`${Number(slot)+1}. ${values[slot]}`).filter(value=>!value.endsWith(". "));return needed&&entries.length===needed?entries.join(" · "):""}
+    if(mode==="fill"){const values=saved.values||{},needed=(scienceFillParts(prompt).body.match(/_{3,}/g)||[]).length,entries=Object.keys(values).sort((a,b)=>Number(a)-Number(b)).map(slot=>`${Number(slot)+1}. ${values[slot]}`).filter(value=>!value.endsWith(". "));return needed&&entries.length===needed?entries.join(" · "):""}
     if(mode==="choice"||mode==="multi")return Array.isArray(saved.selected)?saved.selected.join(" · "):"";
     if(mode==="order")return Array.isArray(saved.order)&&saved.order.length?saved.order.join(" → "):"";
     return"";
@@ -706,7 +717,7 @@ chemical reaction|phản ứng hóa học`.trim().split("\n").map(line=>{const s
       return`<div class="interactive-question" data-interactive-kind="truefalse" data-interactive-token="${token}"><small>TRUE OR FALSE</small>${items.map((item,slot)=>`<div class="tf-row"><p><b>${slot+1}</b>${esc(item)}</p><div><button type="button" class="${values[slot]==="true"?"selected":""}" data-interactive-value="true" data-interactive-slot="${slot}" ${disabled}>True</button><button type="button" class="${values[slot]==="false"?"selected":""}" data-interactive-value="false" data-interactive-slot="${slot}" ${disabled}>False</button></div></div>`).join("")}<input type="hidden" data-book-response="${token}" value="${esc(response)}"></div>`;
     }
     if(mode==="fill"){
-      const blankCount=(cleanBookText(prompt).match(/_{3,}/g)||[]).length,answers=scienceAnswerValues(answer),bank=[...new Set(answers.flatMap(value=>value.replace(/\([^)]*\)/g,"").split(/\s*[,;\/]\s*/)).map(value=>value.trim()).filter(Boolean))],values=saved.values||{};
+      const fill=scienceFillParts(prompt),blankCount=(fill.body.match(/_{3,}/g)||[]).length,answers=scienceAnswerValues(answer),answerBank=answers.flatMap(value=>value.replace(/\([^)]*\)/g,"").split(/\s*[,;\/]\s*/)).map(value=>value.trim()).filter(Boolean),bank=[...new Set(fill.inlineBank.length?fill.inlineBank:answerBank)],values=saved.values||{};
       return`<div class="interactive-question fill-question" data-interactive-kind="fill" data-interactive-token="${token}"><small>WORD BANK</small><div class="word-bank">${bank.map(word=>`<span>${esc(word)}</span>`).join("")}</div><div class="blank-select-grid">${Array.from({length:blankCount},(_,slot)=>`<label><b>Blank ${slot+1}</b><select data-interactive-fill="${slot}" ${disabled}><option value="">Choose…</option>${bank.map(word=>`<option value="${esc(word)}" ${values[slot]===word?"selected":""}>${esc(word)}</option>`).join("")}</select></label>`).join("")}</div><input type="hidden" data-book-response="${token}" value="${esc(response)}"></div>`;
     }
     if(mode==="choice"||mode==="multi"){
@@ -720,7 +731,7 @@ chemical reaction|phản ứng hóa học`.trim().split("\n").map(line=>{const s
     state.scienceAnswers=state.scienceAnswers&&typeof state.scienceAnswers==="object"?state.scienceAnswers:{};state.scienceExerciseFeedback=state.scienceExerciseFeedback&&typeof state.scienceExerciseFeedback==="object"?state.scienceExerciseFeedback:{};state.scienceResponses=state.scienceResponses&&typeof state.scienceResponses==="object"?state.scienceResponses:{};
     const exercises=lessonExercises(week,day),completeCount=exercises.filter((exercise,index)=>state.scienceAnswers[scienceExerciseKey(week,day,index)]===true).length,page=day.bookQuestionPage||day.bookPage||"";
     const viMode=scienceVietnameseMode(week);
-    return`<section class="science-practice book-practice" data-practice-day="${day.day}"><header><div><small>${viMode?"CÂU HỎI TRONG SÁCH":"BOOK QUESTIONS"} · PDF PAGE ${esc(page)}</small><h2>${viMode?"Luyện tập":"Practice"}</h2></div><span>${completeCount}/${exercises.length} ${viMode?"đã xem lại":"reviewed"}</span></header><p class="practice-instructions">${viMode?"Các câu điền khuyết, trắc nghiệm và sắp xếp đã có lựa chọn để làm trực tiếp.":"Fill-in, multiple-choice and ordering questions now include ready-to-use interactive answers."}</p><div class="book-question-list">${exercises.map((exercise,index)=>{const token=`${day.day}:${index}`,key=scienceExerciseKey(week,day,index),reviewed=state.scienceAnswers[key]===true,show=state.scienceExerciseFeedback[key]==="show",storedResponse=state.scienceResponses[key]||"",prompt=viMode&&exercise.viPrompt?exercise.viPrompt:exercise.prompt,answer=String(viMode&&exercise.viAnswer?exercise.viAnswer:exercise.answer||"").trim(),mode=scienceQuestionMode(prompt,answer),response=mode==="written"?storedResponse:scienceInteractiveResponse(mode,scienceInteractiveState(key),prompt),displayPrompt=(mode==="choice"||mode==="multi")?scienceChoiceParts(prompt).lead:mode==="truefalse"?cleanBookText(prompt).split(/\s+1\.\s/)[0]:mode==="order"?cleanBookText(prompt).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]:prompt;return`<article class="book-question ${reviewed?"correct":""}"><small>${esc(exercise.label||"QUESTIONS")} · ${index+1}</small><p class="book-question-text">${formatBookQuestion(displayPrompt)}</p>${scienceQuestionControlMarkup(week,day,exercise,index,prompt,answer,reviewed,response)}${show?`<div class="book-answer"><small>${viMode?"ĐÁP ÁN TRONG SÁCH":"PUBLISHER ANSWER"}</small><p>${formatBookQuestion(answer||"The answer is presented as a diagram or has no selectable text in the PDF. Compare your work with the answer-key page in the book.")}</p></div>`:""}<div class="book-question-actions">${!show&&!reviewed?`<button data-book-answer="${token}" ${response.trim()?"":"disabled"}>${viMode?"Kiểm tra đáp án":"Check answer"}</button>`:""}${show&&!reviewed?`<button data-book-review="${token}">${viMode?"Đánh dấu đã xem":"Mark reviewed"}</button>`:""}${reviewed?`<b>✓ ${viMode?"Đã xem":"Reviewed"}</b>`:""}</div></article>`}).join("")}</div>${exercises.length&&completeCount===exercises.length?`<button data-finish-science-day="${day.day}" ${isComplete(week.number,day.day)?"disabled":""}>${isComplete(week.number,day.day)?(viMode?"Đã hoàn thành":"Lesson complete"):(viMode?"Hoàn thành bài":"Complete lesson")}</button>`:`<div class="practice-gold-rule"><b>${viMode?"TIẾN ĐỘ":"PROGRESS"}</b><span>${viMode?`Xem lại đủ ${exercises.length} nhóm hoạt động để hoàn thành bài.`:`Review all ${exercises.length} book activity groups to complete this lesson.`}</span></div>`}</section>`;
+    return`<section class="science-practice book-practice" data-practice-day="${day.day}"><header><div><small>${viMode?"CÂU HỎI TRONG SÁCH":"BOOK QUESTIONS"} · PDF PAGE ${esc(page)}</small><h2>${viMode?"Luyện tập":"Practice"}</h2></div><span>${completeCount}/${exercises.length} ${viMode?"đã xem lại":"reviewed"}</span></header><p class="practice-instructions">${viMode?"Các câu điền khuyết, trắc nghiệm và sắp xếp đã có lựa chọn để làm trực tiếp.":"Fill-in, multiple-choice and ordering questions now include ready-to-use interactive answers."}</p><div class="book-question-list">${exercises.map((exercise,index)=>{const token=`${day.day}:${index}`,key=scienceExerciseKey(week,day,index),reviewed=state.scienceAnswers[key]===true,show=state.scienceExerciseFeedback[key]==="show",storedResponse=state.scienceResponses[key]||"",prompt=viMode&&exercise.viPrompt?exercise.viPrompt:exercise.prompt,answer=String(viMode&&exercise.viAnswer?exercise.viAnswer:exercise.answer||"").trim(),mode=scienceQuestionMode(prompt,answer),response=mode==="written"?storedResponse:scienceInteractiveResponse(mode,scienceInteractiveState(key),prompt),displayPrompt=(mode==="choice"||mode==="multi")?scienceChoiceParts(prompt).lead:mode==="truefalse"?cleanBookText(prompt).split(/\s+1\.\s/)[0]:mode==="order"?cleanBookText(prompt).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]:mode==="fill"?scienceFillParts(prompt).display:prompt;return`<article class="book-question ${reviewed?"correct":""}"><small>${esc(exercise.label||"QUESTIONS")} · ${index+1}</small><p class="book-question-text">${formatBookQuestion(displayPrompt)}</p>${scienceQuestionControlMarkup(week,day,exercise,index,prompt,answer,reviewed,response)}${show?`<div class="book-answer"><small>${viMode?"ĐÁP ÁN TRONG SÁCH":"PUBLISHER ANSWER"}</small><p>${formatBookQuestion(answer||"The answer is presented as a diagram or has no selectable text in the PDF. Compare your work with the answer-key page in the book.")}</p></div>`:""}<div class="book-question-actions">${!show&&!reviewed?`<button data-book-answer="${token}" ${response.trim()?"":"disabled"}>${viMode?"Kiểm tra đáp án":"Check answer"}</button>`:""}${show&&!reviewed?`<button data-book-review="${token}">${viMode?"Đánh dấu đã xem":"Mark reviewed"}</button>`:""}${reviewed?`<b>✓ ${viMode?"Đã xem":"Reviewed"}</b>`:""}</div></article>`}).join("")}</div>${exercises.length&&completeCount===exercises.length?`<button data-finish-science-day="${day.day}" ${isComplete(week.number,day.day)?"disabled":""}>${isComplete(week.number,day.day)?(viMode?"Đã hoàn thành":"Lesson complete"):(viMode?"Hoàn thành bài":"Complete lesson")}</button>`:`<div class="practice-gold-rule"><b>${viMode?"TIẾN ĐỘ":"PROGRESS"}</b><span>${viMode?`Xem lại đủ ${exercises.length} nhóm hoạt động để hoàn thành bài.`:`Review all ${exercises.length} book activity groups to complete this lesson.`}</span></div>`}</section>`;
   }
   function showBookAnswer(week,day,index){
     const key=scienceExerciseKey(week,day,index);if(!String(state.scienceResponses?.[key]||"").trim())return;state.scienceExerciseFeedback[key]="show";save();renderWeek();
