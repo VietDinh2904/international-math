@@ -45,6 +45,23 @@
     atlasCard("ency-manta","Reef Manta Ray","Mobula alfredi",18,"aquatic","animal",{kingdom:"Animalia",phylum:"Chordata",className:"Chondrichthyes",order:"Myliobatiformes",family:"Mobulidae",genus:"Mobula",species:"M. alfredi",origin:"Tropical and subtropical Indo-Pacific",lifespan:"At least 40 years; possibly longer",diet:"Zooplankton and tiny drifting animals",habitat:"Coral reefs, islands and productive coastal waters",behavior:"Filter-feeds while swimming and visits cleaning stations where small fish remove parasites",activity:"Day and night",fact:"A reef manta's underside markings form an individual pattern that researchers can use for identification.",rarityStars:3})
   );
 
+  // Card art v2: every card uses the same 4x3 storybook atlas format. Each
+  // square contains the complete subject plus its real habitat, so the card
+  // frame no longer mixes portrait photos, transparent cut-outs and cropped
+  // specimens.
+  const unifiedCardAtlases=[
+    "assets/encyclopedia-cute-habitats-v2.png",
+    "assets/encyclopedia-cute-microbes-v2.png",
+    "assets/encyclopedia-cute-animals-v2.png"
+  ];
+  cards.forEach((item,index)=>{
+    item.atlasAsset=unifiedCardAtlases[Math.floor(index/12)];
+    item.atlasIndex=index%12;
+    item.atlasCols=4;
+    item.atlasRows=3;
+    delete item.image;
+  });
+
   const sources={
     "ency-beaver":["Smithsonian's National Zoo","https://nationalzoo.si.edu/animals/beaver"],"ency-red-fox":["Smithsonian's National Zoo","https://nationalzoo.si.edu/animals/red-fox"],"ency-panda":["Smithsonian's National Zoo","https://nationalzoo.si.edu/animals/giant-panda"],"ency-heron":["Cornell Lab of Ornithology","https://www.allaboutbirds.org/guide/Great_Blue_Heron/overview"],"ency-monarch":["U.S. Forest Service","https://www.fs.usda.gov/wildflowers/pollinators/Monarch_Butterfly/"],"ency-honeybee":["USDA ARS","https://www.ars.usda.gov/oc/br/ccd/index/"],"ency-green-turtle":["NOAA Fisheries","https://www.fisheries.noaa.gov/species/green-turtle"],"ency-octopus":["Smithsonian Ocean","https://ocean.si.edu/ocean-life/invertebrates/octopus"],"ency-axolotl":["Smithsonian National Museum of Natural History","https://www.si.edu/object/axolotl%3Anmnheducation_10025484"],"ency-gecko":["Smithsonian's National Zoo","https://nationalzoo.si.edu/animals/leopard-gecko"],"ency-barn-owl":["Cornell Lab of Ornithology","https://www.allaboutbirds.org/guide/Barn_Owl/overview"],"ency-sunflower":["U.S. National Park Service","https://www.nps.gov/arch/learn/nature/asteraceae_helianthus_annuus.htm"],
     "ency-mushroom":["Encyclopaedia Britannica","https://www.britannica.com/science/mushroom"],"ency-bread-mold":["Encyclopaedia Britannica","https://www.britannica.com/science/Rhizopus"],"ency-penicillium":["Encyclopaedia Britannica","https://www.britannica.com/science/Penicillium"],"ency-yeast":["Encyclopaedia Britannica","https://www.britannica.com/science/yeast-fungus"],"ency-lactobacillus":["NCBI Bookshelf","https://www.ncbi.nlm.nih.gov/books/NBK553081/"],"ency-streptococcus":["CDC Oral Health","https://www.cdc.gov/oral-health/about/cavities-tooth-decay.html"],"ency-ecoli":["CDC","https://www.cdc.gov/ecoli/about/index.html"],"ency-cyanobacterium":["Encyclopaedia Britannica","https://www.britannica.com/science/blue-green-algae"],"ency-phage":["NCBI Bookshelf","https://www.ncbi.nlm.nih.gov/books/NBK7689/"],"ency-influenza":["CDC","https://www.cdc.gov/flu/about/viruses/index.html"],"ency-adenovirus":["CDC","https://www.cdc.gov/adenovirus/about/index.html"],"ency-coronavirus":["CDC","https://www.cdc.gov/covid/about/index.html"],
