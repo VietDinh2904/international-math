@@ -70,7 +70,19 @@
   cards.forEach(item=>{
     const source=sources[item.id]||["Encyclopaedia Britannica","https://www.britannica.com/animal/animal"];
     item.sourceName=source[0];item.sourceUrl=source[1];
-    item.summary=item.summary||`${item.name} (${item.scientificName}) occurs in ${item.origin}. It lives in ${item.habitat} and gets energy from ${item.diet}. ${item.lifespan}. ${item.behavior}. It is ${String(item.activity||"active when conditions are suitable").toLowerCase()}. This short field record connects its body, behavior and habitat so young readers can see how the species meets its needs and interacts with its environment.`;
+    const group=item.kingdom==="Plantae"?"flowering plant":item.kingdom==="Fungi"?"fungus":item.kingdom==="Bacteria"?"bacterium":String(item.kingdom||"").startsWith("Viruses")?"virus":({Mammalia:"mammal",Aves:"bird",Reptilia:"reptile",Amphibia:"amphibian",Insecta:"insect",Cephalopoda:"mollusk",Chondrichthyes:"cartilaginous fish"}[item.className]||"living organism");
+    const finish=value=>/[.!?]$/.test(String(value||"").trim())?String(value).trim():`${String(value||"").trim()}.`;
+    item.introduction=[
+      finish(`${item.name} is a ${group}`),
+      finish(`Its scientific name is ${item.scientificName}`),
+      finish(`Its natural range or origin is ${item.origin}`),
+      finish(`Its habitat is ${item.habitat}`),
+      finish(group==="virus"?"It does not eat and can reproduce only by using a living host cell":`Its food or energy source is ${item.diet}`),
+      finish(`It behaves in this way: ${item.behavior}`),
+      finish(`Its life span or life cycle is described as follows: ${item.lifespan}`),
+      finish(item.fact)
+    ];
+    item.summary=item.introduction.join(" ");
   });
 
   const gems=[
