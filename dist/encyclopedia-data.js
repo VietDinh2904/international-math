@@ -220,16 +220,60 @@
     item.sourceName=source[0];item.sourceUrl=source[1];
     const group=item.group||(item.kingdom==="Plantae"?(item.className==="Pinopsida"?"conifer":item.className==="Polypodiopsida"?"fern":item.phylum==="Bryophyta"?"moss":"flowering plant"):item.kingdom==="Fungi"?"fungus":item.kingdom==="Bacteria"?"bacterium":String(item.kingdom||"").startsWith("Viruses")?"virus":({Mammalia:"mammal",Aves:"bird",Reptilia:"reptile",Amphibia:"amphibian",Insecta:"insect",Cephalopoda:"mollusk",Chondrichthyes:"cartilaginous fish",Malacostraca:"crustacean",Thecostraca:"crustacean"}[item.className]||"living organism"));
     const finish=value=>/[.!?]$/.test(String(value||"").trim())?String(value).trim():`${String(value||"").trim()}.`;
-    item.introduction=Array.isArray(item.storySentences)?item.storySentences.slice(0,8):[
-      finish(`${item.name} is a ${group}`),
-      finish(`Its scientific name is ${item.scientificName}`),
-      finish(`Its natural range or origin is ${item.origin}`),
-      finish(`Its habitat is ${item.habitat}`),
-      finish(group==="virus"?"It does not eat and can reproduce only by using a living host cell":`Its food or energy source is ${item.diet}`),
-      finish(`It behaves in this way: ${item.behavior}`),
-      finish(`Its life span or life cycle is described as follows: ${item.lifespan}`),
-      finish(item.fact)
-    ];
+    const lowerFirst=value=>{const text=String(value||"").trim();return text?text[0].toLowerCase()+text.slice(1):text};
+    if(!Array.isArray(item.storySentences)){
+      if(item.kingdom==="Plantae")item.storySentences=[
+        finish(`Picture ${lowerFirst(item.habitat)}; this is where the story of ${item.name} unfolds`),
+        finish(`Scientists call it ${item.scientificName} and classify it as a ${group}`),
+        finish(`Its range or origin is recorded as: ${item.origin}`),
+        finish(`Sunlight powers the plant, and its energy strategy is: ${lowerFirst(item.diet)}`),
+        finish(`A season of observation reveals this behavior: ${lowerFirst(item.behavior)}`),
+        finish(`Its daily and seasonal rhythm is recorded as: ${lowerFirst(item.activity)}`),
+        finish(`Its life cycle is described this way: ${lowerFirst(item.lifespan)}`),
+        finish(`The clue young botanists often remember is this: ${lowerFirst(item.fact)}`)
+      ];
+      else if(group==="virus")item.storySentences=[
+        finish(`Imagine looking far beyond the power of an ordinary microscope to meet ${item.name}`),
+        finish(`Scientists call it ${item.scientificName} and classify it as a virus`),
+        finish(`Its known range or origin is recorded as: ${lowerFirst(item.origin)}`),
+        finish(`Its habitat is not a forest or pond but ${lowerFirst(item.habitat)}`),
+        finish(`It does not eat or make its own energy and can reproduce only by using a living host cell`),
+        finish(`Inside a suitable host, this behavior appears: ${lowerFirst(item.behavior)}`),
+        finish(`Its activity and life cycle follow this pattern: ${lowerFirst(item.activity)}; ${lowerFirst(item.lifespan)}`),
+        finish(`The scientific detail to remember is this: ${lowerFirst(item.fact)}`)
+      ];
+      else if(item.collection==="microscopic"||item.kingdom==="Bacteria")item.storySentences=[
+        finish(`Shrink down to the scale of a microscope and enter ${lowerFirst(item.habitat)}, where ${item.name} can be found`),
+        finish(`Scientists call it ${item.scientificName} and classify it as a ${group}`),
+        finish(`Its wider range or origin is recorded as: ${lowerFirst(item.origin)}`),
+        finish(`To obtain energy, it uses ${lowerFirst(item.diet)}`),
+        finish(`Watch closely and its way of life becomes visible: ${lowerFirst(item.behavior)}`),
+        finish(`Its active rhythm depends on these conditions: ${lowerFirst(item.activity)}`),
+        finish(`Its life cycle continues like this: ${lowerFirst(item.lifespan)}`),
+        finish(`The microscopic clue to remember is this: ${lowerFirst(item.fact)}`)
+      ];
+      else if(item.kingdom==="Fungi")item.storySentences=[
+        finish(`Step into ${lowerFirst(item.habitat)} and look carefully for ${item.name}`),
+        finish(`Scientists call it ${item.scientificName} and classify it as a ${group}`),
+        finish(`Its natural range or origin is recorded as: ${lowerFirst(item.origin)}`),
+        finish(`Unlike a green plant, its feeding strategy is: ${lowerFirst(item.diet)}`),
+        finish(`Its hidden and visible parts work together in this way: ${lowerFirst(item.behavior)}`),
+        finish(`Its active rhythm follows these conditions: ${lowerFirst(item.activity)}`),
+        finish(`Its life cycle continues like this: ${lowerFirst(item.lifespan)}`),
+        finish(`The fungal clue to remember is this: ${lowerFirst(item.fact)}`)
+      ];
+      else item.storySentences=[
+        finish(`Imagine quietly entering ${lowerFirst(item.habitat)}; this is the world of ${item.name}`),
+        finish(`Scientists call it ${item.scientificName} and classify it as a ${group}`),
+        finish(`Its natural range or origin is ${item.origin}`),
+        finish(`At mealtime, its diet may include: ${lowerFirst(item.diet)}`),
+        finish(`Stay patient and you may observe this behavior: ${lowerFirst(item.behavior)}`),
+        finish(`Its daily rhythm is recorded as: ${lowerFirst(item.activity)}`),
+        finish(`Its life story is described this way: ${lowerFirst(item.lifespan)}`),
+        finish(`The detail many young naturalists remember is this: ${lowerFirst(item.fact)}`)
+      ];
+    }
+    item.introduction=item.storySentences.slice(0,8);
     item.summary=item.introduction.join(" ");
   });
 
