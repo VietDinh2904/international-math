@@ -1,4 +1,4 @@
-name: Deploy SMC practice to GitHub Pages
+name: Deploy Daily Science Lab to GitHub Pages
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
