@@ -13,7 +13,7 @@ body {
   position: relative; margin: 0; min-width: 320px; color: var(--ink);
   background:
     linear-gradient(rgba(245,248,242,.68),rgba(245,248,242,.78)),
-    url("assets/theme-field-atlas-safari-clean.png") center 18%/cover fixed no-repeat,
+    url("assets/theme-field-atlas-safari-clean.png") center 76px/480px auto fixed repeat,
     var(--paper);
   font-family: var(--font-ui); font-size: 16px; line-height: 1.55;
   font-optical-sizing: auto; text-rendering: optimizeLegibility;
@@ -175,8 +175,25 @@ img { display: block; max-width: 100%; }
 .record-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px 22px; margin: 24px 0 0; }
 .record-grid div { min-width: 0; }
 .record-grid small,.record-grid strong { display: block; } .record-grid small { color: var(--muted); font-size: .72rem; font-weight: 900; } .record-grid strong { margin-top: 3px; font-size: .88rem; overflow-wrap: anywhere; }
-@media (max-width:1080px) { .app-shell { grid-template-columns:270px minmax(0,1fr); } .lesson-grid { grid-template-columns:1fr; } .guide-sticky { position:static; display:grid; grid-template-columns:minmax(280px,.9fr) 1.1fr; } .media-frame { height:100%; min-height:390px; aspect-ratio:auto; } }
+@media (max-width:1366px) and (min-width:781px) {
+  .app-shell { grid-template-columns:250px minmax(0,1fr); }
+  .curriculum-panel { padding-inline:16px; }
+  .lesson-workspace { padding:22px 24px 64px; }
+  .week-hero { min-height:270px; padding:34px; }
+  .week-hero h2 { font-size:clamp(2.5rem,4.4vw,4.15rem); }
+  .week-progress-ring { flex-basis:100px; }
+  .lesson-grid { grid-template-columns:minmax(0,1.28fr) minmax(280px,.72fr); gap:28px; }
+  .reading-column { padding:34px; }
+  .guide-copy { padding:24px; }
+}
+@media (max-width:1080px) {
+  .app-shell { grid-template-columns:240px minmax(0,1fr); }
+  .lesson-grid { grid-template-columns:1fr; }
+  .guide-sticky { position:static; display:grid; grid-template-columns:minmax(280px,.9fr) minmax(0,1.1fr); align-items:start; }
+  .media-frame { height:auto; min-height:0; aspect-ratio:4/3; }
+}
 @media (max-width:780px) {
+  body { background-size:auto, 390px auto; }
   .app-shell { display:block; } .topbar { min-height:68px; padding:10px 14px; } .brand small { display:none; } .mobile-menu-button { display:inline-block; } .cards-mode .mobile-menu-button { display:none; } .mode-switch { position:fixed; z-index:24; left:50%; bottom:14px; transform:translateX(-50%); box-shadow:0 10px 30px rgba(13,48,47,.24); } .mode-switch button { min-width:112px; }
   .curriculum-panel { position:fixed; z-index:25; top:68px; left:0; width:min(88vw,340px); height:calc(100vh - 68px); transform:translateX(-105%); transition:transform .25s ease; box-shadow:20px 0 50px rgba(15,47,46,.22); } .curriculum-panel.open { transform:translateX(0); }
   .lesson-workspace { padding:18px 14px 50px; } .week-hero { min-height:310px; align-items:end; padding:24px; } .week-progress-ring { position:absolute; right:18px; top:18px; width:82px; } .week-progress-ring strong { font-size:1.3rem; } .week-progress-ring span { font-size:.52rem; } .week-hero-copy { padding-top:64px; }
