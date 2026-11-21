@@ -202,6 +202,7 @@
     const firstWord = day.words?.[0]?.en || "key detail", story = state.vietnamese ? (day.vi||day.story) : day.story;
     const first = String(story||"").split(/[.!?]/).filter(Boolean), question = firstQuestion(day).value;
     $("guideImage").src = dayImage(week,day); $("guideImage").alt = `Illustration for ${dayTitle(day)} in ${week.title}`;
+    $("mediaCaptionDay").textContent = `Day ${day.day}`; $("mediaCaptionTitle").textContent = dayTitle(day);
     const steps = [
       ["Observe","Look closely at the image. What system, organism or material do you notice?"],
       ["Name",`Find “${firstWord}” in the reading and connect it to the illustration.`],
