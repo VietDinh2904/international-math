@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#e9f2ef">
   <meta name="description" content="Daily Science Lab — a focused Grade 1–6 science reading app based on the Daily Science curriculum.">
   <title>Daily Science Lab</title>
-  <link rel="stylesheet" href="science-mvp.css?v=20261121-1">
+  <link rel="stylesheet" href="science-mvp.css?v=20261121-2">
 </head>
 <body>
   <a class="skip-link" href="#lessonContent">Skip to the lesson</a>
@@ -16,6 +16,10 @@
         <span class="brand-mark" aria-hidden="true">D</span>
         <span><strong>Daily Science Lab</strong><small>Read · observe · explain</small></span>
       </a>
+      <nav class="mode-switch" aria-label="Choose an area">
+        <button class="active" id="lessonModeButton" type="button" aria-pressed="true">Lessons</button>
+        <button id="cardModeButton" type="button" aria-pressed="false">Species cards</button>
+      </nav>
       <div class="topbar-actions">
         <button class="language-button" id="languageButton" type="button" aria-pressed="false">EN <span>→</span> VI</button>
         <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="curriculumPanel">Curriculum</button>
@@ -89,7 +93,33 @@
         <button id="nextDayButton" type="button">Continue</button>
       </section>
     </main>
+
+    <main class="card-workspace" id="cardWorkspace" hidden>
+      <section class="card-atlas-hero">
+        <div>
+          <p class="atlas-kicker">Field atlas</p>
+          <h1>Meet the living world</h1>
+          <p>Collect reliable, child-friendly science records. Each card connects an organism to its habitat, food and role in nature.</p>
+        </div>
+        <div class="atlas-totals" id="atlasTotals"></div>
+      </section>
+
+      <section class="card-library" aria-labelledby="cardLibraryTitle">
+        <header class="card-library-heading">
+          <div><h2 id="cardLibraryTitle">Species card library</h2><p>Choose a group, then open a card to read its field record.</p></div>
+          <label for="cardSearch"><span>Find a species</span><input id="cardSearch" type="search" placeholder="Beaver, sunflower, bacteria…" autocomplete="off"></label>
+        </header>
+        <div class="card-filters" id="cardFilters" role="group" aria-label="Filter species cards"></div>
+        <div class="species-card-grid" id="speciesCardGrid"></div>
+        <p class="card-empty" id="cardEmpty" hidden>No cards match this search. Try another name or group.</p>
+      </section>
+    </main>
   </div>
+
+  <dialog class="species-dialog" id="speciesDialog" aria-labelledby="speciesDialogTitle">
+    <button class="dialog-close" id="speciesDialogClose" type="button" aria-label="Close species record">×</button>
+    <div id="speciesDialogContent"></div>
+  </dialog>
 
   <script src="science-expansion.js"></script>
   <script src="science-full-curriculum.js"></script>
@@ -99,6 +129,6 @@
   <script src="science-primary-vi.js"></script>
   <script src="encyclopedia-data.js"></script>
   <script src="science-discovery.js"></script>
-  <script src="science-mvp.js?v=20261121-1"></script>
+  <script src="science-mvp.js?v=20261121-2"></script>
 </body>
 </html>

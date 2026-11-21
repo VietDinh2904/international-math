@@ -7,7 +7,9 @@
     weekKey: localStorage.getItem("dailyScienceWeek") || "",
     day: Number(localStorage.getItem("dailyScienceDay")) || 1,
     vietnamese: localStorage.getItem("dailyScienceLanguage") === "vi",
-    query: "", answered: {}
+    query: "", answered: {},
+    view: localStorage.getItem("dailyScienceView") === "cards" ? "cards" : "lessons",
+    cardFilter: "all", cardQuery: ""
   };
   const progress = JSON.parse(localStorage.getItem("dailyScienceMvpProgressV1") || "{}");
   window.ScienceBooks?.bindWeeks?.(window.ScienceExpansion?.weeks || {});
@@ -103,6 +105,7 @@
     localStorage.setItem("dailyScienceWeek", state.weekKey);
     localStorage.setItem("dailyScienceDay", String(state.day));
     localStorage.setItem("dailyScienceLanguage", state.vietnamese ? "vi" : "en");
+    localStorage.setItem("dailyScienceView", state.view);
     localStorage.setItem("dailyScienceMvpProgressV1", JSON.stringify(progress));
   }
   function ensureSelection() {
@@ -223,14 +226,60 @@
     $("nextDayButton").onclick=()=>{state.day=next?next.day:1;saveState();render();scrollTo({top:0,behavior:"smooth"});};
     $("completeDayButton").onclick=()=>{progress[dayKey(week,day.day)]=!completed;saveState();render();$("saveNote").textContent=progress[dayKey(week,day.day)]?"Progress saved.":"Completion removed.";};
   }
+  const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  const cardGroup = card => {
+    if (card.collection === "plant" || card.attribute === "plant") return "plants";
+    if (["microscopic","fungus"].includes(card.collection) || ["bacterium","virus","fungus"].includes(card.attribute)) return "micro";
+    return "animals";
+  };
+  const rarity = card => Number(card.rarityStars) || (String(card.id).split("").reduce((sum,char)=>sum+char.charCodeAt(0),0)%5)+1;
+  function atlasStyle(card) {
+    const cols=Number(card.atlasCols)||1, rows=Number(card.atlasRows)||1, index=Number(card.atlasIndex)||0;
+    const column=index%cols, row=Math.floor(index/cols)%rows;
+    const x=cols>1?column/(cols-1)*100:50, y=rows>1?row/(rows-1)*100:50;
+    return `background-image:url('${card.atlasAsset}');background-size:${cols*100}% ${rows*100}%;background-position:${x}% ${y}%`;
+  }
+  function renderCardLibrary() {
+    const cards=window.EncyclopediaData?.cards||[], groups={all:"All cards",animals:"Animals",plants:"Plants",micro:"Microscopic life"};
+    const counts={animals:cards.filter(card=>cardGroup(card)==="animals").length,plants:cards.filter(card=>cardGroup(card)==="plants").length,micro:cards.filter(card=>cardGroup(card)==="micro").length};
+    $("atlasTotals").innerHTML=`<div class="atlas-total"><strong>${cards.length}</strong><span>species records</span></div><div class="atlas-total"><strong>${counts.plants+counts.micro}</strong><span>plants & microbes</span></div>`;
+    $("cardFilters").innerHTML=Object.entries(groups).map(([key,label])=>`<button class="card-filter ${state.cardFilter===key?"active":""}" type="button" data-card-filter="${key}">${label}${key==="all"?` · ${cards.length}`:` · ${counts[key]}`}</button>`).join("");
+    $("cardFilters").querySelectorAll("[data-card-filter]").forEach(button=>button.onclick=()=>{state.cardFilter=button.dataset.cardFilter;renderCardLibrary();});
+    const query=normalize(state.cardQuery), visible=cards.filter(card=>(state.cardFilter==="all"||cardGroup(card)===state.cardFilter)&&(!query||normalize(`${card.name} ${card.scientificName} ${card.habitat}`).includes(query)));
+    $("speciesCardGrid").innerHTML=visible.map(card=>{
+      const stars=rarity(card);
+      return `<button class="species-card" type="button" data-species-id="${escapeHtml(card.id)}"><span class="species-art" style="${atlasStyle(card)}" role="img" aria-label="${escapeHtml(card.name)} in its habitat"></span><span class="species-card-copy"><h3>${escapeHtml(card.name)}</h3><em>${escapeHtml(card.scientificName)}</em><span class="species-card-meta"><span>${escapeHtml(cardGroup(card)==="micro"?card.attribute:card.habitat?.split(",")[0]||card.attribute)}</span><span class="species-stars" aria-label="${stars} field stars">${"★".repeat(stars)}${"☆".repeat(5-stars)}</span></span></span></button>`;
+    }).join("");
+    $("cardEmpty").hidden=visible.length>0;
+    $("speciesCardGrid").querySelectorAll("[data-species-id]").forEach(button=>button.onclick=()=>openSpeciesRecord(cards.find(card=>card.id===button.dataset.speciesId)));
+  }
+  function openSpeciesRecord(card) {
+    if(!card)return;
+    const fields=[["Habitat",card.habitat],["Diet",card.diet],["Origin",card.origin],["Activity",card.activity],["Behavior",card.behavior],["Lifespan",card.lifespan]];
+    $("speciesDialogContent").innerHTML=`<article class="species-record"><div class="species-record-art" style="${atlasStyle(card)}" role="img" aria-label="${escapeHtml(card.name)} habitat illustration"></div><div class="species-record-copy"><p class="record-type">${escapeHtml(cardGroup(card))} · ${rarity(card)} field stars</p><h2 id="speciesDialogTitle">${escapeHtml(card.name)}</h2><em class="record-scientific">${escapeHtml(card.scientificName)}</em><p class="record-fact">${escapeHtml(card.summary||card.fact||"Open this field record to learn how the species lives.")}</p><div class="record-grid">${fields.filter(([,value])=>value).map(([label,value])=>`<div><small>${label}</small><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></div></article>`;
+    $("speciesDialog").showModal();
+  }
+  function renderMode() {
+    const cards=state.view==="cards";
+    document.querySelector(".app-shell").classList.toggle("cards-mode",cards);
+    $("lessonContent").hidden=cards; $("cardWorkspace").hidden=!cards;
+    $("lessonModeButton").classList.toggle("active",!cards); $("lessonModeButton").setAttribute("aria-pressed",String(!cards));
+    $("cardModeButton").classList.toggle("active",cards); $("cardModeButton").setAttribute("aria-pressed",String(cards));
+    if(cards)renderCardLibrary();
+  }
   function render() {
     ensureSelection(); document.documentElement.lang=state.vietnamese?"vi":"en";
     $("languageButton").setAttribute("aria-pressed",String(state.vietnamese)); $("languageButton").innerHTML=state.vietnamese?`VI <span>→</span> EN`:`EN <span>→</span> VI`;
-    renderGradePicker(); renderWeekList(); renderProgress(); renderLesson();
+    renderGradePicker(); renderWeekList(); renderProgress(); renderLesson(); renderMode();
   }
   $("languageButton").onclick=()=>{state.vietnamese=!state.vietnamese;saveState();render();};
   $("weekSearch").oninput=event=>{state.query=event.target.value;renderWeekList();};
   $("mobileMenuButton").onclick=()=>{const open=$("curriculumPanel").classList.toggle("open");$("mobileMenuButton").setAttribute("aria-expanded",String(open));};
+  $("lessonModeButton").onclick=()=>{state.view="lessons";saveState();renderMode();scrollTo({top:0,behavior:"smooth"});};
+  $("cardModeButton").onclick=()=>{state.view="cards";saveState();renderMode();scrollTo({top:0,behavior:"smooth"});};
+  $("cardSearch").oninput=event=>{state.cardQuery=event.target.value;renderCardLibrary();};
+  $("speciesDialogClose").onclick=()=>$("speciesDialog").close();
+  $("speciesDialog").onclick=event=>{if(event.target===$("speciesDialog"))$("speciesDialog").close();};
   addEventListener("keydown",event=>{if(event.key==="Escape"){$("curriculumPanel").classList.remove("open");$("mobileMenuButton").setAttribute("aria-expanded","false");}});
   render();
 })();
