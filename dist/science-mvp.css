@@ -8,14 +8,17 @@
 html { scroll-behavior: smooth; }
 body {
   position: relative; margin: 0; min-width: 320px; color: var(--ink);
-  background: linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)), repeating-linear-gradient(0deg,transparent 0 31px,rgba(45,111,112,.055) 31px 32px), var(--paper);
+  background:
+    linear-gradient(rgba(245,248,242,.68),rgba(245,248,242,.78)),
+    url("assets/theme-field-atlas-safari-clean.png") center 18%/cover fixed no-repeat,
+    var(--paper);
   font-family: Aptos, "Trebuchet MS", system-ui, sans-serif; font-size: 16px; line-height: 1.55;
 }
 [hidden] { display: none !important; }
 body::before {
-  content: ""; position: fixed; z-index: -1; inset: 76px 0 0 auto; width: min(32vw,430px);
-  background: linear-gradient(90deg,rgba(245,248,244,1),rgba(245,248,244,.72)), url("assets/theme-field-atlas-safari-clean.png") center/cover no-repeat;
-  opacity: .18; pointer-events: none; filter: saturate(.75);
+  content: ""; position: fixed; z-index: 0; inset: 76px 0 0;
+  background: repeating-linear-gradient(0deg,transparent 0 31px,rgba(45,111,112,.07) 31px 32px);
+  pointer-events: none;
 }
 button, input { font: inherit; } button { color: inherit; }
 button:focus-visible, input:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
@@ -23,7 +26,7 @@ img { display: block; max-width: 100%; }
 .skip-link { position: fixed; z-index: 100; left: 16px; top: -80px; padding: 10px 14px; background: var(--ink); color: white; border-radius: 8px; }
 .skip-link:focus { top: 16px; }
 .eyebrow { margin: 0 0 6px; color: var(--mineral); font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.app-shell { min-height: 100vh; display: grid; grid-template-columns: 310px minmax(0,1fr); grid-template-rows: 76px 1fr; }
+.app-shell { position: relative; z-index: 1; min-height: 100vh; display: grid; grid-template-columns: 310px minmax(0,1fr); grid-template-rows: 76px 1fr; }
 .topbar { position: sticky; z-index: 30; top: 0; grid-column: 1/-1; display: flex; align-items: center; justify-content: space-between; min-height: 76px; padding: 12px 26px; border-bottom: 1px solid var(--line); background: rgba(247,250,247,.94); backdrop-filter: blur(18px); }
 .brand { display: inline-flex; gap: 12px; align-items: center; color: inherit; text-decoration: none; }
 .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; color: white; background: var(--mineral-dark); border-radius: 50% 50% 46% 54%; font: 700 1.7rem Georgia,serif; box-shadow: inset 0 0 0 4px rgba(255,255,255,.2); }
