@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&amp;family=Literata:opsz,wght@7..72,400;7..72,600&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="science-mvp.css?v=20261121-5">
+  <link rel="stylesheet" href="science-mvp.css?v=20261121-7">
 </head>
 <body>
   <a class="skip-link" href="#lessonContent">Skip to the lesson</a>
@@ -21,6 +21,7 @@
       </a>
       <nav class="mode-switch" aria-label="Choose an area">
         <button class="active" id="lessonModeButton" type="button" aria-pressed="true">Lessons</button>
+        <button id="gameModeButton" type="button" aria-pressed="false">Science games</button>
         <button id="cardModeButton" type="button" aria-pressed="false">Species cards</button>
       </nav>
       <div class="topbar-actions">
@@ -121,6 +122,28 @@
         <p class="card-empty" id="cardEmpty" hidden>No cards match this search. Try another name or group.</p>
       </section>
     </main>
+
+    <main class="game-workspace" id="gameWorkspace" hidden>
+      <section class="game-hero" id="gameHero">
+        <div>
+          <p class="game-kicker">Play the science</p>
+          <h1 id="gameWeekTitle">Science Games</h1>
+          <p id="gameWeekIntro"></p>
+          <div class="game-hero-meta" id="gameHeroMeta"></div>
+        </div>
+        <div class="game-badge"><strong>4</strong><span>mini games</span></div>
+      </section>
+      <section class="game-lab" aria-labelledby="gameLabTitle">
+        <header class="game-lab-heading"><div><p class="eyebrow">This week's game lab</p><h2 id="gameLabTitle">Choose a mission</h2></div><p>Each game takes about 2–4 minutes and uses evidence from the selected Daily Science week.</p></header>
+        <div class="game-layout">
+          <nav class="game-menu" id="gameMenu" aria-label="Science game types"></nav>
+          <section class="game-console" aria-live="polite">
+            <header><p class="eyebrow" id="gameStageType"></p><h2 id="gameStageTitle"></h2><p id="gameStageIntro"></p></header>
+            <div class="game-stage" id="gameStage"></div>
+          </section>
+        </div>
+      </section>
+    </main>
   </div>
 
   <dialog class="species-dialog" id="speciesDialog" aria-labelledby="speciesDialogTitle">
@@ -136,6 +159,6 @@
   <script src="science-primary-vi.js"></script>
   <script src="encyclopedia-data.js"></script>
   <script src="science-discovery.js"></script>
-  <script src="science-mvp.js?v=20261121-4"></script>
+  <script src="science-mvp.js?v=20261121-7"></script>
 </body>
 </html>

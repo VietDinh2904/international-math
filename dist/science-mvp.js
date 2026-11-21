@@ -8,8 +8,8 @@
     day: Number(localStorage.getItem("dailyScienceDay")) || 1,
     vietnamese: localStorage.getItem("dailyScienceLanguage") === "vi",
     query: "", answered: {},
-    view: localStorage.getItem("dailyScienceView") === "cards" ? "cards" : "lessons",
-    cardFilter: "all", cardQuery: ""
+    view: ["cards","games"].includes(localStorage.getItem("dailyScienceView")) ? localStorage.getItem("dailyScienceView") : "lessons",
+    cardFilter: "all", cardQuery: "", gameType: "match", gameSession: null
   };
   const progress = JSON.parse(localStorage.getItem("dailyScienceMvpProgressV1") || "{}");
   window.ScienceBooks?.bindWeeks?.(window.ScienceExpansion?.weeks || {});
@@ -180,6 +180,83 @@
     return {kind:"reflection",value:{prompt:"What is one piece of evidence you learned today?"}};
   }
   const formatBookPrompt = prompt => String(prompt || "").replace(/\s+(?=\d+\.\s)/g,"\n");
+  const numberedParts = prompt => {
+    const parts = [];
+    String(prompt || "").replace(/(?:^|\s)(\d+)\.\s*([\s\S]*?)(?=\s+\d+\.\s|$)/g,(_,number,text) => {
+      parts.push({number:Number(number),text:text.trim()}); return _;
+    });
+    return parts;
+  };
+  const answerMap = (answer, values) => {
+    const found = {};
+    const pattern = new RegExp(`(\\d+)\\.\\s*(${values.join("|")})`,"gi");
+    String(answer || "").replace(pattern,(_,number,value) => { found[Number(number)] = value.toLowerCase(); return _; });
+    return found;
+  };
+  const matchingActivity = question => {
+    const prompt = String(question.prompt || ""), answer = String(question.answer || "");
+    if (!/(match|draw (?:a )?line|draw lines)/i.test(prompt) || !/(?:match:|lines to match:)/i.test(answer)) return null;
+    const pairText = (answer.match(/(?:match:|lines to match:)\s*([^)]*)/i) || [])[1];
+    if (!pairText) return null;
+    const pairs = pairText.split(",").map(pair => pair.split("/").map(item => item.replace(/[^a-zA-ZÀ-ỹ -]/g,"").trim())).filter(pair => pair.length===2 && pair[0] && pair[1]);
+    if (pairs.length < 2) return null;
+    const first = numberedParts(prompt)[0]?.text || prompt;
+    const instruction = (first.match(/^.*?\.(?:\s|$)/) || [first])[0].trim();
+    const orderByPrompt = items => [...items].sort((a,b) => {
+      const ai=prompt.toLowerCase().indexOf(a.toLowerCase()), bi=prompt.toLowerCase().indexOf(b.toLowerCase());
+      return (ai<0?9999:ai)-(bi<0?9999:bi);
+    });
+    const left = orderByPrompt(pairs.map(pair=>pair[0]));
+    const right = orderByPrompt(pairs.map(pair=>pair[1]));
+    const correct = left.map(item => right.findIndex(target => target.toLowerCase()===pairs.find(pair=>pair[0].toLowerCase()===item.toLowerCase())?.[1].toLowerCase()));
+    return {instruction,left,right,correct};
+  };
+  const trueFalseActivity = question => {
+    const prompt = String(question.prompt || "");
+    if (!/(write|mark|choose)\s+(?:each\s+statement\s+)?true\s+or\s+false/i.test(prompt)) return null;
+    const parts = numberedParts(prompt), answers = answerMap(question.answer,["true","false"]);
+    if (parts.length < 2 || Object.keys(answers).length < 2) return null;
+    const firstNumber = prompt.search(/(?:^|\s)1\.\s/);
+    return {instruction:prompt.slice(0,firstNumber).trim(),statements:parts.map(part=>part.text),correct:parts.map(part=>answers[part.number]==="true")};
+  };
+  let matchingResizeObserver;
+  function drawMatchingLines(board, matches, correct, checked) {
+    const svg=board?.querySelector(".matching-lines"); if(!svg)return;
+    const box=board.getBoundingClientRect(); svg.setAttribute("viewBox",`0 0 ${box.width} ${box.height}`); svg.innerHTML="";
+    Object.entries(matches || {}).forEach(([leftIndex,rightIndex])=>{
+      const left=board.querySelector(`[data-match-left="${leftIndex}"]`), right=board.querySelector(`[data-match-right="${rightIndex}"]`);
+      if(!left||!right)return;
+      const a=left.getBoundingClientRect(), b=right.getBoundingClientRect(), line=document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",a.right-box.left); line.setAttribute("y1",a.top+a.height/2-box.top);
+      line.setAttribute("x2",b.left-box.left); line.setAttribute("y2",b.top+b.height/2-box.top);
+      line.setAttribute("class",checked ? (correct[Number(leftIndex)]===Number(rightIndex)?"correct":"wrong") : "pending");
+      svg.appendChild(line);
+    });
+  }
+  function renderMatchingQuestion(question, key, saved) {
+    const activity=matchingActivity(question); if(!activity)return false;
+    const work=saved && typeof saved==="object" && saved.type==="matching" ? saved : {type:"matching",matches:{},selected:null,checked:false,fill:"",fillChecked:false};
+    state.answered[key]=work;
+    const second=numberedParts(question.prompt)[1], fillAnswer=(String(question.answer||"").match(/(?:^|\s)2\.\s*([a-zA-ZÀ-ỹ -]+?)(?=\s+\d+\.|$)/)||[])[1]?.trim();
+    const matchedCount=Object.keys(work.matches).length, correctCount=Object.entries(work.matches).filter(([left,right])=>activity.correct[Number(left)]===Number(right)).length;
+    $("questionArea").innerHTML=`<div class="question-card interactive-book-card"><p class="activity-label">1 · MATCH</p><h4>${escapeHtml(activity.instruction)}</h4><p class="activity-hint">Select one item on the left, then its match on the right. A straight line will join them.</p><div class="matching-board"><svg class="matching-lines" aria-hidden="true"></svg><div class="matching-column">${activity.left.map((item,index)=>`<button type="button" class="match-item ${work.selected===index?"selected":""}" data-match-left="${index}" aria-pressed="${work.selected===index}">${escapeHtml(item)}<span class="match-port" aria-hidden="true"></span></button>`).join("")}</div><div class="matching-column matching-column-right">${activity.right.map((item,index)=>`<button type="button" class="match-item" data-match-right="${index}"><span class="match-port" aria-hidden="true"></span>${escapeHtml(item)}</button>`).join("")}</div></div><div class="activity-actions"><button class="secondary-action" type="button" id="resetMatches">Reset</button><button class="book-answer-button" type="button" id="checkMatches">Check matches</button></div>${work.checked?`<div class="answer-reveal ${correctCount===activity.left.length?"good":""}" role="status"><strong>${correctCount}/${activity.left.length} correct.</strong> ${correctCount===activity.left.length?"Great work—every habitat is matched.":"Look back at the reading, then change the lines that do not fit."}</div>`:""}${second&&fillAnswer?`<div class="fill-activity"><p class="activity-label">2 · COMPLETE</p><h4>${escapeHtml(second.text)}</h4><div class="fill-answer-row"><label><span>Your answer</span><input id="bookFillInput" value="${escapeHtml(work.fill)}" autocomplete="off" spellcheck="false"></label><button class="book-answer-button" type="button" id="checkFill">Check</button></div>${work.fillChecked?`<div class="answer-reveal ${normalize(work.fill)===normalize(fillAnswer)?"good":""}" role="status">${normalize(work.fill)===normalize(fillAnswer)?"Correct!":"Try again. Find the key word in the reading."}</div>`:""}</div>`:""}</div>`;
+    const board=$("questionArea").querySelector(".matching-board"), redraw=()=>drawMatchingLines(board,work.matches,activity.correct,work.checked);
+    requestAnimationFrame(redraw); matchingResizeObserver?.disconnect(); matchingResizeObserver=new ResizeObserver(redraw); matchingResizeObserver.observe(board);
+    board.querySelectorAll("[data-match-left]").forEach(button=>button.onclick=()=>{work.selected=Number(button.dataset.matchLeft);work.checked=false;renderMatchingQuestion(question,key,work);});
+    board.querySelectorAll("[data-match-right]").forEach(button=>button.onclick=()=>{if(work.selected===null)return;Object.keys(work.matches).forEach(left=>{if(work.matches[left]===Number(button.dataset.matchRight))delete work.matches[left];});work.matches[work.selected]=Number(button.dataset.matchRight);work.selected=null;work.checked=false;renderMatchingQuestion(question,key,work);});
+    $("resetMatches").onclick=()=>{work.matches={};work.selected=null;work.checked=false;renderMatchingQuestion(question,key,work);};
+    $("checkMatches").onclick=()=>{work.checked=true;renderMatchingQuestion(question,key,work);};
+    if($("bookFillInput")){$("bookFillInput").oninput=event=>{work.fill=event.target.value;work.fillChecked=false;};$("checkFill").onclick=()=>{work.fill=$("bookFillInput").value;work.fillChecked=true;renderMatchingQuestion(question,key,work);};}
+    return true;
+  }
+  function renderTrueFalseQuestion(question, key, saved) {
+    const activity=trueFalseActivity(question); if(!activity)return false;
+    const work=saved && typeof saved==="object" && saved.type==="truefalse" ? saved : {type:"truefalse",marks:{},checked:false}; state.answered[key]=work;
+    const correctCount=activity.correct.filter((answer,index)=>work.marks[index]===answer).length;
+    $("questionArea").innerHTML=`<div class="question-card interactive-book-card"><p class="activity-label">${escapeHtml(question.label||"A")} · TRUE / FALSE</p><h4>${escapeHtml(activity.instruction)}</h4><div class="tf-list">${activity.statements.map((statement,index)=>`<div class="tf-row ${work.checked?(work.marks[index]===activity.correct[index]?"correct":"wrong"):""}"><p><span>${index+1}</span>${escapeHtml(statement)}</p><div class="tf-marks" role="group" aria-label="Statement ${index+1}"><button type="button" data-tf-index="${index}" data-tf-value="true" aria-pressed="${work.marks[index]===true}" class="${work.marks[index]===true?"selected":""}"><b>T</b><small>True</small></button><button type="button" data-tf-index="${index}" data-tf-value="false" aria-pressed="${work.marks[index]===false}" class="${work.marks[index]===false?"selected":""}"><b>F</b><small>False</small></button></div></div>`).join("")}</div><button class="book-answer-button" type="button" id="checkTrueFalse">Check answers</button>${work.checked?`<div class="answer-reveal ${correctCount===activity.statements.length?"good":""}" role="status"><strong>${correctCount}/${activity.statements.length} correct.</strong> ${correctCount===activity.statements.length?"You found all the evidence.":"Reread the passage and change the marked boxes that need another answer."}</div>`:""}</div>`;
+    $("questionArea").querySelectorAll("[data-tf-index]").forEach(button=>button.onclick=()=>{work.marks[Number(button.dataset.tfIndex)]=button.dataset.tfValue==="true";work.checked=false;renderTrueFalseQuestion(question,key,work);});
+    $("checkTrueFalse").onclick=()=>{work.checked=true;renderTrueFalseQuestion(question,key,work);}; return true;
+  }
   function renderQuestion(week, day) {
     const entry = firstQuestion(day), key = `${dayKey(week,day.day)}-q1`, saved = state.answered[key];
     if (entry.kind === "interactive") {
@@ -192,6 +269,8 @@
     }
     if (entry.kind === "book") {
       const q = entry.value;
+      if(!state.vietnamese && renderMatchingQuestion(q,key,saved))return;
+      if(!state.vietnamese && renderTrueFalseQuestion(q,key,saved))return;
       const prompt = formatBookPrompt(state.vietnamese&&q.viPrompt?q.viPrompt:q.prompt);
       $("questionArea").innerHTML = `<div class="question-card"><p class="book-question-lines">${q.label?`${q.label}.\n`:""}${prompt}</p><button class="book-answer-button" type="button" id="bookAnswerButton">${saved?"Hide book answer":"Check with the book answer"}</button>${saved?`<div class="answer-reveal"><strong>Answer key</strong><br>${state.vietnamese&&q.viAnswer?q.viAnswer:(q.answer||"Discuss your evidence with a learning partner.")}</div>`:""}</div>`;
       $("bookAnswerButton").onclick = () => { state.answered[key]=!saved; renderQuestion(week,day); }; return;
@@ -260,13 +339,91 @@
     $("speciesDialogContent").innerHTML=`<article class="species-record"><div class="species-record-art" style="${atlasStyle(card)}" role="img" aria-label="${escapeHtml(card.name)} habitat illustration"></div><div class="species-record-copy"><p class="record-type">${escapeHtml(cardGroup(card))} · ${rarity(card)} field stars</p><h2 id="speciesDialogTitle">${escapeHtml(card.name)}</h2><em class="record-scientific">${escapeHtml(card.scientificName)}</em><p class="record-fact">${escapeHtml(card.summary||card.fact||"Open this field record to learn how the species lives.")}</p><div class="record-grid">${fields.filter(([,value])=>value).map(([label,value])=>`<div><small>${label}</small><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></div></article>`;
     $("speciesDialog").showModal();
   }
+  const gameCatalog = [
+    {id:"match",icon:"↔",title:"Connect the Clues",time:"2 min · vocabulary"},
+    {id:"truefalse",icon:"✓",title:"True or False Trail",time:"3 min · evidence"},
+    {id:"fill",icon:"✎",title:"Missing Word Lab",time:"2 min · key terms"},
+    {id:"order",icon:"≡",title:"Sequence the Science",time:"4 min · reading order"}
+  ];
+  function weekVocabulary(week) {
+    const seen=new Set(), result=[];
+    week.days.slice(1).forEach(day=>(day.words||[]).forEach(word=>{
+      const term=String(word.en||"").trim(), meaning=String(word.meaning||"").trim();
+      if(term&&meaning&&!seen.has(normalize(term))){seen.add(normalize(term));result.push({term,meaning});}
+    }));
+    return result.slice(0,4);
+  }
+  function weekTrueFalse(week) {
+    for(const day of week.days.slice(1)){
+      for(const question of day.bookQuestionGroups||[]){const parsed=trueFalseActivity(question);if(parsed)return parsed;}
+      for(const question of day.questions||[]){
+        if(question.type==="truefalse")return {instruction:"Read the statement. Mark True or False.",statements:[question.statement||question.prompt],correct:[!!question.booleanAnswer]};
+      }
+    }
+    const statements=String(week.days[1]?.story||"").split(/(?<=[.!?])\s+/).filter(Boolean).slice(0,3);
+    return {instruction:"Does each statement appear in the reading?",statements,correct:statements.map(()=>true)};
+  }
+  function gameSequence(week) {
+    const day=week.days[state.day]||week.days[1];
+    return String(day.story||"").split(/(?<=[.!?])\s+/).map(text=>text.trim()).filter(text=>text.length>18).slice(0,4);
+  }
+  function gameSession(type, week) {
+    const key=`${signature(week)}-${state.day}-${type}`;
+    if(!state.gameSession||state.gameSession.key!==key)state.gameSession={key,type,matches:{},selected:null,marks:{},fill:"",order:[],checked:false};
+    return state.gameSession;
+  }
+  function gameFeedback(correct,total) {
+    return `<div class="answer-reveal ${correct===total?"good":""}" role="status"><strong>${correct}/${total} correct.</strong> ${correct===total?"Mission complete—excellent evidence work!":"Try again, then return to the reading for a clue."}</div>`;
+  }
+  function renderMatchGame(week) {
+    let words=weekVocabulary(week);
+    if(words.length<2)words=[{term:"evidence",meaning:"information that helps support an explanation"},{term:"observe",meaning:"to look carefully"},{term:"habitat",meaning:"the natural home of a plant or animal"}];
+    const rights=[...words.map(word=>word.meaning)]; if(rights.length>1)rights.push(rights.shift());
+    const correct=words.map(word=>rights.indexOf(word.meaning)), work=gameSession("match",week);
+    const score=Object.entries(work.matches).filter(([left,right])=>correct[Number(left)]===Number(right)).length;
+    $("gameStage").innerHTML=`<div class="matching-board game-matching-board"><svg class="matching-lines" aria-hidden="true"></svg><div class="matching-column">${words.map((word,index)=>`<button type="button" class="match-item ${work.selected===index?"selected":""}" data-match-left="${index}">${escapeHtml(word.term)}<span class="match-port"></span></button>`).join("")}</div><div class="matching-column matching-column-right">${rights.map((meaning,index)=>`<button type="button" class="match-item" data-match-right="${index}"><span class="match-port"></span>${escapeHtml(meaning)}</button>`).join("")}</div></div><div class="activity-actions"><button class="secondary-action" id="gameReset" type="button">Reset</button><button class="book-answer-button" id="gameCheck" type="button">Check connections</button></div>${work.checked?gameFeedback(score,words.length):""}`;
+    const board=$("gameStage").querySelector(".matching-board"), redraw=()=>drawMatchingLines(board,work.matches,correct,work.checked);requestAnimationFrame(redraw);matchingResizeObserver?.disconnect();matchingResizeObserver=new ResizeObserver(redraw);matchingResizeObserver.observe(board);
+    board.querySelectorAll("[data-match-left]").forEach(button=>button.onclick=()=>{work.selected=Number(button.dataset.matchLeft);work.checked=false;renderMatchGame(week);});
+    board.querySelectorAll("[data-match-right]").forEach(button=>button.onclick=()=>{if(work.selected===null)return;Object.keys(work.matches).forEach(left=>{if(work.matches[left]===Number(button.dataset.matchRight))delete work.matches[left];});work.matches[work.selected]=Number(button.dataset.matchRight);work.selected=null;work.checked=false;renderMatchGame(week);});
+    $("gameReset").onclick=()=>{work.matches={};work.selected=null;work.checked=false;renderMatchGame(week);};$("gameCheck").onclick=()=>{work.checked=true;renderMatchGame(week);};
+  }
+  function renderTrueFalseGame(week) {
+    const activity=weekTrueFalse(week), work=gameSession("truefalse",week), score=activity.correct.filter((answer,index)=>work.marks[index]===answer).length;
+    $("gameStage").innerHTML=`<div class="tf-list">${activity.statements.map((statement,index)=>`<div class="tf-row ${work.checked?(work.marks[index]===activity.correct[index]?"correct":"wrong"):""}"><p><span>${index+1}</span>${escapeHtml(statement)}</p><div class="tf-marks" role="group" aria-label="Statement ${index+1}"><button type="button" data-game-tf="${index}" data-value="true" aria-pressed="${work.marks[index]===true}" class="${work.marks[index]===true?"selected":""}"><b>T</b><small>True</small></button><button type="button" data-game-tf="${index}" data-value="false" aria-pressed="${work.marks[index]===false}" class="${work.marks[index]===false?"selected":""}"><b>F</b><small>False</small></button></div></div>`).join("")}</div><button class="book-answer-button" id="gameCheck" type="button">Check evidence</button>${work.checked?gameFeedback(score,activity.statements.length):""}`;
+    $("gameStage").querySelectorAll("[data-game-tf]").forEach(button=>button.onclick=()=>{work.marks[Number(button.dataset.gameTf)]=button.dataset.value==="true";work.checked=false;renderTrueFalseGame(week);});$("gameCheck").onclick=()=>{work.checked=true;renderTrueFalseGame(week);};
+  }
+  function renderFillGame(week) {
+    const words=weekVocabulary(week), target=words[0]||{term:"habitat",meaning:"the natural home of a plant or animal"}, work=gameSession("fill",week), right=normalize(work.fill)===normalize(target.term);
+    $("gameStage").innerHTML=`<div class="game-fill-card"><blockquote>Which science word means “${escapeHtml(target.meaning)}”?</blockquote><label><span>Type the missing word</span><input id="gameFillInput" value="${escapeHtml(work.fill)}" autocomplete="off" spellcheck="false"></label><div class="activity-actions"><button class="book-answer-button" id="gameCheck" type="button">Check word</button></div>${work.checked?gameFeedback(right?1:0,1):""}</div>`;
+    $("gameFillInput").oninput=event=>{work.fill=event.target.value;work.checked=false;};$("gameFillInput").onkeydown=event=>{if(event.key==="Enter")$("gameCheck").click();};$("gameCheck").onclick=()=>{work.fill=$("gameFillInput").value;work.checked=true;renderFillGame(week);};
+  }
+  function renderOrderGame(week) {
+    const correct=gameSequence(week), shuffled=correct.map((text,index)=>({text,index})); if(shuffled.length>2)shuffled.push(shuffled.shift());
+    const work=gameSession("order",week), remaining=shuffled.filter(item=>!work.order.includes(item.index)), score=work.order.filter((value,index)=>value===index).length;
+    $("gameStage").innerHTML=`<p class="activity-hint">Choose the sentences in the order they appear in the reading.</p><div class="sequence-bank">${remaining.map(item=>`<button type="button" class="sequence-item" data-sequence-add="${item.index}"><span>+</span>${escapeHtml(item.text)}</button>`).join("")||"All steps selected."}</div><div class="sequence-answer">${work.order.map((index,position)=>`<button type="button" class="sequence-item" data-sequence-remove="${index}"><span>${position+1}</span>${escapeHtml(correct[index])}</button>`).join("")||"Choose the first sentence above."}</div><div class="activity-actions"><button class="secondary-action" id="gameReset" type="button">Reset</button><button class="book-answer-button" id="gameCheck" type="button">Check sequence</button></div>${work.checked?gameFeedback(score,correct.length):""}`;
+    $("gameStage").querySelectorAll("[data-sequence-add]").forEach(button=>button.onclick=()=>{work.order.push(Number(button.dataset.sequenceAdd));work.checked=false;renderOrderGame(week);});$("gameStage").querySelectorAll("[data-sequence-remove]").forEach(button=>button.onclick=()=>{work.order=work.order.filter(value=>value!==Number(button.dataset.sequenceRemove));work.checked=false;renderOrderGame(week);});$("gameReset").onclick=()=>{work.order=[];work.checked=false;renderOrderGame(week);};$("gameCheck").onclick=()=>{work.checked=true;renderOrderGame(week);};
+  }
+  function renderGameStage(week) {
+    const meta={match:["Vocabulary mission","Connect each science word to its meaning."],truefalse:["Evidence mission","Mark T or F, then check every statement against the reading."],fill:["Word mission","Retrieve the key science word without looking at the answer."],order:["Sequence mission","Rebuild the reading in its scientific order."]}[state.gameType];
+    $("gameStageType").textContent=meta[0];$("gameStageTitle").textContent=gameCatalog.find(game=>game.id===state.gameType).title;$("gameStageIntro").textContent=meta[1];
+    ({match:renderMatchGame,truefalse:renderTrueFalseGame,fill:renderFillGame,order:renderOrderGame}[state.gameType])(week);
+  }
+  function renderGames() {
+    const week=currentWeek(), source=week.source;
+    $("gameHero").style.setProperty("--game-hero",`url('${weekImage(week)}')`);$("gameWeekTitle").textContent=state.vietnamese&&week.viTitle?week.viTitle:week.title;$("gameWeekIntro").textContent="Four short missions turn this week's reading into active science practice.";$("gameHeroMeta").innerHTML=`<span>Grade ${source.grade}</span><span>Big Idea ${source.bigIdea}</span><span>Week ${source.bookWeek}</span><span>Based on the book reading</span>`;
+    $("gameMenu").innerHTML=gameCatalog.map(game=>`<button type="button" class="game-tile ${state.gameType===game.id?"active":""}" data-game-type="${game.id}"><span class="game-tile-icon">${game.icon}</span><span><strong>${game.title}</strong><small>${game.time}</small></span></button>`).join("");
+    $("gameMenu").querySelectorAll("[data-game-type]").forEach(button=>button.onclick=()=>{state.gameType=button.dataset.gameType;state.gameSession=null;renderGames();});renderGameStage(week);
+  }
   function renderMode() {
-    const cards=state.view==="cards";
+    const cards=state.view==="cards", games=state.view==="games", lessons=!cards&&!games;
     document.querySelector(".app-shell").classList.toggle("cards-mode",cards);
-    $("lessonContent").hidden=cards; $("cardWorkspace").hidden=!cards;
-    $("lessonModeButton").classList.toggle("active",!cards); $("lessonModeButton").setAttribute("aria-pressed",String(!cards));
+    document.querySelector(".app-shell").classList.toggle("games-mode",games);
+    $("lessonContent").hidden=!lessons; $("cardWorkspace").hidden=!cards; $("gameWorkspace").hidden=!games;
+    $("lessonModeButton").classList.toggle("active",lessons); $("lessonModeButton").setAttribute("aria-pressed",String(lessons));
+    $("gameModeButton").classList.toggle("active",games); $("gameModeButton").setAttribute("aria-pressed",String(games));
     $("cardModeButton").classList.toggle("active",cards); $("cardModeButton").setAttribute("aria-pressed",String(cards));
     if(cards)renderCardLibrary();
+    if(games)renderGames();
   }
   function render() {
     ensureSelection(); document.documentElement.lang=state.vietnamese?"vi":"en";
@@ -277,6 +434,7 @@
   $("weekSearch").oninput=event=>{state.query=event.target.value;renderWeekList();};
   $("mobileMenuButton").onclick=()=>{const open=$("curriculumPanel").classList.toggle("open");$("mobileMenuButton").setAttribute("aria-expanded",String(open));};
   $("lessonModeButton").onclick=()=>{state.view="lessons";saveState();renderMode();scrollTo({top:0,behavior:"smooth"});};
+  $("gameModeButton").onclick=()=>{state.view="games";state.gameSession=null;saveState();renderMode();scrollTo({top:0,behavior:"smooth"});};
   $("cardModeButton").onclick=()=>{state.view="cards";saveState();renderMode();scrollTo({top:0,behavior:"smooth"});};
   $("cardSearch").oninput=event=>{state.cardQuery=event.target.value;renderCardLibrary();};
   $("speciesDialogClose").onclick=()=>$("speciesDialog").close();
