@@ -1,231 +1,104 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#96d4ce">
-  <meta name="description" content="International Math: luyện đề SMC, TIMO và Kangaroo Écolier với bản dịch tiếng Việt, công cụ viết trực tiếp lên đề, đáp án và lời giải từng bước.">
-  <title>International Math</title>
-  <link rel="stylesheet" href="styles.css?v=20260926-4">
-  <link rel="stylesheet" href="zoom.css?v=20260921-2">
-  <link rel="stylesheet" href="tools.css?v=20260921-2">
-  <link rel="stylesheet" href="test.css?v=20260921-2">
-  <link rel="stylesheet" href="review.css?v=20260921-2">
-  <link rel="stylesheet" href="unified-world.css?v=20261021-reading-expand-1">
-  <link rel="stylesheet" href="science-card-game.css?v=20261029-card-profiles-2">
-  <link rel="stylesheet" href="era-atlas.css?v=20261013-image-map">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9f2ef">
+  <meta name="description" content="Daily Science Lab — a focused Grade 1–6 science reading app based on the Daily Science curriculum.">
+  <title>Daily Science Lab</title>
+  <link rel="stylesheet" href="science-mvp.css?v=20261121-1">
 </head>
 <body>
-  <aside class="reading-zoom" aria-label="Text zoom controls"><button id="readingZoomOut" type="button" aria-label="Make text smaller">A−</button><output id="readingZoomLevel">100%</output><button id="readingZoomIn" type="button" aria-label="Make text larger">A+</button></aside>
-  <section class="adventure-root" id="adventureRoot" aria-label="Solar System math adventure">
-    <header class="adventure-hud" id="adventureHud" hidden>
-      <button class="adventure-logo" id="adventureHome" type="button"><span>M</span><strong>International Math</strong></button>
-      <div class="hud-context">
-        <span id="hudContextLabel">Cockpit resources</span>
-        <div class="hud-resource-bar" id="hudResourceBar" aria-live="polite"></div>
+  <a class="skip-link" href="#lessonContent">Skip to the lesson</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Daily Science Lab home">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span><strong>Daily Science Lab</strong><small>Read · observe · explain</small></span>
+      </a>
+      <div class="topbar-actions">
+        <button class="language-button" id="languageButton" type="button" aria-pressed="false">EN <span>→</span> VI</button>
+        <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="curriculumPanel">Curriculum</button>
       </div>
-      <button class="adventure-menu-button" id="adventureMenuButton" type="button" aria-expanded="false">☰ Menu</button>
     </header>
-    <main class="adventure-view" id="adventureView"></main>
-    <aside class="adventure-menu" id="adventureMenu" hidden>
-      <div class="adventure-menu-card"><button class="menu-close" id="adventureMenuClose" type="button">×</button><p class="adventure-kicker">LEARNING MODE</p><h2>Where do you want to go?</h2><button id="menuExplore" type="button">🚀 Cockpit home</button><button id="menuPractice" type="button">✎ Practice library</button><button id="menuTest" type="button">◎ Test mode</button><button id="menuExportFlags" type="button">⚑ Export adventure flags</button><button class="danger-menu-button" id="resetQuestions" type="button">↻ Reset questions</button><button class="danger-menu-button" id="resetAdventure" type="button">⌁ Reset adventure</button></div>
-    </aside>
-  </section>
-  <div class="math-wallpaper" aria-hidden="true"></div>
-  <header class="desktop-bar">
-    <a class="brand" href="#practice" aria-label="International Math"><span class="brand-tile">M</span><span><strong>International Math</strong><small>Grade 3–4</small></span></a>
-    <nav aria-label="Điều hướng chính"><a href="#practice">Practice</a><a href="#library">Original papers</a></nav>
-    <div class="legacy-math-resources" id="legacyMathResources" aria-live="polite"><span aria-hidden="true">●</span><b id="legacyMathGold">0</b><small>Gold · correct +n · wrong −(n−1)</small></div>
-    <button class="reset-practice-button" id="resetPracticeButton" type="button" title="Reset question answers"><span aria-hidden="true">↻</span> <span>Reset questions</span></button>
-    <button class="return-adventure-button" id="returnAdventureButton" type="button">🚀 Adventure</button>
-    <button class="test-mode-button" id="testModeButton" type="button"><span aria-hidden="true">◷</span> Test mode</button>
-    <button class="timer" id="timerButton" type="button" aria-label="Bắt đầu đồng hồ 90 phút"><span aria-hidden="true">◷</span><strong id="timerText">90:00</strong><small id="timerState">Start</small></button>
-  </header>
-  <main>
-    <section class="practice-shell" id="practice">
-      <section class="quest-race" id="questRace" aria-labelledby="raceTitle">
-        <div class="race-heading">
-          <div><p class="race-kicker">SPACE TREASURE RESCUE</p><h2 id="raceTitle">Your space race</h2><p id="raceSubtitle">Every question is visible. Clear the path and rescue every friend.</p></div>
-          <div class="race-actions"><button id="chooseRacerButton" type="button">Choose racer</button><button id="collectionButton" type="button">Animal Collection <span id="collectionCount">1/12</span></button></div>
-        </div>
-        <div class="race-dashboard"><span class="current-racer" id="currentRacer"><b aria-hidden="true">🦦</b> Pip</span><span class="race-stars" id="raceStars">☆ 0 rescued stars</span><span class="race-progress-label" id="raceProgressLabel">Path 0%</span></div>
-        <div class="race-track-wrap"><div class="race-track" id="raceTrack" aria-label="All questions on the space race map"></div></div>
-        <div class="race-legend"><span><i class="trail-open"></i>Open</span><span><i class="trail-fog"></i>Locked</span><span><i class="trail-boss">★</i>Boss rescue</span></div>
+
+    <aside class="curriculum-panel" id="curriculumPanel" aria-label="Daily Science curriculum">
+      <div class="curriculum-heading">
+        <p class="eyebrow">Daily Science · Grades 1–6</p>
+        <h1>Choose a field question</h1>
+        <p>One week, one big question, four connected reading days.</p>
+      </div>
+      <div class="grade-picker" id="gradePicker" role="tablist" aria-label="Choose a grade"></div>
+      <label class="week-search" for="weekSearch"><span>Find a week</span><input id="weekSearch" type="search" placeholder="Try: plants, water, electricity…" autocomplete="off"></label>
+      <nav class="week-list" id="weekList" aria-label="Weeks"></nav>
+      <section class="progress-summary" aria-labelledby="progressTitle">
+        <div><p class="eyebrow">Learning map</p><h2 id="progressTitle">Your progress</h2></div>
+        <div id="gradeProgress"></div>
       </section>
-      <aside class="exam-panel">
-        <div class="quote-card"><span class="quote-mark">“</span><blockquote id="quoteText">The only way to learn mathematics is to do mathematics.</blockquote><cite id="quoteSource">— Paul Halmos</cite></div>
-        <div class="contest-tabs" role="tablist" aria-label="Chọn kỳ thi">
-          <button class="contest-tab active" role="tab" aria-selected="true" data-contest="SMC">SMC</button>
-          <button class="contest-tab" role="tab" aria-selected="false" data-contest="TIMO">TIMO</button>
-          <button class="contest-tab" role="tab" aria-selected="false" data-contest="KANGAROO">Kangaroo</button>
+    </aside>
+
+    <main class="lesson-workspace" id="lessonContent" tabindex="-1">
+      <section class="week-hero" id="weekHero" aria-labelledby="weekTitle">
+        <div class="week-hero-copy">
+          <p class="breadcrumb" id="weekBreadcrumb"></p>
+          <h2 id="weekTitle">Loading Daily Science…</h2>
+          <p id="weekObjective"></p>
+          <div class="source-line" id="sourceLine"></div>
         </div>
-        <div class="year-tabs" id="smcPaperTabs" role="tablist" aria-label="Chọn đề SMC">
-          <button class="year-tab active coral" role="tab" aria-selected="true" data-year="2023">2023</button>
-          <button class="year-tab mint" role="tab" aria-selected="false" data-year="2024">2024</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="2021">2021</button>
-        </div>
-        <div class="year-tabs timo-paper-tabs hidden" id="timoPaperTabs" role="tablist" aria-label="Chọn đề TIMO">
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-2020">Prelim 1 · 20–21</button>
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P2">Prelim 2</button>
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P3">Prelim 3</button>
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P4">Prelim 4</button>
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="TIMO-P5">Prelim 5</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H1">Heat · 20–21</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H2">Heat · 19–20</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H3">Heat · 18–19</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H4">Heat · 17–18</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="TIMO-H5">Heat · 16–17</button>
-        </div>
-        <div class="year-tabs hidden" id="kangarooPaperTabs" role="tablist" aria-label="Chọn đề Kangaroo Écolier">
-          <button class="year-tab coral" role="tab" aria-selected="false" data-year="KANGAROO-2025">2025</button>
-          <button class="year-tab yellow" role="tab" aria-selected="false" data-year="KANGAROO-2024">2024</button>
-          <button class="year-tab lavender" role="tab" aria-selected="false" data-year="KANGAROO-2023">2023</button>
-        </div>
-        <section class="question-board review-board" aria-label="Question review tools">
-          <div class="board-heading hidden"><div><p class="eyebrow">QUESTION MAP</p><h1 id="questionBoardTitle">Your progress</h1></div><span id="answeredCount">0 done</span></div>
-          <div class="status-key hidden"><span><i class="status-current"></i>Current</span><span><i class="status-done"></i>Done</span><span><i class="status-open"></i>Not done</span></div>
-          <div class="question-map hidden" id="questionMap" aria-label="Danh sách câu hỏi"></div>
-          <div class="flagged-review"><div class="flagged-review-title"><strong>⚑ Needs review</strong><span id="flaggedCount">0</span></div><div class="flagged-questions" id="flaggedQuestions"></div><p id="flaggedEmpty">No flagged questions.</p><button class="export-flags-button" id="exportFlagsButton" type="button" disabled>Export review file</button><p class="export-flags-status" id="exportFlagsStatus" role="status" aria-live="polite"></p></div>
-        </section>
-      </aside>
-      <div class="work-area">
-        <div class="browser-window">
-          <div class="window-bar"><div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div><div class="window-title" id="sourceLabel">SMC 2023 · Question 20</div><div class="window-actions" aria-hidden="true">— □ ×</div></div>
-          <article class="question-card" aria-live="polite">
-            <div class="question-heading">
-              <span class="question-number" id="questionNumber">20</span>
-              <div><p class="micro" id="skillLabel">Pattern</p><h2 id="questionTitle">Triangles made with sticks</h2></div>
-              <div class="question-progress"><strong id="progressText">20 / 45</strong><span><i id="progressBar"></i></span></div>
+        <div class="week-progress-ring" id="weekProgressRing" aria-label="Week progress"><strong>0/4</strong><span>days complete</span></div>
+      </section>
+
+      <nav class="day-tabs" id="dayTabs" aria-label="Learning days"></nav>
+
+      <div class="lesson-grid">
+        <article class="reading-column" aria-labelledby="dayTitle">
+          <header class="reading-heading">
+            <div><p class="eyebrow" id="dayLabel">Reading from the book</p><h2 id="dayTitle"></h2></div>
+            <span class="page-chip" id="pageChip"></span>
+          </header>
+          <p class="reading-text" id="readingText"></p>
+
+          <section class="vocabulary-section" aria-labelledby="vocabularyTitle">
+            <div class="section-title"><p class="eyebrow">Words to notice</p><h3 id="vocabularyTitle">Vocabulary</h3></div>
+            <div class="vocabulary-list" id="vocabularyList"></div>
+          </section>
+
+          <section class="check-section" aria-labelledby="checkTitle">
+            <div class="section-title"><p class="eyebrow">Check understanding</p><h3 id="checkTitle">Use evidence from the reading</h3></div>
+            <div id="questionArea"></div>
+          </section>
+        </article>
+
+        <aside class="guide-column" aria-labelledby="guideTitle">
+          <div class="guide-sticky">
+            <div class="media-frame" id="mediaFrame"><img id="guideImage" alt=""><div class="media-badge"><span aria-hidden="true">◉</span> Visual guide</div></div>
+            <div class="guide-copy">
+              <p class="eyebrow">See the process</p>
+              <h2 id="guideTitle">Four steps to the idea</h2>
+              <ol class="guide-steps" id="guideSteps"></ol>
+              <details class="media-notes"><summary>Image notes / transcript</summary><p id="mediaTranscript"></p></details>
+              <button class="complete-button" id="completeDayButton" type="button">Mark day complete</button>
+              <p class="save-note" id="saveNote" role="status" aria-live="polite"></p>
             </div>
-            <p class="question-en" id="questionEnglish"></p>
-            <button class="translate-button" id="translateButton" type="button">Translate</button>
-            <p class="question-vi hidden" id="questionVietnamese"></p>
-            <figure class="source-figure hidden" id="sourceFigure"><img id="questionImage" alt="Question diagram"></figure>
-            <div class="answer-zone">
-              <div class="answer-line"><label for="answerInput">Answer:</label><input id="answerInput" inputmode="decimal" autocomplete="off" aria-label="Answer"><span class="unit" id="answerUnit"></span><button class="check-button" id="checkButton" type="button">Check</button></div>
-              <p class="feedback" id="feedback" role="status"></p>
-            </div>
-            <div class="help-row"><button class="hint-button" id="hintButton" type="button">Hint</button><button class="flag-question-button" id="flagQuestionButton" type="button" aria-pressed="false">⚑ Flag question</button><button class="solution-button" id="solutionButton" type="button">Show solution</button></div>
-            <div class="hint-box hidden" id="hintBox"><strong>Hint:</strong> <span id="hintText"></span></div>
-            <section class="solution-sheet hidden" id="solutionSheet" aria-labelledby="solutionTitle">
-              <div class="solution-topline"><div><p class="micro">MODEL WORKING</p><h3 id="solutionTitle">Write it like this</h3></div><span class="teacher-mark">Clear steps ✓</span></div>
-              <div class="student-work" id="studentWork"></div><div class="final-answer">Answer: <strong id="finalAnswer"></strong></div>
-            </section>
-          </article>
-        </div>
-        <div class="pager"><button id="prevButton" type="button">← Previous</button><button id="nextButton" type="button">Next →</button></div>
+          </div>
+        </aside>
       </div>
-    </section>
-    <section class="library" id="library" aria-labelledby="libraryTitle">
-      <div class="section-heading"><div><p class="eyebrow">PAPER LIBRARY</p><h2 id="libraryTitle">Original papers</h2></div><p>Open the complete paper to print or compare with the interactive version.</p></div>
-      <div class="paper-grid">
-        <article class="paper-card yellow-card"><img src="assets/cover-timo-2020.jpg" alt="TIMO Grade 3 paper collection"><div><span class="paper-year">TIMO</span><h3>Grade 3 Past Papers</h3><p>10 papers · 48 pages</p><a href="assets/timo-grade-3.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card lavender-card"><img src="assets/cover-2021.jpg" alt="SMC 2021 Grade 3 practice cover"><div><span class="paper-year">2021</span><h3>SINGA Assessment Practice</h3><p>Primary 3 · 14 pages · 45 questions</p><a href="assets/smc-2021.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card coral-card"><img src="assets/cover-2023.jpg" alt="SMC 2023 Grade 3 cover"><div><span class="paper-year">2023</span><h3>SMC Contest Paper</h3><p>Grade 3 · 28 pages</p><a href="assets/smc-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card mint-card"><img src="assets/cover-2024.jpg" alt="SMC 2024 Grade 3 cover"><div><span class="paper-year">2024</span><h3>SMC Challenge</h3><p>Grade 3 · 24 pages</p><a href="assets/smc-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card coral-card"><img src="assets/kangaroo/cover-2025.jpg" alt="Kangaroo Écolier 2025 cover"><div><span class="paper-year">Kangaroo 2025</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2025.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card yellow-card"><img src="assets/kangaroo/cover-2024.jpg" alt="Kangaroo Écolier 2024 cover"><div><span class="paper-year">Kangaroo 2024</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2024.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-        <article class="paper-card lavender-card"><img src="assets/kangaroo/cover-2023.jpg" alt="Kangaroo Écolier 2023 cover"><div><span class="paper-year">Kangaroo 2023</span><h3>Écolier Contest Paper</h3><p>Grades 3–4 · 24 questions</p><a href="assets/kangaroo/kangaroo-ecolier-2023.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></article>
-      </div>
-    </section>
-  </main>
-  <section class="test-mode" id="testMode" aria-label="Focused test mode" hidden>
-    <header class="test-header">
-      <div class="test-brand"><span class="brand-tile">M</span><div><strong id="testPaperName">Attack paper</strong><small>ATTACK MODE · PAPER SURVIVAL</small></div></div>
-      <div class="test-summary"><span><strong id="testAnsweredCount">0</strong> answered</span><span class="test-clock" id="testClock">90:00</span></div>
-      <div class="test-header-actions"><button class="restart-test-button" id="restartTestButton" type="button">Restart test</button><button id="submitTestButton" type="button">Submit test</button><button id="exitTestButton" type="button">Exit</button></div>
-    </header>
-    <div class="test-layout">
-      <aside class="test-map-panel"><p class="eyebrow">QUESTIONS</p><div class="test-question-map" id="testQuestionMap"></div><p class="test-score" id="testScore" aria-live="polite"></p></aside>
-      <main class="test-paper" id="testPaper"></main>
-    </div>
-  </section>
-  <canvas class="drawing-canvas" id="drawingCanvas" aria-label="Lớp viết hướng dẫn trực tiếp lên đề"></canvas>
-  <aside class="study-tools" id="studyTools" aria-label="Công cụ học tập">
-    <div class="tool-launchers">
-      <button class="tool-launcher pencil-launcher" id="drawToggle" type="button" aria-label="Mở bút viết trực tiếp lên đề" title="Bút viết trực tiếp" aria-expanded="false" aria-controls="brushPanel"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 24.5 8.6 18 21.8 4.8a3.1 3.1 0 0 1 4.4 0l1 1a3.1 3.1 0 0 1 0 4.4L14 23.4 7 24.5Z"/><path d="m19.6 7 5.4 5.4M8.6 18l5.4 5.4M5.5 27h21"/></svg></button>
-      <button class="tool-launcher calculator-launcher" id="calculatorToggle" type="button" aria-label="Mở máy tính" title="Máy tính" aria-expanded="false" aria-controls="calculatorPanel"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="3.5" width="20" height="25" rx="4"/><path d="M10 8h12v5H10zM10 18h2m4 0h2m4 0h0M10 23h2m4 0h2m4 0h0"/></svg></button>
-    </div>
-    <section class="tool-panel brush-panel" id="brushPanel" hidden>
-      <div class="tool-panel-heading"><strong>Bút hướng dẫn</strong><button class="panel-close" type="button" data-close-panel="brushPanel" aria-label="Đóng bộ bút">×</button></div>
-      <div class="brush-modes" role="group" aria-label="Chọn công cụ vẽ">
-        <button class="brush-mode active" type="button" data-brush="pencil" aria-label="Bút chì" title="Bút chì"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25.5 8 18 21.8 4.2a3 3 0 0 1 4.2 0l1.8 1.8a3 3 0 0 1 0 4.2L14 24 6 25.5Z"/><path d="m19.5 6.5 6 6M8 18l6 6M5 28h22"/></svg></button>
-        <button class="brush-mode" type="button" data-brush="highlighter" aria-label="Bút highlight" title="Bút highlight"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m9 21 10-16 7 4-10 16H8l-3 4h19"/><path d="m16 25-7-4"/></svg></button>
-        <button class="brush-mode" type="button" data-brush="eraser" aria-label="Tẩy" title="Tẩy"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m5.5 20.5 12-14a3 3 0 0 1 4.3-.3l4 3.4a3 3 0 0 1 .3 4.3L15.7 26H9.5l-4-3.4a1.5 1.5 0 0 1 0-2.1Z"/><path d="m12 13 9 8M15.7 26H28"/></svg></button>
-        <button class="trash-button" id="clearDrawing" type="button" aria-label="Xóa toàn bộ nét vẽ" title="Xóa toàn bộ nét vẽ"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 9h18M12 9V5h8v4M10 9l1 18h10l1-18M14 14v8M18 14v8"/></svg></button>
-      </div>
-      <label class="tool-field">Màu <input id="brushColor" type="color" value="#ef5b66"></label>
-      <label class="tool-field">Độ dày <input id="brushSize" type="range" min="2" max="40" value="5"><output id="brushSizeValue">5 px</output></label>
-      <p class="tool-note" id="drawingStatus">Chọn bút rồi viết, khoanh hoặc highlight trực tiếp trên đề.</p>
-    </section>
-    <section class="tool-panel calculator-panel" id="calculatorPanel" hidden>
-      <div class="tool-panel-heading"><strong>Máy tính</strong><button class="panel-close" type="button" data-close-panel="calculatorPanel" aria-label="Đóng máy tính">×</button></div>
-      <output class="calculator-display" id="calculatorDisplay" aria-live="polite">0</output>
-      <div class="calculator-keys" id="calculatorKeys">
-        <button type="button" data-calc="clear">C</button><button type="button" data-calc="backspace">⌫</button><button type="button" data-value="(">(</button><button type="button" data-value=")">)</button>
-        <button type="button" data-value="7">7</button><button type="button" data-value="8">8</button><button type="button" data-value="9">9</button><button class="operator" type="button" data-value="÷">÷</button>
-        <button type="button" data-value="4">4</button><button type="button" data-value="5">5</button><button type="button" data-value="6">6</button><button class="operator" type="button" data-value="×">×</button>
-        <button type="button" data-value="1">1</button><button type="button" data-value="2">2</button><button type="button" data-value="3">3</button><button class="operator" type="button" data-value="−">−</button>
-        <button type="button" data-value="0">0</button><button type="button" data-value=".">.</button><button class="equals" type="button" data-calc="equals">=</button><button class="operator" type="button" data-value="+">+</button>
-      </div>
-    </section>
-  </aside>
-  <div class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="Enlarged question image" hidden>
-    <div class="lightbox-toolbar" aria-label="Image zoom controls">
-      <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
-      <output id="zoomLevel" aria-live="polite">100%</output>
-      <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
-      <button id="zoomFit" type="button">Fit</button>
-      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close enlarged image">×</button>
-    </div>
-    <div class="lightbox-stage" id="lightboxStage"><img id="lightboxImage" alt="Enlarged question diagram"></div>
+
+      <section class="next-step" id="nextStep" aria-labelledby="nextStepTitle">
+        <div><p class="eyebrow">Next in your notebook</p><h2 id="nextStepTitle"></h2><p id="nextStepText"></p></div>
+        <button id="nextDayButton" type="button">Continue</button>
+      </section>
+    </main>
   </div>
-  <dialog class="race-dialog mascot-picker" id="mascotPicker" aria-labelledby="mascotPickerTitle">
-    <form method="dialog"><button class="race-dialog-close" value="cancel" aria-label="Close mascot picker">×</button></form>
-    <p class="race-dialog-kicker">CHOOSE YOUR RACER</p><h2 id="mascotPickerTitle">Who will lead the rescue?</h2>
-    <p>Choose one racing friend. You can change racers at any time.</p><div class="mascot-grid" id="mascotGrid"></div>
-  </dialog>
-  <dialog class="race-dialog collection-dialog" id="collectionDialog" aria-labelledby="collectionTitle">
-    <form method="dialog"><button class="race-dialog-close" value="cancel" aria-label="Close animal collection">×</button></form>
-    <p class="race-dialog-kicker">ANIMAL COLLECTION</p><h2 id="collectionTitle">Friends rescued on this island</h2>
-    <p id="collectionSummary"></p><div class="collection-grid" id="collectionGrid"></div>
-  </dialog>
-  <div class="race-feedback" id="raceFeedback" role="dialog" aria-modal="true" aria-labelledby="raceFeedbackTitle" hidden>
-    <div class="race-feedback-card">
-      <div class="race-star-field" id="raceStarField" aria-hidden="true"></div>
-      <div class="boss-battle" id="bossBattle" hidden aria-hidden="true">
-        <img class="boss-robot" src="assets/space-robot-boss-v1.png" alt="">
-        <div class="rescue-cage"><span class="cage-light"></span><img class="caged-mascot" id="cagedMascot" alt=""><i></i><i></i><i></i><i></i></div>
-        <span class="victory-burst">★</span>
-      </div>
-      <div class="weather-face" id="weatherFace" aria-hidden="true">🌞</div><h2 id="raceFeedbackTitle">Path unlocked!</h2><p id="raceFeedbackMessage"></p><button id="closeRaceFeedback" type="button">Keep racing</button>
-    </div>
-  </div>
-  <footer><strong>International Math</strong><span>SMC · TIMO · Kangaroo</span><a href="#practice">Back to top ↑</a></footer>
-  <script src="timo-2020.js?v=20260925-1"></script>
-  <script src="timo-2020-exact.js?v=20260925-1"></script>
-  <script src="timo-remaining.js?v=20260926-1"></script>
-  <script src="smc-2021.js?v=20260925-1"></script>
-  <script src="kangaroo.js?v=20260925-1"></script>
-  <script src="app.js?v=20261008-6"></script>
-  <script src="tools.js?v=20260921-2"></script>
-  <script src="science-expansion.js?v=20261016-book-questions-1"></script>
-  <script src="encyclopedia-data.js?v=20261112-lesson-species-10"></script>
-  <script src="science-books.js?v=20261016-all-book-content-1"></script>
-  <script src="science-full-curriculum.js?v=20261016-all-book-content-1"></script>
-  <script src="kingdom-habitat.js?v=20261007-2"></script>
-  <script src="science-discovery.js?v=20261008-11"></script>
-  <script src="science-book-readings.js?v=20261020-day-titles-2"></script>
-  <script src="science-book-questions.js?v=20261019-book-source-1"></script>
-  <script src="science-vocabulary-atlases.js?v=20261020-watercolor-vocab-1"></script>
-  <script src="science-primary-vi.js?v=20261021-day-illustrations-1"></script>
-  <script src="aquarium-demo.js?v=20261008-3"></script>
-  <script src="open-media-data.js?v=20261012-1"></script>
-  <script src="atlas-data.js?v=20261012-1"></script>
-  <script src="history-world-data.js?v=20261012-history-lessons"></script>
-  <script src="history-detail-data.js?v=20261012-history-lessons"></script>
-  <script src="history-infographic-data.js?v=20261012-history-detail"></script>
-  <script src="history-people-media.js?v=20261012-1"></script>
-  <script src="unified-world.js?v=20261109-all-science-stories"></script>
+
+  <script src="science-expansion.js"></script>
+  <script src="science-full-curriculum.js"></script>
+  <script src="science-books.js"></script>
+  <script src="science-book-readings.js"></script>
+  <script src="science-book-questions.js"></script>
+  <script src="science-primary-vi.js"></script>
+  <script src="encyclopedia-data.js"></script>
+  <script src="science-discovery.js"></script>
+  <script src="science-mvp.js?v=20261121-1"></script>
 </body>
 </html>
