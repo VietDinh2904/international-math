@@ -219,6 +219,34 @@
     const firstNumber = prompt.search(/(?:^|\s)1\.\s/);
     return {instruction:prompt.slice(0,firstNumber).trim(),statements:parts.map(part=>part.text),correct:parts.map(part=>answers[part.number]==="true")};
   };
+  const compactAnswer = value => normalize(String(value || "").replace(/\s+/g,""));
+  const cleanChoiceText = value => String(value || "")
+    .replace(/_{3,}\.?/g,"")
+    .replace(/\btr ee\b/gi,"tree")
+    .replace(/\bmushr oom\b/gi,"mushroom")
+    .replace(/\bi nclined\b/gi,"inclined")
+    .replace(/\bl ever\b/gi,"lever")
+    .replace(/\s+/g," ")
+    .trim();
+  const analogyChoiceActivity = question => {
+    const prompt=String(question.prompt||"");
+    if(!/analogy/i.test(prompt))return null;
+    let instruction="",choices=[];
+    if((prompt.match(/\s+r\s+/gi)||[]).length>=2){
+      const pieces=prompt.split(/\s+r\s+/i);
+      instruction=pieces.shift(); choices=pieces;
+    }else if(/[□❒]/.test(prompt)){
+      const pieces=prompt.split(/\s*[□❒]\s*/);
+      instruction=pieces.shift(); choices=pieces;
+    }else return null;
+    instruction=instruction.replace(/^C omplete/i,"Complete").replace(/\s+/g," ").trim();
+    choices=choices.map(cleanChoiceText).filter(Boolean);
+    if(choices.length<2)return null;
+    const expected=compactAnswer(question.answer);
+    const right=choices.findIndex(choice=>expected.includes(compactAnswer(choice))||compactAnswer(choice).includes(expected));
+    if(right<0)return null;
+    return {instruction,choices,right};
+  };
   let matchingResizeObserver;
   function drawMatchingLines(board, matches, correct, checked) {
     const svg=board?.querySelector(".matching-lines"); if(!svg)return;
@@ -258,6 +286,15 @@
     target.querySelectorAll("[data-tf-index]").forEach(button=>button.onclick=()=>{work.marks[Number(button.dataset.tfIndex)]=button.dataset.tfValue==="true";work.checked=false;renderTrueFalseQuestion(question,key,work,target);});
     target.querySelector('[data-role="check-true-false"]').onclick=()=>{work.checked=true;renderTrueFalseQuestion(question,key,work,target);}; return true;
   }
+  function renderAnalogyChoiceQuestion(question,key,saved,target=$("questionArea")){
+    const activity=analogyChoiceActivity(question);if(!activity)return false;
+    const work=saved&&typeof saved==="object"&&saved.type==="analogy-choice"?saved:{type:"analogy-choice",selected:null,checked:false};state.answered[key]=work;
+    const correct=work.selected===activity.right, isInclinedPlane=/inclined plane is to simple machine/i.test(activity.instruction);
+    const success=isInclinedPlane?"An inclined plane is a type of simple machine, just as a triangle is a type of shape.":"The chosen pair has the same relationship as the pair in the question.";
+    target.innerHTML=`<div class="question-card interactive-book-card analogy-card"><p class="activity-label">${escapeHtml(question.label||"A")} · MULTIPLE CHOICE</p><h4>${escapeHtml(activity.instruction)}</h4><p class="activity-hint">Choose the pair that has the same relationship. Ask how the first two ideas are connected, then find the same connection below.</p><div class="choice-list">${activity.choices.map((choice,index)=>`<button class="choice-button ${work.checked&&index===work.selected?(index===activity.right?"correct":"wrong"):""}" type="button" data-analogy-answer="${index}" aria-pressed="${work.selected===index}"><span>${String.fromCharCode(65+index)}</span>${escapeHtml(choice)}</button>`).join("")}</div><button class="book-answer-button" type="button" data-role="check-analogy" ${work.selected===null?"disabled":""}>Check answer</button>${work.checked?`<div class="answer-reveal ${correct?"good":""}" role="status"><strong>${correct?"Correct!":"Try again."}</strong> ${correct?escapeHtml(success):"Look for a choice with the same kind of connection as the first pair."}</div>`:""}</div>`;
+    target.querySelectorAll("[data-analogy-answer]").forEach(button=>button.onclick=()=>{work.selected=Number(button.dataset.analogyAnswer);work.checked=false;renderAnalogyChoiceQuestion(question,key,work,target);});
+    target.querySelector('[data-role="check-analogy"]').onclick=()=>{work.checked=true;renderAnalogyChoiceQuestion(question,key,work,target);};return true;
+  }
   function indexedAnswers(answer) {
     const result={};
     String(answer||"").replace(/(?:^|\s)(\d+)\.(?:\s*|$)([\s\S]*?)(?=\s+\d+\.(?:\s|$)|$)/g,(_,number,text)=>{result[Number(number)]=text.trim();return _;});
@@ -284,6 +321,7 @@
       const target=$("questionArea").querySelector(`[data-book-group="${index}"]`), key=`${base}-book-${index}`, saved=state.answered[key];
       if(!state.vietnamese&&renderMatchingQuestion(question,key,saved,target))return;
       if(!state.vietnamese&&renderTrueFalseQuestion(question,key,saved,target))return;
+      if(!state.vietnamese&&renderAnalogyChoiceQuestion(question,key,saved,target))return;
       renderBookResponseQuestion(question,key,saved,target);
     });
   }
@@ -302,6 +340,7 @@
       const q = entry.value;
       if(!state.vietnamese && renderMatchingQuestion(q,key,saved))return;
       if(!state.vietnamese && renderTrueFalseQuestion(q,key,saved))return;
+      if(!state.vietnamese && renderAnalogyChoiceQuestion(q,key,saved))return;
       const prompt = formatBookPrompt(state.vietnamese&&q.viPrompt?q.viPrompt:q.prompt);
       $("questionArea").innerHTML = `<div class="question-card"><p class="book-question-lines">${q.label?`${q.label}.\n`:""}${prompt}</p><button class="book-answer-button" type="button" id="bookAnswerButton">${saved?"Hide book answer":"Check with the book answer"}</button>${saved?`<div class="answer-reveal"><strong>Answer key</strong><br>${state.vietnamese&&q.viAnswer?q.viAnswer:(q.answer||"Discuss your evidence with a learning partner.")}</div>`:""}</div>`;
       $("bookAnswerButton").onclick = () => { state.answered[key]=!saved; renderQuestion(week,day); }; return;
@@ -374,7 +413,9 @@
     {id:"match",icon:"↔",title:"Connect the Clues",time:"2 min · vocabulary"},
     {id:"truefalse",icon:"✓",title:"True or False Trail",time:"3 min · evidence"},
     {id:"fill",icon:"✎",title:"Missing Word Lab",time:"2 min · key terms"},
-    {id:"order",icon:"≡",title:"Sequence the Science",time:"4 min · reading order"}
+    {id:"order",icon:"≡",title:"Sequence the Science",time:"4 min · reading order"},
+    {id:"clues",icon:"?",title:"Clue Sprint",time:"3 min · quick quiz"},
+    {id:"memory",icon:"◇",title:"Memory Field Cards",time:"4 min · recall"}
   ];
   function weekVocabulary(week) {
     const seen=new Set(), result=[];
@@ -400,7 +441,7 @@
   }
   function gameSession(type, week) {
     const key=`${signature(week)}-${state.day}-${type}`;
-    if(!state.gameSession||state.gameSession.key!==key)state.gameSession={key,type,matches:{},selected:null,marks:{},fill:"",order:[],checked:false};
+    if(!state.gameSession||state.gameSession.key!==key)state.gameSession={key,type,matches:{},selected:null,marks:{},fill:"",order:[],choices:{},flipped:[],matched:[],moves:0,checked:false};
     return state.gameSession;
   }
   function gameFeedback(correct,total) {
@@ -434,14 +475,32 @@
     $("gameStage").innerHTML=`<p class="activity-hint">Choose the sentences in the order they appear in the reading.</p><div class="sequence-bank">${remaining.map(item=>`<button type="button" class="sequence-item" data-sequence-add="${item.index}"><span>+</span>${escapeHtml(item.text)}</button>`).join("")||"All steps selected."}</div><div class="sequence-answer">${work.order.map((index,position)=>`<button type="button" class="sequence-item" data-sequence-remove="${index}"><span>${position+1}</span>${escapeHtml(correct[index])}</button>`).join("")||"Choose the first sentence above."}</div><div class="activity-actions"><button class="secondary-action" id="gameReset" type="button">Reset</button><button class="book-answer-button" id="gameCheck" type="button">Check sequence</button></div>${work.checked?gameFeedback(score,correct.length):""}`;
     $("gameStage").querySelectorAll("[data-sequence-add]").forEach(button=>button.onclick=()=>{work.order.push(Number(button.dataset.sequenceAdd));work.checked=false;renderOrderGame(week);});$("gameStage").querySelectorAll("[data-sequence-remove]").forEach(button=>button.onclick=()=>{work.order=work.order.filter(value=>value!==Number(button.dataset.sequenceRemove));work.checked=false;renderOrderGame(week);});$("gameReset").onclick=()=>{work.order=[];work.checked=false;renderOrderGame(week);};$("gameCheck").onclick=()=>{work.checked=true;renderOrderGame(week);};
   }
+  function gameWords(week){
+    const words=weekVocabulary(week);
+    return words.length>=3?words:[{term:"evidence",meaning:"information that supports an explanation"},{term:"observe",meaning:"to look carefully"},{term:"habitat",meaning:"the natural home of a plant or animal"},{term:"adaptation",meaning:"a trait that helps an organism survive"}];
+  }
+  function renderClueGame(week){
+    const words=gameWords(week),work=gameSession("clues",week),score=words.filter((word,index)=>Number(work.choices[index])===index).length;
+    $("gameStage").innerHTML=`<p class="activity-hint">Read each clue and choose its science word.</p><div class="clue-quiz">${words.map((word,index)=>`<section class="clue-round ${work.checked?(Number(work.choices[index])===index?"correct":"wrong"):""}"><p><span>${index+1}</span>${escapeHtml(word.meaning)}</p><div class="clue-options">${words.map((option,optionIndex)=>`<button type="button" data-clue-row="${index}" data-clue-choice="${optionIndex}" aria-pressed="${Number(work.choices[index])===optionIndex}">${escapeHtml(option.term)}</button>`).join("")}</div></section>`).join("")}</div><div class="activity-actions"><button class="secondary-action" id="gameReset" type="button">Reset</button><button class="book-answer-button" id="gameCheck" type="button">Check clues</button></div>${work.checked?gameFeedback(score,words.length):""}`;
+    $("gameStage").querySelectorAll("[data-clue-row]").forEach(button=>button.onclick=()=>{work.choices[Number(button.dataset.clueRow)]=Number(button.dataset.clueChoice);work.checked=false;renderClueGame(week);});
+    $("gameReset").onclick=()=>{work.choices={};work.checked=false;renderClueGame(week);};$("gameCheck").onclick=()=>{work.checked=true;renderClueGame(week);};
+  }
+  function renderMemoryGame(week){
+    const words=gameWords(week),cards=[];words.forEach((word,index)=>{cards.push({pair:index,kind:"term",text:word.term});cards.push({pair:index,kind:"meaning",text:word.meaning});});
+    const arranged=cards.map((card,index)=>({...card,id:index})).sort((a,b)=>((a.id*5+3)%cards.length)-((b.id*5+3)%cards.length));
+    const work=gameSession("memory",week),complete=work.matched.length===words.length;
+    $("gameStage").innerHTML=`<div class="memory-status"><strong>${work.matched.length}/${words.length} pairs</strong><span>${work.moves} tries</span></div><div class="memory-grid">${arranged.map(card=>{const open=work.flipped.includes(card.id)||work.matched.includes(card.pair);return `<button type="button" class="memory-card ${open?"open":""} ${work.matched.includes(card.pair)?"matched":""}" data-memory-card="${card.id}" aria-label="${open?escapeHtml(card.text):"Hidden science card"}"><span class="memory-back">?</span><span class="memory-front"><small>${card.kind==="term"?"WORD":"CLUE"}</small>${escapeHtml(card.text)}</span></button>`;}).join("")}</div><div class="activity-actions"><button class="secondary-action" id="gameReset" type="button">New round</button></div>${complete?`<div class="answer-reveal good" role="status"><strong>All pairs found in ${work.moves} tries!</strong> You connected every word to its science meaning.</div>`:""}`;
+    $("gameStage").querySelectorAll("[data-memory-card]").forEach(button=>button.onclick=()=>{const id=Number(button.dataset.memoryCard),card=cards[id];if(work.flipped.length>=2||work.flipped.includes(id)||work.matched.includes(card.pair))return;work.flipped.push(id);renderMemoryGame(week);if(work.flipped.length===2){work.moves+=1;const [first,second]=work.flipped.map(cardId=>cards[cardId]);if(first.pair===second.pair&&first.kind!==second.kind){work.matched.push(first.pair);work.flipped=[];setTimeout(()=>renderMemoryGame(week),260);}else setTimeout(()=>{work.flipped=[];renderMemoryGame(week);},850);}});
+    $("gameReset").onclick=()=>{work.flipped=[];work.matched=[];work.moves=0;renderMemoryGame(week);};
+  }
   function renderGameStage(week) {
-    const meta={match:["Vocabulary mission","Connect each science word to its meaning."],truefalse:["Evidence mission","Mark T or F, then check every statement against the reading."],fill:["Word mission","Retrieve the key science word without looking at the answer."],order:["Sequence mission","Rebuild the reading in its scientific order."]}[state.gameType];
+    const meta={match:["Vocabulary mission","Connect each science word to its meaning."],truefalse:["Evidence mission","Mark T or F, then check every statement against the reading."],fill:["Word mission","Retrieve the key science word without looking at the answer."],order:["Sequence mission","Rebuild the reading in its scientific order."],clues:["Quick quiz mission","Use the definitions from this week to identify each science word."],memory:["Memory mission","Flip cards and match each word with its meaning."]}[state.gameType];
     $("gameStageType").textContent=meta[0];$("gameStageTitle").textContent=gameCatalog.find(game=>game.id===state.gameType).title;$("gameStageIntro").textContent=meta[1];
-    ({match:renderMatchGame,truefalse:renderTrueFalseGame,fill:renderFillGame,order:renderOrderGame}[state.gameType])(week);
+    ({match:renderMatchGame,truefalse:renderTrueFalseGame,fill:renderFillGame,order:renderOrderGame,clues:renderClueGame,memory:renderMemoryGame}[state.gameType])(week);
   }
   function renderGames() {
     const week=currentWeek(), source=week.source;
-    $("gameHero").style.setProperty("--game-hero",`url('${weekImage(week)}')`);$("gameWeekTitle").textContent=state.vietnamese&&week.viTitle?week.viTitle:week.title;$("gameWeekIntro").textContent="Four short missions turn this week's reading into active science practice.";$("gameHeroMeta").innerHTML=`<span>Grade ${source.grade}</span><span>Big Idea ${source.bigIdea}</span><span>Week ${source.bookWeek}</span><span>Based on the book reading</span>`;
+    $("gameHero").style.setProperty("--game-hero",`url('${weekImage(week)}')`);$("gameWeekTitle").textContent=state.vietnamese&&week.viTitle?week.viTitle:week.title;$("gameWeekIntro").textContent="Six short missions turn this week's reading into active science practice.";$("gameHeroMeta").innerHTML=`<span>Grade ${source.grade}</span><span>Big Idea ${source.bigIdea}</span><span>Week ${source.bookWeek}</span><span>Based on the book reading</span>`;
     $("gameMenu").innerHTML=gameCatalog.map(game=>`<button type="button" class="game-tile ${state.gameType===game.id?"active":""}" data-game-type="${game.id}"><span class="game-tile-icon">${game.icon}</span><span><strong>${game.title}</strong><small>${game.time}</small></span></button>`).join("");
     $("gameMenu").querySelectorAll("[data-game-type]").forEach(button=>button.onclick=()=>{state.gameType=button.dataset.gameType;state.gameSession=null;renderGames();});renderGameStage(week);
   }
